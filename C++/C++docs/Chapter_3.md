@@ -10,7 +10,7 @@
 
 > bit and byte: 
 >    - **on or off** for 1 bit
->    - 16-bit data can store $2^8 = 65536$ data
+>    - 16-bit data can store $2^{16} = 65536$ data
 >    - **C++ byte**: 8 bits for a byte (others can be 16-bit byte or else)
 >    - 1024 bytes for a kilobyte
 
@@ -103,30 +103,62 @@ int main(void){
 	
 	using namespace std;
 
+	// assign the character
 	char ch_1 = '1' ;
 	char ch_A = 'A';
 	char ch_a = 'a';
-	char ch_free;
 
-	// ASCII code
-	int i = ch_1;
+	// assign the ASCII code
+	char ch_num = 55;
+	char ch_nums = ch_num + 1;
+	int num = ch_num + 1;
 
 	// output original characters
 	cout << "'1' in char is " << ch_1 << endl;
 	cout << "'A' in char is " << ch_A << endl;
 	cout << "'a' in char is " << ch_a << endl;
-	cout << "number 65 in char is " << static_cast<char>(65) << endl;
+	cout << "ch_num in char by initialization is " << ch_num << endl;
 
-	// output ASCII code
-	cout << "Enter a character : ";
-	cin >> ch_free;
-	cout << ch_free << " in char is " << ch_free << endl;
-	cout << ch_free << " in ASCII is " << (int)ch_free << endl;
-	cout << ch_1 << " in ASCII is " << i << endl;
+	// operate with char
+	cout << "ch_num in ASCII initialized is " << int(ch_num) << endl;
+	cout << "ch_num +1 in ASCII asigned to int is " << num << endl;
+	cout << "ch_num +1 in ASCII added to output is " << ch_num + 1 << endl;
+	cout << "ch_nums in char added, assigned to char is " << ch_nums << endl;
+	cout << "++ch_num in char by successor is " << ++ch_num << endl;
+	cout << "After that, ch_num is eternally " << ch_num << endl; 
+
+	// transfer between char and ASCII code
+	cout << "number 65 in char is " << static_cast<char>(65) << endl;
+	cout << "character 'a' in ASCII is " << (int)'a' << endl;
 
 	return 0;
 }
 ```
-- `char` displays characters : `'#'...'0''1''2'...'a''b''c'...` with a single byte (8 bits)
-- `char` stores the characters with **ASCII code** from `1~128`
+- `char` displays characters : `...'#'...'0''1''2'...'a''b''c'...` with a single byte (8 bits)
+- `char` is **signed** by default, stores the characters with **ASCII code** from `-128~127`
+---
+Outputs:
+```console
+'1' in char is 1
+'A' in char is A
+'a' in char is a
+ch_num in char by initialization is 7
+ch_num in ASCII initialized is 55
+ch_num +1 in ASCII asigned to int is 56
+ch_num +1 in ASCII added to output is 56
+ch_nums in char added, assigned to char is 8
+++ch_num in char by successor is 8
+After that, ch_num is eternally 8
+number 65 in char is A
+character 'a' in ASCII is 97
+```
+
+- operating for `char` is operating with the **ASCII code**
+    - output `ch_num+1` will force the `char` variable to be an **ASCII** integer
+    - output `ch_num+1` after assigned to `int` leads to an **ASCII** integer
+    - output `ch_num+1` after assigned to `char` leads to `char` originally
+    - output `++ch_num` will remain the `char` variable but successor eternally
+- transfer between **ASCII** code and `char`:
+    - use `static_cast<char>()` to force an integer to be **ASCII** code for `char` and output `char`
+    - use `(int)` or `int()` to force a `char` variable to be **ASCII** code and output `int`
 
