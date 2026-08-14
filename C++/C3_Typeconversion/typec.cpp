@@ -13,7 +13,7 @@ int main(void){
 	const int code = 77;
 	char c1 = {77};
 	char c2 = {code};
-	char c3 = guess;
+	char c3 = guess; // narrow to and integer and assigned
 	
 	// type cast
 	double dguess = (double)guess;

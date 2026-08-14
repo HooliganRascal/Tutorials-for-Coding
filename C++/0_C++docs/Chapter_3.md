@@ -393,7 +393,7 @@ int main(void){
 	const int code = 77;
 	char c1 = {77};
 	char c2 = {code};
-	char c3 = guess;
+	char c3 = guess; // narrow to and integer and assigned
 	
 	// type cast
 	double dguess = (double)guess;
@@ -419,7 +419,7 @@ int main(void){
 - C++ is liberal of converting `int` to `float`, `double` to `int` or else
     - assign `int` to `char` is seen **ASCII** code and stores a character
     - assign `char` to `int` stores **ASCII** code
-- using *list initialization* does not permit narrowing
+- using *list initialization* `{}` does not permit narrowing
     - `int` to other integer types or `float` is allowed
     - `float` to `int` is not allowed
     - only `const` or other constant is allowed
