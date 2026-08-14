@@ -5,9 +5,8 @@
 - C++ is *case sesitive*
 - C++ uses `//` to comment as well
 
----
-Example code:
-```C++
+Example code: `C1_C2_Compilelink`
+```C++ 
 #include<iostream>                                                    
                                                                       
 int main(void){                                                       
@@ -35,15 +34,13 @@ int main(void){
 
 > Another type of function header to omit the return statement: `void main()`,while this is not C++ standard, avoid it!
 
----
 ## Namespace
-Namespace discriminates the different versions of the key words
-   - `iostream` needs the namespace or uses `std::cout` instead of simply `cout`
-   - `using std::cout` particularly makes `cout` available
-   - such *using directive* can be **local or global**
-
+> Namespace discriminates the different versions of the key words
+>    - `iostream` needs the namespace or uses `std::cout` instead of simply `cout`
+>    - `using std::cout` particularly makes `cout` available
+>    - such *using directive* can be **local or global**
 ---
-Local namespace:
+Local namespace: `C2_Namespace/local.cpp`
 ```C++
 #include <iostream>                                                   
                                                                       
@@ -54,7 +51,7 @@ int main(void){
 }  
 ```
 ---
-Global namespace:
+Global namespace: `C2_Namespace/global.cpp`
 ```C++
 #include <iostream>                                                   
 using namespace std;                                                  
@@ -64,10 +61,11 @@ int main(void){
         return 0;                                                     
 }  
 ```
+---
 
 ## Statements
 
-Source code
+Source code: `C2_Declarassign`
 ```C++
 #include<iostream>
 
@@ -108,7 +106,7 @@ int main(void){
 
 ## Functions
 
-Source Code:
+Source Code: `C2_Sqrtfunction`
 ```C++
 #include <iostream>
 #include <cmath>
@@ -144,7 +142,7 @@ int main(void){
 
 ## Self-Defined Function
 
-Source code:
+Source code: `C2_Selfdefine`
 ```C++
 #include <iostream>
 #include <cmath>

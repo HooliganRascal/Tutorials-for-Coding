@@ -14,7 +14,7 @@
 >    - **C++ byte**: 8 bits for a byte (others can be 16-bit byte or else)
 >    - 1024 bytes for a kilobyte
 
-Source code:
+Source code: `C3_Datatype`
 ```C++
 #include <iostream>
 #include <climits>
@@ -61,7 +61,7 @@ int main(void){
 > - first digit of base 10: `1~9`
 > - first and second digit of base 16: `0x` or `0X`
 
-Source code:
+Source code: `C3_Dataliter`
 ```C++
 #include <iostream>
 
@@ -92,10 +92,10 @@ int main(void){
 - declare the data type with **first and second** digits
 - output will save the first and second digits for specifi types
 
-### Char type
+## Char type
 > It's usually used to store letters, digits, punctuations and other characters, also for small integers with `1 byte`, and remember, for char integer, **what you see is not what you get**
 
-Source code
+Source code: `C3_Datachar`
 ```C++
 #include <iostream>
 
@@ -180,7 +180,7 @@ character 'a' in ASCII is 97
 
 ## Char literals
 
-Source code:
+Source code: `C3_Charliteral`
 ```C++
 #include <iostream>
 
@@ -208,7 +208,7 @@ You entered 12345
 ```
 
 ## Other character names
-Source code:
+Source code: `C3_Otherchar`
 ```C++
 #include<iostream>
 
@@ -264,10 +264,9 @@ wcout of L is tall and P
 1 cout.put of U is q
 2 cout.put of U is +
 ```
----
 
 ## Bool and constant
-Source code:
+Source code: `C3_Boolconst`
 ```C++
 #include<iostream>
 
@@ -312,9 +311,9 @@ Start is 1 and 1
 Stop is 0 and 0
 Crazy Thursday, v me 50 RMB
 ```
----
+
 ## Floating number and operations
-Source code:
+Source code: `C3_Floatoperate`
 ```C++
 #include<iostream>
 
@@ -376,3 +375,65 @@ int main(void){
 ```
 
 ## Type conversion
+
+Source code: `C3_Typeconversion`
+```C++
+#include<iostream>
+
+int main(void){
+
+	using namespace std;
+	cout.setf(ios_base::fixed, ios_base::floatfield);
+
+	// conversion on initialization
+	float tree = 3; 
+	int guess = 35.9832;
+
+	// initialization conversions with {}
+	const int code = 77;
+	char c1 = {77};
+	char c2 = {code};
+	char c3 = guess;
+	
+	// type cast
+	double dguess = (double)guess;
+	double guessd = double(guess);
+
+	// declare by auto
+	auto test = 1e3;
+
+	cout << "Integer 3 converted into float is " << tree << endl;
+	cout << "Float 35.9832 converted into int guess is " << guess << endl;
+	cout << "Constant integer code in int is " << code << endl;
+	cout << "character c1 initialized by number 77 is " << c1 << endl;
+	cout << "character c2 initialized by constant code is " << c2 << endl;
+	cout << "character c3 initialized by assinged guess is " << c3 << endl;
+	cout << "double dguess initialized by casted guess is " << dguess << endl;
+	cout << "double guessd initialized by guess casted is " << guessd << endl;
+	cout << "auto for 1e3 is type double with value: " << test << endl;
+
+	return 0;
+}
+```
+
+- C++ is liberal of converting `int` to `float`, `double` to `int` or else
+    - assign `int` to `char` is seen **ASCII** code and stores a character
+    - assign `char` to `int` stores **ASCII** code
+- using *list initialization* does not permit narrowing
+    - `int` to other integer types or `float` is allowed
+    - `float` to `int` is not allowed
+    - only `const` or other constant is allowed
+- type casting by `(type)variable` or `type(variable)` such as `double(guess)`
+- declare the type by `auto` is refined
+
+```console
+Integer 3 converted into float is 3.000000
+Float 35.9832 converted into int guess is 35
+Constant integer code in int is 77
+character c1 initialized by number 77 is M
+character c2 initialized by constant code is M
+character c3 initialized by assinged guess is #
+double dguess initialized by casted guess is 35.000000
+double guessd initialized by guess casted is 35.000000
+auto for 1e3 is type double with value: 1000.000000
+```
