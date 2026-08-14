@@ -131,11 +131,22 @@ int main(void){
 	cout << "number 65 in char is " << static_cast<char>(65) << endl;
 	cout << "character 'a' in ASCII is " << (int)'a' << endl;
 
+	// output with member function
+	cout << "'a' outputs with cout << 'a' is ";
+	cout << 'a' << endl;;
+	cout << "'a' outputs with cout << ch_a is " << ch_a << endl;;
+	cout << "'a' outputs with cout.put('a') is ";
+	cout.put('a');
+	cout << endl;
+	cout << "'a' outputs with cout.put(ch_a) is ";
+	cout.put(ch_a);
+	cout << endl;
+
 	return 0;
 }
 ```
 - `char` displays characters : `...'#'...'0''1''2'...'a''b''c'...` with a single byte (8 bits)
-- `char` is **signed** by default, stores the characters with **ASCII code** from `-128~127`
+- `char` can be **signed** or **unsigned**, stores the characters with **ASCII code** from `-128~127`
 ---
 Outputs:
 ```console
@@ -151,8 +162,11 @@ ch_nums in char added, assigned to char is 8
 After that, ch_num is eternally 8
 number 65 in char is A
 character 'a' in ASCII is 97
+'a' outputs with cout << 'a' is a
+'a' outputs with cout << ch_a is a
+'a' outputs with cout.put('a') is a
+'a' outputs with cout.put(ch_a) is a
 ```
-
 - operating for `char` is operating with the **ASCII code**
     - output `ch_num+1` will force the `char` variable to be an **ASCII** integer
     - output `ch_num+1` after assigned to `int` leads to an **ASCII** integer
@@ -161,4 +175,204 @@ character 'a' in ASCII is 97
 - transfer between **ASCII** code and `char`:
     - use `static_cast<char>()` to force an integer to be **ASCII** code for `char` and output `char`
     - use `(int)` or `int()` to force a `char` variable to be **ASCII** code and output `int`
+- output with `cout << 'a'` and `cout.put('a')` hold the same result now
+    - `cout.put()` is a *member function* with the *object* `cout` belonging to the *class* `ostream` 
 
+## Char literals
+
+Source code:
+```C++
+#include <iostream>
+
+int main(void){
+
+	using namespace std;
+	
+	long code;
+
+	cout << "\aEnter a 8-bit code : ________\b\b\b\b\b\b\b\b";
+	cin >> code;
+	cout << "\aYou entered " << code << endl;
+	
+	return 0;
+}
+```
+> `\b` provides backspace
+
+```console
+Enter a 8-bit code : 12345678
+You entered 12345678
+
+Enter a 8-bit code : 12345___
+You entered 12345
+```
+
+## Other character names
+Source code:
+```C++
+#include<iostream>
+
+int main(void){
+
+	using namespace std;
+
+	// universal character name
+	char k\u00F6rper = 'a';
+	cout << "Output g\u00E2teau and " << k\u00F6rper << endl;
+
+	// wchar_t for wide character set
+	wchar_t bob = L'P';
+	cout << "cout of L is " << L"tall" << " and " << bob << endl;
+	wcout << "wcout of L is " << L"tall" << " and " << bob << endl;
+
+	// char16_t and char32_t
+	char16_t ch1 = u'q';
+	char32_t ch2 = U'\U0000222B';
+	cout << "1 cout or wcout cutoff of U is " << ch1 << endl;
+	cout << "2 cout or wcout cutoff of U is " << ch2 << endl;
+	wcout << "1 cout.put cutoff of U is "; 
+	cout.put(ch1) ; 
+	cout << endl;
+	wcout << "2 cout.put cutoff of U is "; 
+	cout.put(ch2) ; 
+	cout << endl;
+
+	return 0;
+}
+```
+- Universal character name:
+    - Designed for international letters, `\U` for 16 hex digits, `\u` for 8 hex digits
+    - These digits represent the `ISO 10646` code point for the characters
+    - Universal character names can be used for identifiers, strings and else
+- when using `wchar_t`: 
+    - same size and sign properties as *underlying* type, which could be `unsigned short` or `int`
+    - parallel facilities: `wcin` and `wcout`
+    - `L"string"` or `L'P'` (double for string, single for character)
+    - `cout` the `L'P'` will be `ASCII` code, and `L"string"` will be hex
+- when using `char16_t` and `char32_t` : 
+    - `u'q'` for 16-bit and `U'\U0000222B` for 32-bit and `universal char`
+    - also have their each *underlying type*
+    - `cout` and `wcout` outputs their **cutoff** `ISO 10646` code or **ASCII** code
+    - `cout.put` outputs their **cutoff** `char`
+
+```console
+Output gâteau and a
+cout of L is 0x640736cd9028 and 80
+wcout of L is tall and P
+1 cout or wcout of U is 113
+2 cout or wcout of U is 8747
+1 cout.put of U is q
+2 cout.put of U is +
+```
+---
+
+## Bool and constant
+Source code:
+```C++
+#include<iostream>
+
+int main(void){
+
+	using namespace std;
+
+	//assign bool to int
+	int prom = true; 
+	int answ = false; 
+					  
+	// assign to bool
+	bool start_1 = -1000;
+	bool start_2 = true;
+	bool stop_1 = 0;
+	bool stop_2 = false;
+
+	// initialize symbolic constant
+	const int money = 50;
+	
+	// output 1 or 0
+	cout << "Promise is " << prom <<  " and " << true << endl;
+	cout << "Answer is " << answ << " and " << false << endl;
+	cout << "Start is " << start_1 << " and " << start_2 << endl;
+	cout << "Stop is " << stop_1 << " and " << stop_2 << endl;
+
+	// output the constant
+	cout << "Crazy Thursday, v me " << money << " RMB " << endl; 
+
+	return 0;
+}
+```
+- `true` assigned is `1`, `false` assigned is `0`
+    - *non-zero* number assigned to `bool` is `true`, outputs `1`
+    - *zero* number assigned to `bool` is `false`, outputs `0`
+- `const` initialzed **immediately** after **defined**
+
+```console
+Promise is 1 and 1
+Answer is 0 and 0
+Start is 1 and 1
+Stop is 0 and 0
+Crazy Thursday, v me 50 RMB
+```
+---
+## Floating number and operations
+Source code:
+```C++
+#include<iostream>
+
+int main(void){
+
+	using namespace std;
+	cout.setf(ios_base::fixed, ios_base::floatfield); // fixed-point
+
+	// integers for operating
+	int m = 19;
+	int n = 6;
+
+	// float types
+	float a = 10.0/3.0;
+	double b = 10.0/3.0; // default type
+	long double c = 10.0/3.0;
+
+	// exponent guarantees the floating-point
+	const float dmil = +2.0e+06f;
+	const double obil = 1e9;
+	const double neli = -8e-2L;
+
+	// significant digits and precision varies
+	cout << a*1e6 << endl;
+	cout << b*1e6 << endl;
+	cout << c*1e6 << endl;
+
+	// operation
+	cout << dmil << " + " << m << " = " << dmil + m << endl;
+	cout << obil << " * " << n << " = " << obil * n << endl;
+	cout << neli << " / " << n << " = " << neli / n << endl;
+	cout << m << " / " << n << " = " << m / n << endl; // whole
+	cout << m << " % " << n << " = " << m % n << endl; // remain
+
+	return 0;
+}
+```
+
+- exponent expression guarantees the type is `floating-point` and `double` by default
+- `cout.setf()` function displays the floating-point number from exponent to total
+- Floating type:
+    - default type: `double`
+    - `f` or `F` at the end for `float`
+    - `l` or `L`, preferred `L` at the end for `long double`
+- Operation:
+    - `int` operates with `int` will be int, otherwise *floating-point*
+    - `%` for modulus operation, only works with `int` series types
+    - **better operate with same type!**
+
+```console
+3333333.253860
+3333333.333333
+3333333.333333
+2000000.000000 + 19 = 2000019.000000
+1000000000.000000 * 6 = 6000000000.000000
+-0.080000 / 6 = -0.013333
+19 / 6 = 3
+19 % 6 = 1
+```
+
+## Type conversion

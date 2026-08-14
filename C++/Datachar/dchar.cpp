@@ -32,5 +32,16 @@ int main(void){
 	cout << "number 65 in char is " << static_cast<char>(65) << endl;
 	cout << "character 'a' in ASCII is " << (int)'a' << endl;
 
+	// output with member function
+	cout << "'a' outputs with cout << 'a' is ";
+	cout << 'a' << endl;;
+	cout << "'a' outputs with cout << ch_a is " << ch_a << endl;;
+	cout << "'a' outputs with cout.put('a') is ";
+	cout.put('a');
+	cout << endl;
+	cout << "'a' outputs with cout.put(ch_a) is ";
+	cout.put(ch_a);
+	cout << endl;
+
 	return 0;
 }
