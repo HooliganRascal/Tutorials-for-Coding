@@ -19,8 +19,9 @@ Computer languages deal with 2 concepts in general: **data** and **algorithm**
 
 > C++ link the libraries after compiling with the output of *object code* .
 
-- [Getting Started with C++](./0_C++doc/Chapter_1.md)
-- [Setting out to C++](./0_C++doc/Chapter_2.md)
-- [Dealing with Data](./0_C++doc/Chapter_3.md)
+- [Getting Started with C++](./0_C++docs/Chapter_1.md)
+- [Setting out to C++](./0_C++docs/Chapter_2.md)
+- [Dealing with Data](./0_C++docs/Chapter_3.md)
+- [Compound Types](./0_C++docs/Chapter_4.md)
 
 
