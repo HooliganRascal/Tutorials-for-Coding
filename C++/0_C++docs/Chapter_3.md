@@ -389,7 +389,7 @@ int main(void){
 	float tree = 3; 
 	int guess = 35.9832;
 
-	// initialization conversions with {}
+	// list initialization conversions with {}
 	const int code = 77;
 	char c1 = {77};
 	char c2 = {code};
