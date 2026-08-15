@@ -180,7 +180,7 @@ character 'a' in ASCII is 97
 
 ## Char literals
 
-Source code: `C3_Charliteral`
+Source code: `C3_Charslashliter`
 ```C++
 #include <iostream>
 
