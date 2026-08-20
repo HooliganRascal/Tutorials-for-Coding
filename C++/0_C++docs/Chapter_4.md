@@ -91,12 +91,178 @@ Assigned overly nextly again be -6.00985e-21
 
 Source code: `C4_Charstring`
 ```C++
+#include<iostream>
+
+int main(void){
+
+	using namespace std;
+
+	// initialization of char array and string
+	char name_char[6] = {'M','t','e','l','t','n'};
+	char name_string[7] = {'M','t','e','l','t','n','\0'}; // last null takes
+	char name_strings[7] = {"Mteltn"}; // still needs one more place
+	char name_stringes[] = {"Mteltn"};
+	char name_stringbs[7] = "Mteltn";
+	char name_stringzs[] = "Mteltn"; // let the compiler counts
+	
+	// inputting
+	char name[20];
+	char dessert[20];
+	char letter;
+	
+	// output the initialization
+	cout << "char array : " << name_char << endl;
+	cout << "strings by array : " << name_string << endl;
+	cout << "strings by total sring: " << name_strings << endl;
+	cout << "strings by total sring with no size: " << name_stringes << endl;
+	cout << "strings without brackets: " << name_stringbs << endl;
+	cout << "strings without brackets and size: " << name_stringzs << endl;
+	cout << "Let's concatenating the " // concatenating
+			"strings !" << endl;
+
+	// output the input with  getline()
+	cout << "Enter your name: ";
+	cin.getline(name, 20); // use getline() member function
+	cout << "Enter what you want: ";
+	cin.getline(dessert, 20);
+	cout << "Your name is " << name << ", and you want " << dessert << endl;
+
+	// output the input with get()
+	cout << "Enter your name again: ";
+	cin.get(name, 20).get(); // use get() member function
+							 // same as: cin.get(name, 20); cin.get()
+	cout << "Enter a letter: ";
+	(cin >> letter).get(); // restore input queue
+						   // same as : cin >> letter; cin.get()
+	cout << "Enter what you want again: ";
+	cin.get(dessert, 20);
+	cout << "Your name is " << name 
+		 << ", you entered " << letter 
+		 << ", and you want " << dessert << endl;
+
+	return 0;
+}
+```
+
+- last character of a string is `'\0'` or *null*
+- initialize a string by *char array*
+- limitation of string or character array :
+    - assigning limits the size much stronger than other array, thus safer
+    - inputting over the size prints the stack smashing
+- directly output the character array interprets any next bytes until `null`
+- middle: 
+    - initializing `char boss[8] = "Bozo"`. 4 next empty space set to `\0`
+    - assigning or inputting as well
+- concatenating strings is only permitted for explicit string like `"aa" "bb"`
+- input the strings:
+    - inputting the `empty space` with `cin` will be seen as `null` and ends the memory
+    - using `getline()` *member function* in `istream` **discards the `Enter`**
+    - using `get()` *member function* in `istream` **leaves the `Enter` in the input queue, which will be the first character for next input**
+    - mixing input of `cin` and nextly `cin.getline()` or `cin.get()` will leave the first `Enter` in the input queue
+    - use `get()` to restore the input queue!
+
+```console
+char array : MteltnMteltn
+strings by array : Mteltn
+strings by total sring: Mteltn
+strings by total sring with no size: Mteltn
+strings without brackets: Mteltn
+strings without brackets and size: Mteltn
+Let's concatenating the strings !
+Enter your name: Mteltn Guernica
+Enter what you want: Steak and wine
+Your name is Mteltn Guernica, and you want Steak and wine
+Enter your name again: Cosmos Streamer
+Enter a letter: P
+Enter what you want again: Eternal Life
+Your name is Cosmos Streamer, you entered P, and you want Eternal Life
+```
+
+## String class
+Source code:
+```C++
+#include<iostream>
+#include<cstring>
+
+int main(void){
+
+	using namespace std;
+
+	// Initialization
+	char char1[20] = "Strings? ";
+	char char2[10];
+	string str1;
+	string str2;
+	string str3 = {"Standing in the hall of fame! "};
+	string str4 = "Burn with the brightest flame! ";
+
+	// Input
+	cout << "Enter a string: "; 
+	cin >> str1; // space as end, works for word
+	cin.get();
+	cout << "The string you enter is: " << str1 << endl;
+	cout << "Enter again with getline: ";
+	getline(cin, str1); // cin as argument
+	cout << "The string you enter is: " << str1 << endl;
+	cout << "The size of your string is " << str1.size() << endl;
+	cout << "The 3rd character of your string is " << str1[2] << endl;
+
+	// Assign and concatenate
+	strcpy(char2, char1);
+	str2 = str1;
+	cout << "Copied: "<< char2 << endl;
+	cout << "Concatenating strings: " << str2 + str3 << endl;
+
+	// Appending
+	strcat(char2, "Yes!");
+	str4 += str3;
+	cout << "Appending by char string: \n" << char2 << endl;
+	cout << "Appending by string class: \n" << str4 << endl;
+	
+
+	return 0;
+}
+```
+
+- Make `string` more like an variable
+- Initialization and assignment:
+    - No size needed
+    - Recognize `space` as end
+    - **Only works for word input**
+- Concatenate by `+` and appendable
+- Operation for *char strings*, include `<cstring>`, and use `strcpy`, `strcat`...
+- Operate for *string class* with `getline` and `size`
+- There are also other `string` literals like: `wchar_t`, `char16_t` ...
+
+```Console
+Enter a string: swad
+The string you enter is: swad
+Enter again with getline: swad sasf
+The string you enter is: swad sasf
+The size of your string is 9
+The 3rd character of your string is a
+Copied: Strings? 
+Concatenating strings: swad sasfStanding in the hall of fame! 
+Appending by char string: 
+Strings? Yes!
+Appending by string class: 
+Burn with the brightest flame! Standing in the hall of fame!
+```
+
+## Structure
+Source code
+```C++
 
 ```
 
-- 1
-- 2
+- A variable type: `struct name {variable1; variable2 } `
+- Define with `;` between variables, create with `,`
+- Use `name.variable1` to take the value;
+- Multi-types, globly and locally sensible, `;` required
+- Directly assign specific variable of a structure is allowed
+- Create a struct variable after definition: `struct name{} var1,var2;`
 
-```console
+
+```Console
 
 ```

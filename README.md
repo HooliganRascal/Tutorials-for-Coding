@@ -6,3 +6,5 @@ This vault stores the coding tutorials of different languages, most of which are
 - [C\_Tutorial](./C/C\_Tutorial.md)
 - [C++\_Tutorial](./C++/C++\_Tutorial.md)
 - $\dots$
+
+Consisting of source code, makefile, and corresponding markdowns
