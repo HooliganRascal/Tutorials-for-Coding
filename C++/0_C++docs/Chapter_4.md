@@ -360,15 +360,116 @@ The pa2 of mem2 is Dresser
 The pluss of myaddi is 7
 ```
 
-## Union
+## Union and Enumerations
 Source code
 ```C++
+#include<iostream>
 
+using namespace std;
+
+// Union
+union ofa{
+	int int1;
+	int int2;
+	long long1;
+	double double1;
+};
+
+// Anonymous union
+struct stu{
+	int type;
+	union {
+		long id_long;
+		long id_long2;
+		double id_double;
+	};
+};
+
+// Enumeration
+enum spec{red, orange, yellow, green, blue, purple, violet};
+enum {a, b, c, d, e, f, g};
+enum bits{one=1, two=2, three=3, four=4, five=5, six=6, seven=7};
+enum succ{zero, thous=1000, thousnext}; // thousnext=1001
+enum repe{null, nullz=0, onext, nexto=1}; // Same value for different variable
+
+int main(void){
+	
+	ofa testofa; // Union
+	stu teststu; // Anonymous union in structure
+	spec color = orange; // Enumeration
+	spec testcol = spec(3); // Number from 0 to 7
+	int testicol = spec(2); // Assigned to integers
+	int testjcol = d; // Enumeration name omitted
+	int testbit = one; // Reorder the number
+	succ testsuc = succ(1023); // Assign with values in the range power of 2
+
+
+	// Union: Forget original int1 == int2, messed up
+	testofa.int1 = 2;
+	testofa.int2 = 4;
+	testofa.double1 = 6.2;
+	cout << testofa.int1 << endl;
+	cout << testofa.int2 << endl;
+	cout << testofa.double1 << endl;
+
+	// Anonymous Union: Forget original id_long == id_long2, messed up
+	teststu.id_long = 5;
+	teststu.id_long2 = 10;
+	teststu.id_double = 6.1;
+	cout << teststu.id_long << endl;
+	cout << teststu.id_long2 << endl;
+	cout << teststu.id_double << endl;
+
+	// Output enumerations
+	cout << yellow << endl;
+	cout << color << endl;
+	cout << testcol << endl;
+	cout << testicol << endl;
+	cout << testjcol << endl;
+	cout << testbit << endl;
+	cout << "zero is " << zero 
+		 << " and thous is " << thous 
+		 << ", thousnext is " << thousnext << endl;
+	cout << "Repeat null = " << null << " and nullz = " << nullz << endl;
+	cout << "Enumeration in the range like " << testsuc << endl;
+
+	return 0;
+}
 ```
 
-- 1
-- 2
-
+- Union:
+    - Hold different data types but one type at a time
+    - If we define `int int1; int int2`, assigned for `int1` then `int2`, the latter value of `int2` will replace that of `int1`
+    - Anonymous union without name, the member of which share the *same address*, and **only one member** can be current at a time
+    - For (anonymous) union, If we assign `double` after `int`, the `int` is **messed up**
+- Enumerations:
+    - Alternative for *symbolic constant* with `const int` for *default*
+    - Replacement: `enum name{a,b,c}` for `0,1,2`
+    - Define with `,` instead of `;` like `struct` or `union`
+    - Output integers from `0` to end, arithmetic operations not defined
+    - Another assignment: `enum type{}; type name = type(0)`
+    - Omitted name is allowed, `int` is allowed to be assigned
+    - Values are set *successively*, same value can be assigned to different variables
+    - Limits of range: 
+        - Values lying the range can be assigned freely **even not defined**
+        - Upper: `101`, then upper bound is `128-1=127`
+        - Lower: `>=0`, then lower bound is `0`, if `-6`, then is `-8+1=-7`
+    - Extension with *scoped enumeration* in [Chapter 10](Chapter_10.md)
+        
 ```Console
-
+-858993459
+-858993459
+6.2
+4618554007859127910
+4618554007859127910
+6.1
+2
+1
+3
+2
+3
+1
+zero is 0 and thous is 1000, thousnext is 1001
+Repeat null = 0 and nullz = 0
+Enumeration in the range like 1023
 ```
