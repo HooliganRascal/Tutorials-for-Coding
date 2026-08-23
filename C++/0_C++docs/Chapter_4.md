@@ -559,7 +559,7 @@ int main(void){
     - With `type *name = new type [size]`, the `name` stores the **address of the first element**
     - Treat the dynamic array as a real array name! 
         - Use `name[0]` rather than `*name` as the value of first element
-        - Arithmetics like `name+1` increments the pointer, **not for array name!!!**
+        - Arithmetics like `name = name+1` increments the pointer, **not for array name!!!**
     - Free the **whole** array with `delete [] name`
 ```Console
 a is 6 with location 0x7ffc90962934
@@ -578,11 +578,309 @@ dyar[1] is 2 with location 0x570158c436e4 too
 ## Pointers, arrays, and pointer arithmetic
 Source code: `C4_Pointerarithmetics`
 ```C++
+#include <iostream>
 
+int main(void){
+
+	using namespace std;
+
+	// Array and pointer
+	double wage[3] = {1000.0, 2000.0, 3000.0};
+	double *pw = wage;
+	double *pw1 = pw+1;
+	double (*pw2)[3]= &wage; // Pass location of the whole array to pointer
+
+	// Arrays
+	cout << "Addr &wage: " << &wage << ", wage: " << wage << endl;
+	cout << "Addr &wage[1]: " << &wage[1] << ", wage[1]: " << wage[1] << endl;
+	cout << "Addr wage+1: " << wage+1 << ", *(wage+1): " << *(wage+1) << endl;
+	cout << endl;
+
+	// Pointers
+	cout << "Addr pw: " << pw << ", *pw: " << *pw << endl;
+	cout << "Addr pw+1: " << pw+1 << ", *(pw+1): " << *(pw+1) << endl;
+	cout << "Addr pw1: " << pw1 << ", *pw1: " << *pw1 << endl;
+	cout << "Addr &pw1[1]: " << &pw1[1] << ", pw1[1]: " << pw1[1] << endl;
+	cout << endl;
+
+	// Array pointers
+	cout << "Addr pw2: " << pw2 << ", *pw2: " << *pw2 << endl;
+	cout << "Addr &pw2+1: " << &pw2+1 << ", pw2: " << pw2 << endl;
+	cout << "Addr &pw2[0]: " << &pw2[0] << ", pw2[0]: " << pw2[0] << endl;
+	cout << "Addr &(*pw2): " << &(*pw2) << ", (*pw2): " << (*pw2) << endl;
+	cout << "Addr &(*pw2)[0]: " << &(*pw2)[0] 
+		 << ", (*pw2)[0]: " << (*pw2)[0] << endl;
+	cout << "Addr &(*pw2[0]): " << &(*pw2[0]) 
+		 << ", *pw2[0]: " << *pw2[0] << endl;
+	cout << "Value pw2[0][0]: "<< pw2[0][0] << ", **pw2: "<< **pw2 << endl;
+	cout << endl;
+
+	// Size of arrays, pointers
+	cout << "Size of array wage: " << sizeof(wage) << endl;
+	cout << "Size of value wage[0]: " << sizeof(wage[0]) << endl;
+	cout << "Size of pointer pw: " << sizeof(pw) << endl;
+	cout << "Size of pointer &pw[0]: " << sizeof(&pw[0]) << endl;
+	cout << "Size of value *pw: " << sizeof(*pw) << endl;
+	cout << endl;
+
+	// Size of array pointers
+	cout << "Size of pointer pw2: " << sizeof(pw2) << endl;
+	cout << "Size of pointer *pw2: " << sizeof(*pw2) << endl;
+	cout << "Size of pointer &pw2+1: " << sizeof(&pw2+1) << endl;
+	cout << "Size of pointer &(*pw2): " << sizeof(&(*pw2)) << endl;
+	cout << "Size of pointer &pw2[0]: " << sizeof(&pw2[0]) << endl;
+	cout << "Size of pointer pw2[0]: " << sizeof(pw2[0]) << endl;
+	cout << "Size of pointer &(*pw2)[0]: " << sizeof(&(*pw2)[0]) << endl;
+	cout << "Size of value *pw2[0]: " << sizeof(*pw2[0]) << endl;
+
+	return 0;
+}
 ```
 
 - Adding `1` to a pointer adds its value **by the number of bytes** of the type to which it points!
     - `double *name; name+1` add 8 bytes to 8-byte `double` variable
     - `short *name; name+1` add 2 bytes to 2-byte `short` variable
+    - The increment `name++` **is not defined!!!**
+- Pass `type *name = array` is equal to `type name = &array[0]`
+- Take the location of array: `type (*name)[size] = &array` as a whole
+    - And `(*name)` is the array, size 24
+    - Address: `&array == array` 
+    - Address: `name == *name == &name+1 == &name[0] == name[0] `
+    - Address: `name == (*name) == &(*name) == &(*name)[0]`
+    - Size: `array == *name == name[0]`
+    - Value: `*name[0] == (*name)[0] == **name == name[0][0]`
+    - If we omit the `()`, the `name` will be an *array of #size pointers to type*, it's an **array of pointer** rather than a **pointer of array**
+- Array is infact a bunch of address, pass the address of the address to pointer, we need double `**`
 
+```Console
+Addr &wage: 0x7ffe9ee851d0, wage: 0x7ffe9ee851d0
+Addr &wage[1]: 0x7ffe9ee851d8, wage[1]: 2000
+Addr wage+1: 0x7ffe9ee851d8, *(wage+1): 2000
 
+Addr pw: 0x7ffe9ee851d0, *pw: 1000
+Addr pw+1: 0x7ffe9ee851d8, *(pw+1): 2000
+Addr pw1: 0x7ffe9ee851d8, *pw1: 2000
+Addr &pw1[1]: 0x7ffe9ee851e0, pw1[1]: 3000
+
+Addr pw2: 0x7ffe9ee851d0, *pw2: 0x7ffe9ee851d0
+Addr &pw2+1: 0x7ffe9ee851c0, pw2: 0x7ffe9ee851d0
+Addr &pw2[0]: 0x7ffe9ee851d0, pw2[0]: 0x7ffe9ee851d0
+Addr &(*pw2): 0x7ffe9ee851d0, (*pw2): 0x7ffe9ee851d0
+Addr &(*pw2)[0]: 0x7ffe9ee851d0, (*pw2)[0]: 1000
+Addr &(*pw2[0]): 0x7ffe9ee851d0, *pw2[0]: 1000
+Value pw2[0][0]: 1000, **pw2: 1000
+
+Size of array wage: 24
+Size of value wage[0]: 8
+Size of pointer pw: 8
+Size of pointer &pw[0]: 8
+Size of value *pw: 8
+
+Size of pointer pw2: 8
+Size of pointer *pw2: 24
+Size of pointer &pw2+1: 8
+Size of pointer &(*pw2): 8
+Size of pointer &pw2[0]: 8
+Size of pointer pw2[0]: 24
+Size of pointer &(*pw2)[0]: 8
+Size of value *pw2[0]: 8
+```
+
+## Pointers and strings
+Source code: `C4_Pointerstrings`
+```C++
+#include <iostream>
+#include <cstring>
+
+int main(void){
+
+	using namespace std;
+
+	char name[20] = "Mteltn";
+	const char *call = "Guernica";
+	char *back;
+	string test;
+
+	cout << name << " and " << call << endl;
+
+	// Address passed to cin and cout
+	cout << "Input a name to name: ";
+	cin >> name;
+	back = name; // Address passed
+	
+	// Use assignment
+	back = new char[strlen(name)+1]; // Allocate new memory
+	back = name; // Address passed again
+	cout << "Before using new to create dynamic string: " << endl;
+	cout << name << " at: " << (int*) name << endl;
+	cout << back << " at: " << (int*) back << endl;
+
+	// Use strcpy()
+	back = new char[strlen(name)+1]; // Allocate new memory
+	strcpy(back, name);
+	cout << "After using new: " << endl;
+	cout << name << " at: " << (int*) name << endl;
+	cout << back << " at: " << (int*) back << endl;
+	delete [] back;
+
+	// Use string class, the simplest way!
+	test = name;
+	cout << "Using string class: " << endl;
+	cout << name << " at: " << (int*) name << endl;
+	cout << test << " at: " << &test << endl;
+
+	return 0;
+}
+```
+
+- `cout` can obtain the address of a character, print till the first `\0`
+- Using `new` will allocate new memory and **new location** to pointer!
+- Assign string to `char` pointer with `const` like: `const char *name = "xxx"`
+- For seeing addresses of the string or pointer pointed to that:
+    - **Type cast** it 
+    - Like `char *name = char stri[20] = "SSS"`
+    - Prints the contents: `stri` and `name`
+    - Prints the location: `(int *)stri` and `(int *)name`
+- Assignment of string to `char` pointer copies the **address**!
+- Copy of string with different address: use `new` and `strcpy()`, **directly assignment will change the address** newly allocated
+- For directly assigning strings, use `string` class instead, it's the **simplest way!**
+- While `strcpy()` could cause problem, `strncpy(A,B,num); A[num-1] = '\0'` can avoid the crash 
+
+```Console
+Mteltn and Guernica
+Input a name to name: Cosmos
+Before using new to create dynamic string: 
+Cosmos at: 0x7ffefc716e40
+Cosmos at: 0x7ffefc716e40
+After using new: 
+Cosmos at: 0x7ffefc716e40
+Cosmos at: 0x5f66c459daf0
+Using string class: 
+Cosmos at: 0x7ffefc716e40
+Cosmos at: 0x7ffefc716e20
+```
+
+## Pointers and dynamic structure
+Source code: `C4_Pointerstructure`
+```C++
+#include<iostream>
+#include<cstring>
+
+using namespace std;
+
+struct info{
+	string name;
+	char loca[20];
+	int age;
+	double height;
+};
+
+int main(void){
+	
+	info *myself; // Create pointer of structure
+	info *others = new info; // Create dynamic structure
+	info wuhao = {"Wu Hao", "Chaozhou", 22, 175.0};
+
+	// Output pointer structure
+	myself = &wuhao;
+	cout << "Myself from wuhao is named: " << myself->name << endl;
+	cout << "Myself from wuhao is located: " << (*myself).loca << endl;
+	cout << "Address is " << myself << endl;
+
+	// Output for dynamic structure
+	cout << "Enter a name: ";
+	getline(cin, others->name); // Input string class
+	cout << "Enter a location: ";
+	cin.getline((*others).loca, 20); // Input char array string
+	cout << "Others is named: " << (*others).name << endl; // Dot
+	cout << "Others is located: " << others->loca << endl; // Arrow
+	cout << "Address is : " << others << endl;
+
+	delete others;
+
+	return 0;
+}
+```
+
+- Create *dynamic structure* with *structure pointer* and `new`
+- Use `->` to access the members, or parentheses quoted `.`:
+    - Arrow: `structure *name = new structure`, and `name->member`
+    - Dot: `structure *name = new structure`, and `(*name).member`
+
+``` Console
+Myself from wuhao is named: Wu Hao
+Myself from wuhao is located: Chaozhou
+Address is 0x7ffed768cdf0
+Enter a name: Cosmos Guernica
+Enter a location: Shaanxi Xi'an
+Others is named: Cosmos Guernica
+Others is located: Shaanxi Xi'an
+Address is : 0x63e3075382b0
+```
+
+## Pointer function
+Source code: `C4_Pointerfunction`
+```C++
+#include<iostream>
+#include<cstring>
+
+using namespace std;
+
+// Pointer function
+char *namepoint(void);
+int *addition(int *a, int *b);
+
+int main(void){
+
+	char *name;
+	int a,b;
+	int *aplusb;
+
+	name = namepoint();
+	cout << "The name is " << name << " at " << (int*)name << endl;
+	delete [] name; // Free memory passed by function
+
+	// Reuse
+	name = namepoint();
+	cout << "The name is " << name << " at " << (int*)name << endl;
+	delete [] name;
+
+	// Pointer argument and return pointer
+	a = 1; 
+	b = 2;
+	aplusb = addition(&a, &b);
+	cout << a << " plus " << b << " by pointer is " << *aplusb << endl;
+	delete aplusb;
+
+	return 0;
+}
+
+char *namepoint(void){
+	char temp[80];
+	char *np;
+	cout << "Enter last name: ";
+	cin.getline(temp, 80);
+	np = new char[strlen(temp)+1];
+	strcpy(np, temp);
+	strcpy(np, temp); // With '\0' at the end, while strncpy is not!
+	return np;
+}
+
+int *addition(int *a, int *b){
+	int *apb = new int;
+	*apb = *a+*b;
+	return apb;
+}
+```
+> Use `new` and `delete` and *pointer function* to program and to save memory!
+> Doesn't guarantee the newly allocated address is the previous one!
+> Not a good idea to separate `new` and `delete` into different functons, but it works, just in case you forget the `delete`
+> More of how C++ handles memory, see [Chapter_9](Chapter_9.md)
+
+```Console
+Enter last name: Cosmos
+The name is Cosmos at 0x621e71e45ad0
+Enter last name: Guernica
+The name is Guernica at 0x621e71e45ad0
+1 plus 2 by pointer is 3
+```
