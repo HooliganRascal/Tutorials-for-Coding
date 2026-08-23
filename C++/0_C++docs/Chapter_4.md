@@ -584,3 +584,5 @@ Source code: `C4_Pointerarithmetics`
 - Adding `1` to a pointer adds its value **by the number of bytes** of the type to which it points!
     - `double *name; name+1` add 8 bytes to 8-byte `double` variable
     - `short *name; name+1` add 2 bytes to 2-byte `short` variable
+
+
