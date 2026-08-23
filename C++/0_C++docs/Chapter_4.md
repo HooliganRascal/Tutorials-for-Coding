@@ -179,7 +179,7 @@ Your name is Cosmos Streamer, you entered P, and you want Eternal Life
 ```
 
 ## String class
-Source code:
+Source code: `C4_Stringclass`
 ```C++
 #include<iostream>
 #include<cstring>
@@ -250,7 +250,7 @@ Burn with the brightest flame! Standing in the hall of fame!
 ```
 
 ## Structure
-Source code
+Source code: `C4_Structure`
 ```C++
 #include<iostream>
 #include<cstring>
@@ -360,8 +360,8 @@ The pa2 of mem2 is Dresser
 The pluss of myaddi is 7
 ```
 
-## Union and Enumerations
-Source code
+## Union and enumerations
+Source code: `C4_UnionEnumerations`
 ```C++
 #include<iostream>
 
@@ -473,3 +473,114 @@ zero is 0 and thous is 1000, thousnext is 1001
 Repeat null = 0 and nullz = 0
 Enumeration in the range like 1023
 ```
+
+## Pointers and the free store
+Source code: `C4_Pointerstore`
+```C++
+#include <iostream>
+
+int main(void){
+
+	using namespace std;
+
+	int a = 6;
+	double b = 7.1;
+
+	// Initialization by address
+	int *loc_a = &a;
+	int *loc_aa = &a; // When assigned with value later, initialize it!!!
+	double *loc_b = &b;
+	double *loc_bb;
+	
+	// Assignment by address or value
+	*loc_aa = a; // assigned value passes to the variable in that location!
+	loc_bb = &b;
+
+	// Output pointer and value
+	cout << "a is " << a << " with location " << &a << endl;
+	cout << "a is " << *loc_aa 
+		 << " with location " << loc_a 
+		 << " too!" << endl;
+	cout << "b is " << b << " with location " << &b << endl;
+	cout << "b+1 is " << *loc_bb+1  // Operation with value
+		 << " with location " << loc_b 
+		 << " too!" << endl;
+
+	// Allocate new memory and delete for reuse
+	int *loc_int = new int;
+	int *loc_iint = loc_int;
+	*loc_int = 5;
+	cout << "New allocated memory with value: " << *loc_int 
+		 << " location: " << loc_int 
+		 << endl;
+	cout << "Same as " << *loc_iint << " with location " << loc_iint << endl;
+	delete loc_int; // Remove the value of the pointer, pointer to that deleted
+	cout << "Memory deleted with value: " << *loc_int 
+		 << " location: " << loc_int 
+		 << endl;
+	cout << "Same as " << *loc_iint << " with location " << loc_iint << endl;
+
+	// Dynamic array
+	int *dyar = new int [10];
+	dyar[0] = 1; 
+	dyar[1] = 2; 
+	dyar[2] = 3; 
+	cout << "dyar[0] is " << *dyar << " with location " << dyar << endl;
+	cout << "dyar[1] is " << *(dyar+1) 
+		 << " with location " << &(dyar[1]) << endl;
+	cout << "dyar[1] is " << dyar[1] 
+		 << " with location " << dyar+1 
+		 << " too" << endl;
+	delete [] dyar;
+
+	return 0;
+}
+```
+
+- Pointers: variables that **store address of values**, `&` to get the location
+- *Compile-time* decision: declare an array, size sets when compiled
+- *Run-time* decision: declare an array, but size setting delayed until runtime
+- Pointers and address:
+    - `int *name` defines a pointer (indirect value, or dereferencing operator)
+    - `int` states the *type of the value* in that location
+    - `name` as a pointer stores the location of variables
+    - `*name` as the **value** at that location, can be treated as integer
+    - Initialize the pointer by assigning address: `int *loc_a = &a`
+    - Assign by value or address: `loc_a = &a` or `*loc_a = a`(**latter initialized required!**)
+    - For pointers, you get the address allocated, and you get the value secondly
+- Allocate memory with `new` like: `type *name = new type;`
+- Free memory with `delete` like: `delete name` 
+    - For reusing pointer allocated by `new` formerly
+    - Computer stores data with memory, thus `delete` removes the value in that location, the address of the location remains
+    - the pointer storing address is **stored with another pointer**!
+- Dynamic array:
+    - *Static binding*: array built into the program at compile time
+    - *Dynamic binding*: array created during runtime and skip creation if not needed
+    - With `type *name = new type [size]`, the `name` stores the **address of the first element**
+    - Treat the dynamic array as a real array name! 
+        - Use `name[0]` rather than `*name` as the value of first element
+        - Arithmetics like `name+1` increments the pointer, **not for array name!!!**
+    - Free the **whole** array with `delete [] name`
+```Console
+a is 6 with location 0x7ffc90962934
+a is 6 with location 0x7ffc90962934 too!
+b is 7.1 with location 0x7ffc90962938
+b+1 is 8.1 with location 0x7ffc90962938 too!
+New allocated memory with value: 5 location: 0x570158c436c0
+Same as 5 with location 0x570158c436c0
+Memory deleted with value: 1880460355 location: 0x570158c436c0
+Same as 1880460355 with location 0x570158c436c0
+dyar[0] is 1 with location 0x570158c436e0
+dyar[1] is 2 with location 0x570158c436e4
+dyar[1] is 2 with location 0x570158c436e4 too
+```
+
+## Pointers, arrays, and pointer arithmetic
+Source code: `C4_Pointerarithmetics`
+```C++
+
+```
+
+- Adding `1` to a pointer adds its value **by the number of bytes** of the type to which it points!
+    - `double *name; name+1` add 8 bytes to 8-byte `double` variable
+    - `short *name; name+1` add 2 bytes to 2-byte `short` variable

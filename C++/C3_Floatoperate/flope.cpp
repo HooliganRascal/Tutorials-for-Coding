@@ -17,7 +17,7 @@ int main(void){
 	// exponent guarantees the floating-point
 	const float dmil = +2.0e+06f;
 	const double obil = 1e9;
-	const double neli = -8e-2L;
+	const long double neli = -8e-2L;
 
 	// significant digits and precision varies
 	cout << a*1e6 << endl;
