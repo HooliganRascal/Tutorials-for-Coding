@@ -533,6 +533,14 @@ int main(void){
 		 << " too" << endl;
 	delete [] dyar;
 
+	// Array of pointers
+	int aa = 8;
+	int *loc_aaa[2] = {&a, &aa};
+	cout << "Array of pointers 1st: " << loc_aaa[0][0] << endl;
+	cout << "Array of pointers 2nd: " << loc_aaa[1][0] << endl;
+	cout << "Array of pointers *1st: " << *loc_aaa[0] << endl;
+	cout << "Array of pointers *2nd: " << *loc_aaa[1] << endl;
+
 	return 0;
 }
 ```
@@ -561,18 +569,25 @@ int main(void){
         - Use `name[0]` rather than `*name` as the value of first element
         - Arithmetics like `name = name+1` increments the pointer, **not for array name!!!**
     - Free the **whole** array with `delete [] name`
+- Array is infact a bunch of address, pass the address of the address to pointer, we need double `**`
+- **Array name is a pointer!**
+
 ```Console
-a is 6 with location 0x7ffc90962934
-a is 6 with location 0x7ffc90962934 too!
-b is 7.1 with location 0x7ffc90962938
-b+1 is 8.1 with location 0x7ffc90962938 too!
-New allocated memory with value: 5 location: 0x570158c436c0
-Same as 5 with location 0x570158c436c0
-Memory deleted with value: 1880460355 location: 0x570158c436c0
-Same as 1880460355 with location 0x570158c436c0
-dyar[0] is 1 with location 0x570158c436e0
-dyar[1] is 2 with location 0x570158c436e4
-dyar[1] is 2 with location 0x570158c436e4 too
+a is 6 with location 0x7fffee5f65e8
+a is 6 with location 0x7fffee5f65e8 too!
+b is 7.1 with location 0x7fffee5f65f0
+b+1 is 8.1 with location 0x7fffee5f65f0 too!
+New allocated memory with value: 5 location: 0x62eddcbe06c0
+Same as 5 with location 0x62eddcbe06c0
+Memory deleted with value: 786287584 location: 0x62eddcbe06c0
+Same as 786287584 with location 0x62eddcbe06c0
+dyar[0] is 1 with location 0x62eddcbe06e0
+dyar[1] is 2 with location 0x62eddcbe06e4
+dyar[1] is 2 with location 0x62eddcbe06e4 too
+Array of pointers 1st: 6
+Array of pointers 2nd: 8
+Array of pointers *1st: 6
+Array of pointers *2nd: 8
 ```
 
 ## Pointers, arrays, and pointer arithmetic
@@ -650,7 +665,6 @@ int main(void){
     - Size: `array == *name == name[0]`
     - Value: `*name[0] == (*name)[0] == **name == name[0][0]`
     - If we omit the `()`, the `name` will be an *array of #size pointers to type*, it's an **array of pointer** rather than a **pointer of array**
-- Array is infact a bunch of address, pass the address of the address to pointer, we need double `**`
 
 ```Console
 Addr &wage: 0x7ffe9ee851d0, wage: 0x7ffe9ee851d0
@@ -735,7 +749,8 @@ int main(void){
 
 - `cout` can obtain the address of a character, print till the first `\0`
 - Using `new` will allocate new memory and **new location** to pointer!
-- Assign string to `char` pointer with `const` like: `const char *name = "xxx"`
+- Assign string to `char` pointer **when initialized** with `const` like: `const char *name = "xxx"`
+- `char` array needn't the `const`
 - For seeing addresses of the string or pointer pointed to that:
     - **Type cast** it 
     - Like `char *name = char stri[20] = "SSS"`
@@ -875,7 +890,24 @@ int *addition(int *a, int *b){
 > Use `new` and `delete` and *pointer function* to program and to save memory!
 > Doesn't guarantee the newly allocated address is the previous one!
 > Not a good idea to separate `new` and `delete` into different functons, but it works, just in case you forget the `delete`
-> More of how C++ handles memory, see [Chapter_9](Chapter_9.md)
+> More of how C++ handles memory, see [Chapter 9](Chapter_9.md)
+
+Storage:
+- Automatic: 
+    - Variables defined inside a function
+    - Exist when the function is invoked, expire when the function terminates
+    - Local to the block enclosed between braces(like function)
+    - Stored on a *stack*: added consecutively and freed in reverse order, **LIFO** 
+- Static:
+    - Exists throughout the execution of an entire program
+    - Defined externally, or use: `static type name = value`
+- Dynamic(Free store, Heap):
+    - Use `new` and `delete`
+    - Existence not tied arbitrarily to the life of the program or function
+    - Interplay between `new` and `delete` can **leave holes in the free store**, difficult to keep track of where to allocate new memory
+    - Use `new` without `delete` will cause the variable or construct allocated by `new` to continue to persist, no way to access it.
+    - Eventurally, it leads to *memory leak*, unusable, allocated but can't be deallocated, can use upall the memory available
+- Thread: see [Chapter 9](Chapter_9.md)
 
 ```Console
 Enter last name: Cosmos
@@ -883,4 +915,52 @@ The name is Cosmos at 0x621e71e45ad0
 Enter last name: Guernica
 The name is Guernica at 0x621e71e45ad0
 1 plus 2 by pointer is 3
+```
+
+## Combination of types
+Source code: `C4_Combinationtypes`
+```C++
+#include<iostream>
+#include<cstring>
+
+using namespace std;
+
+struct info{
+	char name[20];
+	int age;
+};
+
+int main(void){
+
+	info s01, s02, s03;
+	info *s123[3] = {&s01, &s02, &s03}; // Pointer to pointer
+	info *pa = &s01;
+	auto pb = s123;
+
+	// Different ways to assign values to the variable of pointer of pointer 
+	(*pa).age = 20;
+	s123[1][0].age = 25;
+	(*(pb+2))->age = 30;
+	strcpy(pa->name, "Cosmos");
+	strcpy((*(s123+1)[0]).name, "Mteltn");
+	strcpy(pb[2]->name, "Guernica");
+
+	cout << "Name: " << s01.name << ", age: " << s01.age << endl;
+	cout << "Name: " << (*pa).name << ", age: " << pa->age << endl;
+	cout << "Name: " << (*(pb+1))->name << ", age: " << (**(pb+1)).age << endl;
+	cout << "Name: " << (*(pb+2)[0]).name << ", age: " << pb[2][0].age << endl;
+	
+	return 0;
+}
+```
+- Structure, array, pointer, structure pointer, array pointer...
+- `type *name[size] = {&a1, &a2, &a3}`, use `type **name2 = name` 
+- We could forget the `**`, so use `auto` instead
+- For *structure pointer*, use `->` can save a `*` when take the value
+
+```Console
+Name: Cosmos, age: 20
+Name: Cosmos, age: 20
+Name: Mteltn, age: 25
+Name: Guernica, age: 30
 ```

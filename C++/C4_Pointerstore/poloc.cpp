@@ -54,5 +54,13 @@ int main(void){
 		 << " too" << endl;
 	delete [] dyar;
 
+	// Array of pointers
+	int aa = 8;
+	int *loc_aaa[2] = {&a, &aa};
+	cout << "Array of pointers 1st: " << loc_aaa[0][0] << endl;
+	cout << "Array of pointers 2nd: " << loc_aaa[1][0] << endl;
+	cout << "Array of pointers *1st: " << *loc_aaa[0] << endl;
+	cout << "Array of pointers *2nd: " << *loc_aaa[1] << endl;
+
 	return 0;
 }
