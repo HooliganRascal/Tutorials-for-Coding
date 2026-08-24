@@ -37,7 +37,7 @@ int main(void){
 ## Namespace
 > Namespace discriminates the different versions of the key words
 >    - `iostream` needs the namespace or uses `std::cout` instead of simply `cout`
->    - `using std::cout` particularly makes `cout` available
+>    - `using std::cout;` particularly makes `cout` available
 >    - such *using directive* can be **local or global**
 ---
 Local namespace: `C2_Namespace/local.cpp`

@@ -964,3 +964,77 @@ Name: Cosmos, age: 20
 Name: Mteltn, age: 25
 Name: Guernica, age: 30
 ```
+
+## Array Alternatives
+Source code: `C4_ArrayAlternative`
+```C++
+#include <iostream>
+#include <vector>
+#include <array>
+
+using namespace std;
+
+int main(void){
+
+	int i;
+	int arsize = 4;
+
+	double ar1[4] = {4.2, 2.1, 6.3, 2.4};
+
+	// vector
+	vector<double> ar2(arsize);
+	for(i=0; i<4; i++){
+		ar2[i] = (double)i/3.0;
+	};
+	
+	// array
+	array<double, 4> ar3 = {5.6, 2.3, 7.1, 8.9};
+	array<double, 4> ar4 = ar3; // assign directly
+
+	// unsafe behavior, but now C++ can protect it automatically
+	ar1[-2] = 0.5;
+	// ar3.at(-1) = 0.02; // check invalid index
+	//ar4[200] = 11.23;
+
+	cout << "ar1[1] = " << ar1[1] << " at " << ar1+1 << endl;
+	cout << "ar1[2] = " << *(ar1+3) << " at " << (double*)ar1+3 << endl;
+	cout << "ar2[2] = " << ar2.at(2) << " at " << &ar2[2] << endl;
+	cout << "ar3[2] = " << ar3[2] << " at " << &ar3[2] << endl;
+	cout << "ar4[2] = " << ar4[2] << " at " << &ar4[2] << endl;
+
+	// unsafe output 
+	cout << "ar1[-2] = " << ar1[-2] << " at " << &ar1[-2] << endl;
+	cout << "ar3[-1] = " << ar1[-1] << " at " << &ar3[-1] << endl;
+	cout << "ar3[2] = " << ar3[2] << " at " << &ar3[2] << endl;
+	cout << "ar4[2] = " << ar4[2] << " at " << &ar4[2] << endl;
+
+	return 0;
+}
+```
+
+- `vector` template class
+    - Alternative to using `new` to create dynamic array
+    - Use `new` and `delete` automatically
+    - Include `vector` header file, declare `std`
+    - Definition: `vector<type> name` for zero-size, `vector<type> name(size)` for `size` types array
+    - `size` can be an **integer constant** or **integer variable**
+    - `name` is an object of type `vector<type>` 
+- `array` template class
+    - For a fixed-size array, `array` is part of the `std` namespace
+    - Use *stack* or else *static memory allocation* rather than free store
+    - Include `array` header file
+    - Format: `array<type, size> name`, where `size` can't be a variable
+    - Much safer
+- Nowadays C++ can protect it automatically, but for safer, use **member function `name.at(loc)`** like `ar2.at(2)` for `vector` and `array` templates, so that they will **warn us when the index is out of range**
+
+```Console
+ar1[1] = 2.1 at 0x7ffdbbd4b038
+ar1[2] = 2.4 at 0x7ffdbbd4b048
+ar2[2] = 0.666667 at 0x55c3bf9fb2c0
+ar3[2] = 7.1 at 0x7ffdbbd4b060
+ar4[2] = 7.1 at 0x7ffdbbd4b080
+ar1[-2] = 0.5 at 0x7ffdbbd4b020
+ar3[-1] = 6.54264e-310 at 0x7ffdbbd4b048
+ar3[2] = 7.1 at 0x7ffdbbd4b060
+ar4[2] = 7.1 at 0x7ffdbbd4b080
+```
