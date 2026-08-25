@@ -53,7 +53,7 @@ int main(void){
 ```
 
 - Format: `for(index = start; index < end; index update` like `for(i=0;i<4;i++)`
-- Enclosed in braces: `for(i=0;i<4;i++){ some; };` if there are more than 1 statements, **don't forget the `;`!**
+- Enclosed in braces: `for(i=0;i<4;i++){ some; };` if there are more than 1 statements, **the `;` could be saved!**
 - `i++` for done then increment, `++i` for incremented then do it, same as: `i=i+1`
 - Order:
     - Initial value 
@@ -241,13 +241,260 @@ x = 21, y = 21
 ## Pointer increment, combination and blocks
 Source code: 
 ```C++
+#include<iostream>
 
+using namespace std;
+
+const int arsize = 8;
+
+int main(void){
+
+	float arf[arsize];
+	float *pt = arf;
+
+	for(int i=0; i<arsize; i++)
+		*(arf+i) = 5.0+0.1*(float)i; // No brackets
+	
+	cout << "Current addr of pt is " << pt << " with value " << *pt << endl;
+	cout << "Increment pt++ is " << pt++ << " with value " << *pt << endl;
+	cout << "Now pt is at " << pt << " with value " << *pt << endl;
+	cout << "Increment ++pt is " << ++pt << " with value " << *pt << endl;
+	cout << "Increment at " << pt << " value *++pt " << *++pt << endl;
+	cout << "Increment at " << pt << " value *pt++ " << *pt++ << endl;
+	cout << "Now pt is at " << pt << " with value " << *pt << endl;
+
+	// Combination assignments
+	pt+=1;
+	cout << "Increment pt+=1 is " << pt << " with value " << *pt << endl;
+
+	// Loops with blocks
+	for(int i=0; i<arsize; ++i){ // Much more efficient than postfix
+		cout << *(arf+i) << ", ";
+	} // Ignore the ';' is OK
+	cout << " Done! " << endl;
+
+	int x = 20;
+	{
+		int x = 60;
+		int y = 100;
+		cout << x << ", " << y << ", ";
+	}
+	cout << x << endl;
+	// cout << y << endl; // Turns out error!
+
+	return 0;
+}
 ```
 
 - Though `char` array is a *pointer* in fact, *side effect* of it like `char ar[2]; ar++` is not permitted! 
-- If incrementation is needed, pass the location to a pointer like `double *pt = ar; ar++` makes `ar` points to `pt[1]`
+- If incrementation is needed, pass the location to a pointer like `double *pt = ar; ar++` makes `ar` points to `pt[1]`, **size jump!**
+    - `cout << pt++` finishes output then increments;
+    - `*++pt` increments then takes the value 
 - For dynamic array: `int* ar = new int[10]`, the `ar` points to `ar[0]`, and the `ar+=2` will make `ar` points to `ar[2]`
+- Combination assignment operators: 
+    - `k+=1` is equivalent to `k=k+1`
+    - Other combinations: `-=`, `*=`, `/=`, `%=`
+- Blocks with `{}`, if omit the `{}` and leave with indentation, the compiler **ignores** the indentation and only executes the first statement!
+- Variables declared inside the block use *stacks* to store, which is *automatic storage*, the **LIFO** in [Chapter 4](Chapter_4.md)
+    - The block ends, the variables defined inside are deallocated
+    - The variables defined **externally** still work inside the block!
+    - Define the variable with the same name outside the block, that one inside the block hides the old one with new one until the block ends!
 
-## Comma operator and relational expressions
+```Console
+Current addr of pt is 0x7fff63de3630 with value 5
+Increment pt++ is 0x7fff63de3630 with value 5.1
+Now pt is at 0x7fff63de3634 with value 5.1
+Increment ++pt is 0x7fff63de3638 with value 5.2
+Increment at 0x7fff63de3638 value *++pt 5.3
+Increment at 0x7fff63de363c value *pt++ 5.3
+Now pt is at 0x7fff63de3640 with value 5.4
+Increment pt+=1 is 0x7fff63de3644 with value 5.5
+5, 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7,  Done! 
+60, 100, 20
+```
 
-## Loops with string comparison
+## Comma operator 
+Source code: `C5_Commaoperator`
+```C++
+#include<iostream>
+#include<cstring>
+
+int main(void){
+
+	using namespace std;
+
+	int i,j;
+	char med;
+	string sent;
+	
+	// Input a string
+	cout << "Enter a sentence: ";
+	getline(cin, sent);
+	cout << "Your input is: " << sent << endl;
+
+	// Reverse a string with comma operation
+	for(i=0,j=sent.size()-1; i<j; ++i,--j){
+		med = sent[i]; // med works as a mediation to swap the order
+		sent[i] = sent[j];
+		sent[j] = med;
+	}
+	cout << "Reversed input is: " << sent << endl;
+
+	// Reverse back with variable defined inside the for loop
+	for(int x=0,y=sent.size()-1; x<y; ++x,--y){
+		char medi = sent[x];
+		sent[x] = sent[y];
+		sent[y] = medi;
+	}
+	cout << "Reversed back to be: " << sent << endl;
+
+	// Comma as expression
+	{
+		int i=20, j=2*i; // Value of this expression is 40
+		cout << "i = " << i << ", j = " << j << endl;
+	}
+
+	// Comma as operator, with precedence testing
+	{
+		int i=17; 
+		cout << "i = " << i << endl;
+		int j=(17,240); // Set to 240
+		cout << "j = " << j << endl;
+	}
+
+	return 0;
+}
+```
+
+- Comma `,` allows to sneak two expressions into a place
+- Comma can be an operator like `++j, --i` or a separator `int i,j`
+- Comma as expression, such as `int i = 20, j = 2*i`:
+    - Comma is a sequence point that guarantees the first expression is evaluated
+    - Comma as an expression is with the value of second part, which is `40`
+- Comma as operator, the precedence is the lowest:
+    - `cata = 17,240` states that `cata` is `17` and `240` does nothing
+    - `cata = (17,240`) states that `cata` is `240` for value of second part
+
+```Console
+Enter a sentence: I am Cosmos
+Your input is: I am Cosmos
+Reversed input is: somsoC ma I
+Reversed back to be: I am Cosmos
+i = 20, j = 40
+i = 17
+j = 240
+```
+
+## Relaional expressions and comparisons
+Source code: `C5_Relationcomparison`
+```C++
+#include<iostream>
+#include<cstring>
+
+int main(void){
+
+	using namespace std;
+
+	// Test for simple relational expression
+	cout.setf(std::ios::boolalpha);
+	for(int i=0; i<=5; i++){
+		cout << i << (i<5) << " ";
+	}
+	cout << endl;
+
+	// Test for char comparison with ASCII code
+	cout.unsetf(std::ios::boolalpha);
+	for(char a='a'; a<='e'; a++){
+		cout << a << (a<'e') << " ";
+	}
+	cout << endl;
+
+	// Let bool value operates with other integers
+	int a=5;
+	cout << "a=5, a+(a!=5) = " << a+(a>4) << endl << endl;
+
+	char ar1[6] = "Zoo";
+	char ar2[8] = "Zoo";
+	char ar3[9] = "aviary";
+	char *pt2 = ar2;
+	char *pt3 = ar3;
+	string str2 = ar2;
+	string str3 = ar3;
+
+	// Compare C-style string
+	cout << "\"Zoo\" is the same with 0 though size differs: " 
+		 << strcmp(ar1,ar2) << endl; // ar1 == ar2
+	cout << "\"Zoo\" precedes \"aviary\" in ASCII code with negative value: " 
+		 << strcmp(&ar1[0],&ar3[0]) << endl; // ar1 < ar3
+	cout << "\"aviary\" follows \"Zoo\" in ASCII code with positive value: " 
+		 << strcmp(pt3++,pt2++) << endl; // ar3 > ar2
+	cout << "'v' follows 'o' in ASCII code with positive value: " 
+		 << strcmp(pt3,pt2) << endl; // ar3 > ar2
+	
+	// Compare string class
+	cout << "\"Zoo\" precedes \"aviary\" is true with bool value: " 
+		 << (str2<str3)  << endl; // Return 1
+	cout << "'o' follows 'v' is false with bool value: " 
+		 << (str2[1]>str3[1]) << endl; // Return 0
+
+	return 0;
+}
+```
+
+- Conditional expression test for `bool` value, which is deeply connected with  *relational expression*:
+    - Less than: `<`, greater than: `>`
+    - Others: `<=`, `==`, `>=`, `!=`
+    - Works with numbers and characters(ASCII code), `string` class, not C-style string though
+    - Return a `bool` value
+- String comparison:
+    - C-style string: `word=="mate"` checks whether they are **stored at the same address!**
+    - Function `strcmp()` takes two string address(can be pointers, string constants, character array names), all it needs are **locations** of strings
+    - Two strings identical returns value `0`
+    - First string **precedes** the second, returns a **negative** value, like `strcmp("Zoo", "aviary")`
+    - First string **follows** the second, returns a **positive** value, like `strcmp("aviary", "Zoo")`
+    - Precede or follows, is meant in the system collating sequence (alphabetically), which means characters are compared according to the system code for characters
+    - C-style strings terminate with `\0`, for comparison, size is not the case
+    - `strcmp()` is **true** when strings are **not identical**!
+- Class `string` is allowed to directly use traditional relational expressions
+- When output with relational expression results, use `()` as a good habit
+
+```Console
+0true 1true 2true 3true 4true 5false 
+a1 b1 c1 d1 e0 
+a=5, a+(a!=5) = 6
+
+"Zoo" is the same with 0 though size differs: 0
+"Zoo" precedes "aviary" in ASCII code with negative value: -7
+"aviary" follows "Zoo" in ASCII code with positive value: 7
+'v' follows 'o' in ASCII code with positive value: 7
+"Zoo" precedes "aviary" is true with bool value: 1
+'o' follows 'v' is false with bool value: 0
+```
+
+## The while Loop
+Source code: `C5_Whilewaitloop`
+```C++
+
+```
+
+- `while` loop is an *entry-condition* loop
+    - Update expression is contained in the body
+    - Initialization is external
+- `while(test-condition) body`, better with `{body}`
+- For a string `char name[size]`, the expression `name[i]!='\0'` works the same as `name[i]` for the ASCII code of `\0` is `0`
+- For `string` class, it works differently, how to identify the last character of `string` will be seen in [Chapter 16](Chapter_16.md)
+- Time-delay loop:
+    - `while(wait<10000) wait++;` is too unmanageable
+    - Builtin `clock()` returns the **system time** since a program started execution, but doesn't return the time in seconds, type can be `long`, `unsigned long` or others
+    - `ctime` header file with constant `CLOCKS_PER_SEC`, transfer time in system units to seconds or vice versa
+    - `ctime` header file with alias `clock_t` as type of variables, can be converted into `long` or whatever is the proper type for system
+- Type alias:
+    - `#define BYTE char` replaces all occurrences of `BYTE` with `char`, and makes `BYTE` an alias of `char`, but **only uppercases available**
+    - `typedef char byte` works the same, and `byte` is an alias of `char` in this case, format: `typedef type alias`, **lowercase available too**
+    - `#define POIN float*` then `POIN pa,pb` will make `pa` a pointer, but `pb` **a simple float**
+    - `typedef float* poin` then `poin pa,pb` will make them **both pointers**!
+    - `typedef` is better than `#define` and sometimes is the best and only choice!
+
+```Console
+
+```
