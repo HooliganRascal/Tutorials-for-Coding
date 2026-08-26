@@ -564,7 +564,8 @@ int main(void){
 - Dynamic array:
     - *Static binding*: array built into the program at compile time
     - *Dynamic binding*: array created during runtime and skip creation if not needed
-    - With `type *name = new type [size]`, the `name` stores the **address of the first element**
+    - With `type *name = new type[size]`, the `name` stores the **address of the first element**
+    - With `type (*name)[size] = new type[size]`, the `name` points to the **whole address of the new dynamic array**
     - Treat the dynamic array as a real array name! 
         - Use `name[0]` rather than `*name` as the value of first element
         - Arithmetics like `name = name+1` increments the pointer, **not for array name!!!**
