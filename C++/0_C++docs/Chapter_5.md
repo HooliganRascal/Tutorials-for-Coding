@@ -565,3 +565,242 @@ Done!
 ```
 
 ## The do-while Loop
+Source code: `C5_Dowhileloop`
+```C++
+#include<iostream>
+
+using namespace std;
+
+const int better = 5;
+
+int main(void){
+
+
+	// Test for simple do while loop
+	int n;
+	do{
+		cout << "Enter a number in the range 1~10 to find the better: ";
+		cin >> n;
+	}while(n!=better); // Don't forget the semicolon!
+	cout << "Yes, " << n << " is the better one!" << endl;
+
+	return 0;
+}
+```
+
+- `do while` loop is the only *exit-condition* loop, for it test the condition only after a first loop is executed!
+- `do body while(test-condition);` Don't forget the semicolon!
+
+```Console
+Enter a number in the range 1~10 to find the better: 1
+Enter a number in the range 1~10 to find the better: 2
+Enter a number in the range 1~10 to find the better: 3
+Enter a number in the range 1~10 to find the better: 4
+Enter a number in the range 1~10 to find the better: 5
+Yes, 5 is the better one!
+```
+
+## Range-Based for Loop
+Source code: `C5_Rangebased`
+```C++
+#include<iostream>
+
+int main(void){
+
+	using namespace std;
+
+	double ard[5] = {0.1,1.2,2.3,3.4,4.5};
+
+	// Can't modify array value
+	for(double x:ard){
+		cout << x << endl;
+	}
+
+	// Can modify array value, changed!!!
+	for(double &x:ard){
+		x *= 0.8;
+		cout << x << endl;
+	}
+
+	return 0;
+}
+```
+
+- `double ar[size]={2.1,2.2,...}; for(double x:ar)body`
+    - Here `x`initially represents the first element of prices array, 
+    - Loop executes with `x` representing the remain elements in turn
+    - **Can't modify** the value of the array!
+- `double ar[size]={2.1,2.2,...}; for(double &x:ar)body`
+    - Here `x`initially represents the first element of prices array, 
+    - Loop executes with `x` representing the remain elements in turn
+    - **Can modify** the value of the array, and **`ar` has changed**!
+
+```Console
+0.1
+1.2
+2.3
+3.4
+4.5
+0.08
+0.96
+1.84
+2.72
+3.6
+```
+
+## Text input and cin.get()
+Souce code: `C5_Textcinget`
+```C++
+#include<iostream>
+
+int main(void){
+
+	using namespace std;
+
+	int count = 0;
+	char ch;
+
+	// Text input igoring space with simple cin
+	cout << "Enter a character and enter '#' to quit: " << endl;
+	do{
+		cin >> ch;
+		++count;
+		cout << ch;
+	}while(ch!='#');
+	cin.get(); // Clear the newline character and store the queue
+	cout << endl << count << " characters read" << endl;
+
+	// Text input including space with cin.get()
+	count = 0; // Reset value
+	cout << "Enter a character and enter '#' to quit: " << endl;
+	cin.get(ch);
+	while(ch!='#'){
+		cout << ch;
+		++count;
+		cin.get(ch);
+	}
+	cout << endl << count << " characters read" << endl;
+	cout << "Enter another character: ";
+	cin.get(ch);
+	cout << ch << endl;
+
+	// EOF and cin.fail(), cin.eof()
+	count = 0; // Reset value
+	cout << "Enter a character and enter 'CTRL D' to EOF: " << endl;
+	cin.get(ch);
+	while(cin.fail()==false){
+		cout << ch;
+		++count;
+		cin.get(ch);
+	}
+	cout << endl << count << " characters read" << endl;
+	cin.clear(); // Clear EOF flags
+
+	return 0;
+}
+```
+
+- Directly `while(ch!='#'){cin>>ch}`
+    - Enter a bunch of characters, when the loop test `'#'`, terminates
+    - Type one, enter one works
+    - Type some, enter one? `cin` reads *spaces* and *newline* characters as none
+    - Characters typed **don't get sent** to the program until `Enter`, loop tests **one by one in turn**, quits when test is `false`
+- Use `cin.get(ch)` to obtain the *space* but still **leaves the unused input including the *space*** in the queue
+    - The `cin >> ch` never reads `Enter` as an input
+    - The `cin.get(ch)` reads though!
+- Function overloading:
+    - `cin.get(name, Arsize)` fetches `cin.get(char*,int)`
+    - `cin.get(ch)` fetches `cin.get(char)`
+    - Allows us to use the same name for related functions 
+- EOF:
+    - Redirection: executable file `exec` and a text file `text`
+    - Type in the command prompt: `exec <text`, takes input from `text` rather than keyboard input
+    - The `Enter` and EOF is counted in this program!
+    - `cin` detects EOF, sets into *eofbit* and *failbit* to `1`
+    - `cin.eof()` returns `true` if EOF detected
+    - `cin.fail()` returns `true` if either *eofbit* or *failbit* has been set to `1`
+    - If never press `Enter`, and type `CTRL D`, the first type pops out input again, the second one is EOF 
+    - If press `Enter` following `CTRL D`, execution will ends properly
+    - When EOF is detected, a flag is set, `cin` does not read anymore input, use `cin.clear()` to clear EOF flags and let `cin` proceed again
+    - `CTRL D` is the keywords for *End of File* in Unix system
+    - `CTRL Z` stops the execution, `CTRL C` ends the execution
+    - `CTRL Z` terminates both inputs and outputs effectively
+---
+> Output with an `Enter` following `CTRL D`
+```Console
+Enter a character and enter '#' to quit: 
+Sent me a#
+Sentmea#
+8 characters read
+Enter a character and enter '#' to quit: 
+Sent me a#
+Sent me a
+9 characters read
+Enter another character: 
+
+Enter a character and enter 'CTRL D' to EOF: 
+Sent me a#
+Sent me a#
+
+11 characters read
+```
+---
+> Output with `Enter` following `CTRL C` for `./teci`
+```Console
+Enter a character and enter '#' to quit: 
+Sent me a#
+Sentmea#
+8 characters read
+Enter a character and enter '#' to quit: 
+Sent me a#
+Sent me a
+9 characters read
+Enter another character: 
+
+Enter a character and enter 'CTRL D' to EOF: 
+Sent me a#
+Sent me a#
+^C
+```
+---
+> Output with `Enter` following `CTRL C` for `make run`
+```Console
+Enter a character and enter '#' to quit: 
+Sent me a#
+Sentmea#
+8 characters read
+Enter a character and enter '#' to quit: 
+Sent me a#
+Sent me a
+9 characters read
+Enter another character: 
+
+Enter a character and enter 'CTRL D' to EOF: 
+Sent me a#
+Sent me a#
+^Cmake: *** [Makefile:4: run] Interrupt
+
+```
+There is an empty line!!!
+
+## Idioms of character input and other versions of cin.get()
+Source code: `C5_Idiomsinputget`
+```C++
+
+```
+
+- Common idioms for input:
+    - `while(cin.fail()==false)`
+    - `while(!cin.fail())` test if `cin` detects an EOF
+    - `while(cin)` converts `cin` to a `bool` value, and it is `true` if input is successful
+    - `cin.get(char)` returns the value of `cin`
+- Other types of `cin.get()`
+    - `cin.get(ch)` returns an object
+    - `ch = cin.get()` same as `cin.get()`, but `ch` is type `int` **storing character codes!**
+    - `cout.put(ch)`, the argument should be type `char` instead of `int`
+    - EOF is defined with value `-1` when `cin.get()` detects and returns, testing: `ch = cin.get()`
+    - EOF is a signal rather than a character, it states there is no more characters!
+
+```Console
+
+```
