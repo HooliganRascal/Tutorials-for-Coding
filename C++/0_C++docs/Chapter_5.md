@@ -703,7 +703,7 @@ int main(void){
 - Directly `while(ch!='#'){cin>>ch}`
     - Enter a bunch of characters, when the loop test `'#'`, terminates
     - Type one, enter one works
-    - Type some, enter one? `cin` reads *spaces* and *newline* characters as none
+    - Type some, enter one? `cin` reads *spaces* and *newline* characters as **nothing!**
     - Characters typed **don't get sent** to the program until `Enter`, loop tests **one by one in turn**, quits when test is `false`
 - Use `cin.get(ch)` to obtain the *space* but still **leaves the unused input including the *space*** in the queue
     - The `cin >> ch` never reads `Enter` as an input
@@ -799,7 +799,7 @@ Source code: `C5_Idiomsinputget`
     - `ch = cin.get()` same as `cin.get()`, but `ch` is type `int` **storing character codes!**
     - `cout.put(ch)`, the argument should be type `char` instead of `int`
     - EOF is defined with value `-1` when `cin.get()` detects and returns, testing: `ch = cin.get()`
-    - EOF is a signal rather than a character, it states there is no more characters!
+    - EOF is a **signal** rather than a character, it states there is **no more characters**!
 
 ```Console
 
