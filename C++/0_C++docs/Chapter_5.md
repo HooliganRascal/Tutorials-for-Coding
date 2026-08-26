@@ -474,7 +474,59 @@ a=5, a+(a!=5) = 6
 ## The while Loop
 Source code: `C5_Whilewaitloop`
 ```C++
+#include<iostream>
+#include<ctime>
 
+#define FLOP float*
+
+typedef float *flo, olf; // olf is still float
+
+int main(void){
+
+	using namespace std;
+
+	int i=0; // Index initialization
+	char name[8]="Cosmos";
+
+	// Simple while loop
+	while(i<5){
+		cout << i;
+		i++; // Don't forget it!
+	}
+	cout << endl;
+
+	// Test with C-style string
+	i=0; // Reinitialization
+	while(*(name+i)){ // Same as name[i]!=0
+		cout << name[i] << " " << (int)*(name+i) << endl;
+		++i;
+	}
+
+	// Alias testing
+	float arf[5] = {0.1,0.2,0.3};
+	// FLOP a=&arf[1], b=arf; // Error of b!
+	flo c=arf, d=&arf[1];
+	olf e=*(arf+2);
+	// cout << a << ", " << b << endl;
+	cout << c << ", " << d << ", " << e << endl;
+
+	// Time delay
+	int sec;
+	cout << "Enter a second: ";
+	cin >> sec;
+
+	clock_t delay = sec*CLOCKS_PER_SEC; // Second to system units
+	cout << "Start\a" << endl;
+
+	clock_t start = clock(); // Current time of execution
+	while((clock()-start)<delay){ // Test for time of execution 
+		if(delay/(clock()-start)==0) // Fails to count accurately!
+			cout << (clock()-start)/CLOCKS_PER_SEC; // Output nothing
+	} // Not exactly second of sec, the test at last will waste little time
+	cout << endl << "Done!" << endl;
+
+	return 0;
+}
 ```
 
 - `while` loop is an *entry-condition* loop
@@ -485,9 +537,11 @@ Source code: `C5_Whilewaitloop`
 - For `string` class, it works differently, how to identify the last character of `string` will be seen in [Chapter 16](Chapter_16.md)
 - Time-delay loop:
     - `while(wait<10000) wait++;` is too unmanageable
-    - Builtin `clock()` returns the **system time** since a program started execution, but doesn't return the time in seconds, type can be `long`, `unsigned long` or others
+    - `ctime` header file with `clock()` returns the **system time** since a program started execution, but doesn't return the time in seconds, type can be `long`, `unsigned long` or others
     - `ctime` header file with constant `CLOCKS_PER_SEC`, transfer time in system units to seconds or vice versa
     - `ctime` header file with alias `clock_t` as type of variables, can be converted into `long` or whatever is the proper type for system
+    - The output of `clock()` is a huge amount of numbers
+    - Set `clock()` into loop, it only counts approximately!
 - Type alias:
     - `#define BYTE char` replaces all occurrences of `BYTE` with `char`, and makes `BYTE` an alias of `char`, but **only uppercases available**
     - `typedef char byte` works the same, and `byte` is an alias of `char` in this case, format: `typedef type alias`, **lowercase available too**
@@ -496,5 +550,18 @@ Source code: `C5_Whilewaitloop`
     - `typedef` is better than `#define` and sometimes is the best and only choice!
 
 ```Console
+01234
+C 67
+o 111
+s 115
+m 109
+o 111
+s 115
+0x7ffc3106eb30, 0x7ffc3106eb34, 0.3
+Enter a second: 5
+Start
 
+Done!
 ```
+
+## The do-while Loop
