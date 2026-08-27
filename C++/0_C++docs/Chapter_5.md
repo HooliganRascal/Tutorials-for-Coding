@@ -715,7 +715,7 @@ int main(void){
 - EOF:
     - Redirection: executable file `exec` and a text file `text`
     - Type in the command prompt: `exec <text`, takes input from `text` rather than keyboard input
-    - The `Enter` and EOF is counted in this program!
+    - **The `Enter` is counted in this program!**, EOF is not
     - `cin` detects EOF, sets into *eofbit* and *failbit* to `1`
     - `cin.eof()` returns `true` if EOF detected
     - `cin.fail()` returns `true` if either *eofbit* or *failbit* has been set to `1`
@@ -786,20 +786,104 @@ There is an empty line!!!
 ## Idioms of character input and other versions of cin.get()
 Source code: `C5_Idiomsinputget`
 ```C++
+#include<iostream>
+#include<cstdio>
 
+int main(void){
+
+	using namespace std;
+
+	char cha;
+	int chi;
+	int count;
+	
+	// Idioms: while(cin.fail()==false), while(!cin.fail()), while(cin)
+	count = 0;
+	cout << "Enter a letter: ";
+	while(!cin.get(cha)==false){  // Same as while(cin.get(cha))
+		cout.put(cha);
+		++count;
+	}
+	cout << endl << count << " characters read" << endl;
+
+	cin.clear(); // Clear EOF flags set by cin
+	clearerr(stdin); // Clear C-level EOF flags in FILE structure
+
+	// Use 
+	count = 0;
+	cout << "Enter a letter: ";
+	while((chi=cin.get())!=EOF){ // chi is type int
+		// cout.put(static_cast<char>(chi)); // Type cast is needed
+		cout.put((char)chi); // Type cast is needed
+		++count;
+	}
+	cout << endl << count << " characters read" << endl;
+
+	return 0;
+}
 ```
 
 - Common idioms for input:
+    - `cin.get(char)` returns the value of `cin`, **an object**
+    - `cin.get(ch)` can be **used in chain** for it returns a `cin` object, like `cin.get(ch1).get(ch2)`
     - `while(cin.fail()==false)`
-    - `while(!cin.fail())` test if `cin` detects an EOF
-    - `while(cin)` converts `cin` to a `bool` value, and it is `true` if input is successful
-    - `cin.get(char)` returns the value of `cin`
+    - `while(!cin.fail())` test if `cin` detects an EOF, and test other possible failure such as **disk failure**
+    - `while(cin)` converts object `cin` to a `bool` value, and it is `true` if input is successful
+    - `while(cin.get(ch))` is called for once in the test condition
 - Other types of `cin.get()`
-    - `cin.get(ch)` returns an object
-    - `ch = cin.get()` same as `cin.get()`, but `ch` is type `int` **storing character codes!**
+    - `cin.get(ch)` returns an object, `ch` is type `char`
+    - `cin.get()` returns the character input, but type `int`, ASCII code
+    - `ch = cin.get()` works the same as `cin.get(ch)`
+        - The **former `ch`** is type `int` **storing character codes!** 
+        - The **latter `ch`** is type `char`
     - `cout.put(ch)`, the argument should be type `char` instead of `int`
-    - EOF is defined with value `-1` when `cin.get()` detects and returns, testing: `ch = cin.get()`
+    - EOF is defined with value `-1` when `cin.get()` detects and returns(others return ASCII code), testing: `int ch = cin.get()`
     - EOF is a **signal** rather than a character, it states there is **no more characters**!
+- If we're to continue input after EOF:
+    - Include `limits`
+    - Use `cin.clear()` to clear error flags
+    - Include `cstdio`
+    - Use `clearerr(stdin)` to clear the C‑level EOF flag explicitly in the FILE structure
+- `Enter` is counted while EOF is not in this case either
+
+---
+> Output with an `Enter` following `CTRL D`
+```Console
+Enter a letter: Sent me
+Sent me
+
+8 characters read
+Enter a letter: Sent me 
+Sent me
+
+8 characters read
+```
+---
+> Output without an `Enter` following `CTRL D`(Double `CTRL D` to pass)
+```Console
+Enter a letter: Sent meSent me
+7 characters read
+Enter a letter: Sent meSent me
+7 characters read
+```
+
+## Nested Loops and 2-D Arrays
+Source code: `C5_Nestedloops`
+```C++
+
+```
+
+- Definition: `type name[row][column]`
+    - `name[row]` refers to subarrays
+    - `name[row][column]` refers to typical elements in typical subarrays
+- Initialization: `type name[row][column]={ {}, {}, {}...}`
+- Equivalence of `type name[row][column]`
+    - `type *name[row]`
+    - Define an array of `row` pointers
+    - Each `*name` stores the address of the first element in typical array
+- Array of `string`:
+    - Define: `char name[row][column]`
+    - Equivalence but more convenient: `string name[row]`
 
 ```Console
 
