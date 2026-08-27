@@ -24,3 +24,4 @@ Computer languages deal with 2 concepts in general: **data** and **algorithm**
 - [Dealing with Data](./0_C++docs/Chapter_3.md)
 - [Compound Types](./0_C++docs/Chapter_4.md)
 - [Loops and Relational Expressions](./0_C++docs/Chapter_5.md)
+- [Branching Statements and Logical Operators](./0_C++docs/Chapter_6.md)
