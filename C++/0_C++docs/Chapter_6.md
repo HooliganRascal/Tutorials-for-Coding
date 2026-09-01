@@ -51,3 +51,55 @@ Grade of 'A' is: 2
 Grade of 'B' is: 1
 Grade of soso is: 1
 ```
+
+## Logical expressions
+Source code: `C6_Logicalexpressions`
+```C++
+
+```
+
+- Or: `||`, `or`
+- And: `&&`, `and`
+- Not: `!`, `not`
+- Low to high: (and, or) -> ($ > $, $ < $, $==$) -> (!)
+
+```Console
+
+```
+
+## The cctype library of character functions
+Source code: `C6_Librarycctype`
+```C++
+
+```
+- 
+- 
+
+```Console
+
+```
+
+## The ?: operator
+Source code: `C6_Conditionaloperator`
+```C++
+```
+
+- 
+- 
+
+```Console
+
+```
+
+## The switch statement
+Source code: `C6_Switchstatement`
+```C++
+
+```
+- 
+- 
+
+```Console
+```
+
+##
