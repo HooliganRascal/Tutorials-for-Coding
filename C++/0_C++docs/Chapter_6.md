@@ -55,16 +55,72 @@ Grade of soso is: 1
 ## Logical expressions
 Source code: `C6_Logicalexpressions`
 ```C++
+#include<iostream>
 
+int main(void){
+
+	using namespace std;
+
+	int a;
+
+	do{
+		cout << "Input an integer and enter -3 to quit: ";
+		cin >> a;
+		if(a<0 || a==0){
+			cout << "It is non-positive" << endl;
+		}
+		else if(a>1 && a<10){
+			cout << "It is smaller than 10 but greater than 1" << endl;
+		}
+		else if(!(a>20) and not(a<10)){
+			cout << "It is not greater than 20" << endl;
+		}
+		else if((a>=22) and (a<30)){
+			cout << "It is not greater or equal to 30" << endl;
+		}
+		else{
+			cout << "Big number, is it?" << endl;
+		}
+	}while(a!=-3);
+
+	return 0;
+}
 ```
 
 - Or: `||`, `or`
 - And: `&&`, `and`
 - Not: `!`, `not`
-- Low to high: (and, or) -> ($ > $, $ < $, $==$) -> (!)
+- Low to high: (and &&, or ||) -> ($ > $, $ < $, $==$,...) -> (not !)
 
 ```Console
-
+Input an integer and enter -3 to quit: -1
+It is non-positive
+Input an integer and enter -3 to quit: 0
+It is non-positive
+Input an integer and enter -3 to quit: 2
+It is smaller than 10 but greater than 1
+Input an integer and enter -3 to quit: 3
+It is smaller than 10 but greater than 1
+Input an integer and enter -3 to quit: 4
+It is smaller than 10 but greater than 1
+Input an integer and enter -3 to quit: 9
+It is smaller than 10 but greater than 1
+Input an integer and enter -3 to quit: 10
+It is not greater than 20
+Input an integer and enter -3 to quit: 11
+It is not greater than 20
+Input an integer and enter -3 to quit: 13
+It is not greater than 20
+Input an integer and enter -3 to quit: 20
+It is not greater than 20
+Input an integer and enter -3 to quit: 21
+Big number, is it?
+Input an integer and enter -3 to quit: 29
+It is not greater or equal to 30
+Input an integer and enter -3 to quit: 30
+Big number, is it?
+Input an integer and enter -3 to quit: -3
+It is non-positive
 ```
 
 ## The cctype library of character functions
