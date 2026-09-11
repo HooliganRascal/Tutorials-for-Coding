@@ -124,27 +124,65 @@ It is non-positive
 ```
 
 ## The cctype library of character functions
-Source code: `C6_Librarycctype`
+Source code: `C6_Characterfunctions`
 ```C++
+#include<iostream>
+#include<cctype>
 
+int main(void){
+
+	using namespace std;
+
+	cout << "'a' is " << isalpha('a') << endl;
+	cout << "'\\t ' is " << isspace('\t') << endl;
+	cout << "'3' is " << isdigit('3') << endl;
+	cout << "'.' is " << ispunct('.') << endl;
+
+	return 0;
+}
 ```
-- 
-- 
+
+- The arguments of these functions are all **characters**!
+- `isalpha(ch)` returns a nonzero value if it is a letter, return type `int`
+- `isdigit()` tests for digit characters like `3`
+- `isspace()` tests for whitespace characters like newlines, spaces and tabs
 
 ```Console
-
+'a' is 1024
+'\t ' is 8192
+'3' is 1
+'.' is 4
 ```
 
 ## The ?: operator
 Source code: `C6_Conditionaloperator`
 ```C++
+#include<iostream>
+
+int main(void){
+
+	using namespace std;
+
+	int a,b,c;
+	
+	cout << "Enter two integers: ";
+	cin >> a >> b;
+	cout << "The larger of " << a << " and " << b 
+		 << " is " << (c=a>b?a:b) << endl;
+
+	return 0;
+}
 ```
 
-- 
-- 
+- `expression1 ? expression2 : expression3`
+- If `expression1` is **true**, returns the value of `expression2`, otherwise `expression3`
+- `(5>3)?1:0` returns `1`
+- About `cin >> a >> b`: Enter two integers split by any white spaces!
 
 ```Console
-
+Enter two integers: 1
+2
+The larger of 1 and 2 is 2
 ```
 
 ## The switch statement
@@ -152,8 +190,10 @@ Source code: `C6_Switchstatement`
 ```C++
 
 ```
-- 
-- 
+- Form: `switch(num){case 1: st1 break; case 2: st2 break; st3 break; ... default: stnum}` 
+- Label can be a `char` like `q` or an integer like `1` or `enumerator`
+- Execution does **not** automatically stop at the case, use `break`
+- If `num` does not match any case listed, the programs triggers `default`, which is optional and program jumps to next statement following the `switch` with or without `default`
 
 ```Console
 ```
