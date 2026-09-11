@@ -188,14 +188,59 @@ The larger of 1 and 2 is 2
 ## The switch statement
 Source code: `C6_Switchstatement`
 ```C++
+#include<iostream>
 
+enum color{
+	red, orange, yellow, green, blue, violet, indigo
+};
+
+int main(void){
+
+	using namespace std;
+
+	char cha = '1';
+	int num = 1;
+	int col = color(1);
+
+	switch(cha){
+		case '1': cout << "Output '1'" << endl;
+				  break;
+		case '2': cout << "Output '2'" << endl;
+				  break;
+		case 'A': // Continue to execute case 'a' without break
+		case 'a': cout << "Output 'a'" << endl;
+				  break;
+		default : cout << "Output non-character" << endl;
+	}
+
+	switch(num){
+		case 1: cout << "Output 1" << endl;
+				break;
+		case 2: cout << "Output 2" << endl;
+				break;
+		default: cout << "Output non-num" << endl;
+	}
+
+	switch(col){
+		case red : cout << "Color is red" << endl; break;
+		case orange : cout << "Color is orange" << endl; break;
+		case yellow : cout << "Color is yellow" << endl; break;
+		default: cout << "Output non-color" << endl;
+	}
+
+	return 0;
+}
 ```
 - Form: `switch(num){case 1: st1 break; case 2: st2 break; st3 break; ... default: stnum}` 
 - Label can be a `char` like `q` or an integer like `1` or `enumerator`
 - Execution does **not** automatically stop at the case, use `break`
 - If `num` does not match any case listed, the programs triggers `default`, which is optional and program jumps to next statement following the `switch` with or without `default`
+- If alternatives involve ranges or floating-point tests or comparison, use `if-else`
 
 ```Console
+Output '1'
+Output 1
+Color is orange
 ```
 
-##
+## The break and continue statements
