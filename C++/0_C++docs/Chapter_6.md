@@ -244,3 +244,79 @@ Color is orange
 ```
 
 ## The break and continue statements
+Source code: `C6_Breakcontinue`
+```C++
+#include<iostream>
+
+int main(void){
+
+	using namespace std;
+
+	for(int i=0; i<5; ++i){
+		if(i==3){
+			break;
+		}
+		else{
+			cout << "This outputs 3 times" << endl;
+		}
+	}
+	cout << endl;
+
+	int j=0;
+	do{
+		cout << "This outputs 5 times" << endl;
+		++j;
+		if(j<=3){
+			cout << "But this output 3 times" << endl;
+		}
+		else{
+			continue;
+		}
+		cout << "After output once, this shows up" << endl;
+	}while(j<5);
+	cout << endl;
+
+	int k=0;
+	while(k<5){
+		cout << "This tries to output 5 times again" << endl;
+		++k;
+		if(k==3){
+			goto jump3;
+		}
+		else{
+			continue;
+		}
+	}
+	jump3: cout << "When output for 3 times, jumps to this" << endl;
+
+	return 0;
+}
+```
+
+- Enable a program to skip over parts of the code
+- `break` causes program execution to pass to the next statement following `switch` statements or loops
+- `continue` in the loop causes the program to skip the rest of the body of the loop and start a new one
+- `goto` like `goto name; ... name: statement` means to **jump** to the location bearing the `name:` label
+
+```Console
+This outputs 3 times
+This outputs 3 times
+This outputs 3 times
+
+This outputs 5 times
+But this output 3 times
+After output once, this shows up
+This outputs 5 times
+But this output 3 times
+After output once, this shows up
+This outputs 5 times
+But this output 3 times
+After output once, this shows up
+This outputs 5 times
+This outputs 5 times
+
+This tries to output 5 times again
+This tries to output 5 times again
+This tries to output 5 times again
+When output for 3 times, jumps to this
+```
