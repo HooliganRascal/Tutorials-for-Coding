@@ -411,3 +411,22 @@ Round #4: 4
 Round #5: 5
 3 = average score of 5 rounds
 ```
+
+## Simple file input/output
+Source code: `C6_SimplefileIO`
+```C++
+
+```
+
+- Text input with `cin`, it reads as a series of bytes interpreted as a `char` code
+- Then `cin` translates the **text data** into other types
+- Input with **text file!**
+- Necessity for writing to a text file:
+    - Included `fstream` defines an `ofstream` class for handing output 
+    - Declare some `ofstream` objects as named
+    - Account for `std` namespace
+    - Associate an `ofstream` object with a file, use `open()`
+    - Use `close()` when finishing with a file
+    - It is available to use `<<` for `ofstream` objects
+- Necessity for reading from a text file:
+    - 
