@@ -428,7 +428,9 @@ int main(void){
 	double a_price;
 	double d_price;
 	int year;
-	int item = 0;
+	int item1 = 0;
+	int item2 = 0;
+	char value;
 	char mobile[namesize];
 	char file2name[namesize] = "File2.txt";
 
@@ -495,9 +497,14 @@ int main(void){
 
 	// Open the input1 file and read the item
 	do{
-		input1.get();
-		++item;
+		input1.get(); // Use get() to read character 
+		++item1;
 	}while(input1.good());
+
+	// Alternative to read the item
+	while(input2>>value){
+		++item2;
+	}
 
 	// Test for input termination
 	if(input1.eof()){
@@ -511,14 +518,13 @@ int main(void){
 	}
 
 	// Output the result to input process
-	if(item==0){
+	if(item1==0){
 		cout << "No data in the file" << endl;
 	}
 	else{
-		cout << "Items read: " << item << endl;
+		cout << "Items read: " << item1 << endl;
+		cout << "Items read: " << item2 << endl;
 	}
-
-	// Do nothing to input2
 
 	// End the input
 	input1.close();
@@ -552,13 +558,18 @@ int main(void){
     - It is available to use `>>` for `ifstream` objects
     - It is available to use `get()` and `getline()` for `ifstream` objects
     - It is available to use `eof()` and `fail()` to monitor the success of an input attempt
-    - If an `ifstream` used as a test condition, it is concerted to `bool` type
+    - If an `ifstream` object used as a test condition like `if(object >> value)`, it is concerted to `bool` type
     - Input object preparation:
         - Include `cstdlib` for `exit()` and `EXIT_FAILUERE` to terminates the program if necessary
-        - Use `good()` to check if input is good
+        - Use `get()` to count **including the space**
+        - Use `object >> value` to count **excluding the space!**
+        - Use `good()` to check if input is good. Alternative: `char value; while(object >> value){ statements; }`
         - Use `eof()` to check if it is terminated by end of file
-        - Use `fail()` to check if it is terminated for data mismatch (Always used for `type name;object >> name`, and `object.get()` reads as `char` type data by default)
+        - Use `fail()` to check if it is terminated for data mismatch (Always used for `type name;object >> name`, and `object.get()` reads as `char` type data by default), **also check the `eof`!**
+        - Few to use `bad()` to test if the program encounters a corrupted file or a hardware failure
     - If input with an non-existent file, the attempts to input fail. Use `is_open()` to check: `if(!file.is_open()){exit(EXIT_FAILURE);}`
+    - For `input.open()`, if initialized with `input.open(filename); filename[namesize]="name"`, the name can contain the **location**: `file[namesize]="./address/subaddress/name"`
+    - Some text editors may require an `Enter` after typing the final text before exiting for they don't automatically add a *carriage return character followed by a linefeed character* to the final line to terminate a line of text
 
 ```Console
 Enter the make and model of mobile: Flitz Perky
@@ -570,4 +581,5 @@ Was asking $13500.00
 Now asking $12393.00
 End of file reached.
 Items read: 82
+Items read: 68
 ```

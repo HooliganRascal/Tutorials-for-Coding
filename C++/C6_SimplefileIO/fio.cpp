@@ -11,7 +11,9 @@ int main(void){
 	double a_price;
 	double d_price;
 	int year;
-	int item = 0;
+	int item1 = 0;
+	int item2 = 0;
+	char value;
 	char mobile[namesize];
 	char file2name[namesize] = "File2.txt";
 
@@ -79,8 +81,13 @@ int main(void){
 	// Open the input1 file and read the item
 	do{
 		input1.get(); // Use get() to read character 
-		++item;
+		++item1;
 	}while(input1.good());
+
+	// Alternative to read the item
+	while(input2>>value){
+		++item2;
+	}
 
 	// Test for input termination
 	if(input1.eof()){
@@ -94,14 +101,13 @@ int main(void){
 	}
 
 	// Output the result to input process
-	if(item==0){
+	if(item1==0){
 		cout << "No data in the file" << endl;
 	}
 	else{
-		cout << "Items read: " << item << endl;
+		cout << "Items read: " << item1 << endl;
+		cout << "Items read: " << item2 << endl;
 	}
-
-	// Do nothing to input2
 
 	// End the input
 	input1.close();
