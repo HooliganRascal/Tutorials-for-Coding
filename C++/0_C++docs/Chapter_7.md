@@ -639,10 +639,130 @@ void separate(char* ar, int low, int high, int level){
 ## Pointers to functions
 Source code: `C7_Functionpointer`
 ```C++
+#include<iostream>
 
+using namespace std;
+
+// Prototype
+const double* f1(const double ar[], int n);
+const double* f2(const double [], int);
+const double* f3(const double*, int);
+
+int main(void){
+
+	double av[3] = {1112.3, 1542.6, 2227.9};
+	const double* (*p1)(const double*, int) = f1; // pointer to a function
+	auto p2 = f2; // auto works the same as form of p1
+	
+	// use the pointer to a function
+	cout << "Using the p to f:" << endl;
+	cout << " Address  Value" << endl;
+	cout << (*p1)(av,3) << ": " << *(*p1)(av,3) << endl;
+	cout << p2(av,3) << ": " << *p2(av,3) << endl;
+
+	const double* (*pa[3])(const double*, int) = {f1,f2,f3};
+	auto pb = pa; // pointer to the first element
+	auto pc = &pa; // pointer to the array of pointers to functions
+	const double* (*(*pd)[3])(const double*, int) = &pa;
+	
+	// use the array of pointers to functions
+	cout << endl << "Using the array of pointers to functions:" << endl;
+	cout << " Address  Value" << endl;
+	for(int i=0; i<3; ++i){
+		cout << pa[i](av,3) << ": " << *pa[i](av,3) << endl;
+	}
+
+	// use the pointer to a pointer to a function
+	cout << endl << "Using the pointer to a pointer to a function:" << endl;
+	cout << " Address  Value" << endl;
+	for(int i=0; i<3; ++i){
+		cout << (*(pb+i))(av,3) << ": " << *(*(pb+i))(av,3) << endl;
+	}
+
+	// use the pointer to an array of pointers tp functions
+	cout << endl 
+		 << "Using the pointer to an array of pointers tp functions:" << endl;
+	cout << " Address  Value" << endl;
+	cout << (*pc)[0](av,3) << ": " << *(*pc)[0](av,3) << endl;
+	cout << (*(*pd)[1])(av,3) << ": " << *(*(*pd)[1])(av,3) << endl;
+	// more conveniently
+	const double* pdb = (*pd)[2](av,3);
+	cout << pdb << ": " << *pdb << endl;
+
+	return 0;
+}
+
+// Definition
+const double* f1(const double ar[], int n){
+	return ar;
+}
+const double* f2(const double ar[], int n){
+	return ar+1;
+}
+const double* f3(const double* ar, int n){
+	return ar+2;
+}
 ```
-- 
-- 
-```Console
+- Address of a function: memory address at which **the stored machine language code for the function begins** 
+- The first function can **use different functions at different times!**
+- Obtain the address of a function: use without parentheses
+    - Pass address: `fun1(fun2)`;
+    - Pass return value: `fun1(fun2(type))`
+- Declare a pointer to a function: 
+    - `fun` points to a function returning `type1`: `type1 (*fun)(type2)`
+    - `fun()` returns a pointer to `type1` value: `type1* fun(type2)`
+> `fun2` points to the `fun1()`: `type1 fun1(type2); type1 (*fun2)(type2); fun2=fun1;`
+    - Just like the difference between **array of pointers** or **pointer to an arry** like `type *name[num]` and `type (*name)[num]`
+- Use a pointer to invoke a function:
+    - `type1 (*fun2)(type2)`, use `(*fun2)` as if it were a function name
+    - `type1 (*fun2)(type2)`, use `fun2` as if it were a function name also!
+    - Example: `type1 fun1(type2); type1 (*fun2)(type2); fun2=fun1; type1 val1=fun1(var1); type1 val2=(*fun2)(var2); type1 val3=fun2(var3);`
+    - What the fuck???
+> - They are the same, for **prototype can omit identifiers**:
+>     - `const type* fun1(const type name[]);` 
+>     - `const type* fun2(const type []);` 
+>     - `const type* fun3(const type *);` 
+> - Declare a pointer initialized: `const type* (*fp)(const type*) = fun1;`
+> - Simplify it: `auto fp2 = fun2;`
 
+- Operator precedence ranks `[]` higher than `*`
+- Array of function pointers: `const type* (*fpa[num])(const type*);`
+- Pointer to array of functions: `const type* ((*fpa)[num])(const type*);`
+- **Automatic type deduction works with a *single* initializer value, not an initialization list!!!**
+- For `type fun1(type2)`, we define `type (*fun2)(type2);` and use `(*fun2)` or `fun2` as if it were `fun1`! It is shit but it makes sense
+- It could be more complicated when involving pointer to array into array of pointer to function returning a pointer, thus **pointer to pointer to pointer**
+    - Function returns a pointer
+    - Array element is a pointer to a function, which is a pointer to pointer
+    - Pointer to an array, would be triple pointer recursively
+    - Will be seen in [Class Inheritance](./Chapter_13.md)
+- Use `typedef` to simplify: `typedef const type* (*pfun)(const type*);
+    - `pfun` is the *alias* of pointer to a function returns a pointer
+    - `pfun p1 = f1` and `p1` points to `f1()` 
+    - `pfun pa[3] = {f1,f2,f3}` and `pa` is an array of 3 pointers to functions
+    - `pfun (*pb)[3] = &pa` and `pb` is a pointer to an array of 3 pointers
+- The address cares about **the form rather than the content!**
+
+```Console
+Using the p to f:
+ Address  Value
+0x7ffefb9ba780: 1112.3
+0x7ffefb9ba788: 1542.6
+
+Using the array of pointers to functions:
+ Address  Value
+0x7ffefb9ba780: 1112.3
+0x7ffefb9ba788: 1542.6
+0x7ffefb9ba790: 2227.9
+
+Using the pointer to a pointer to a function:
+ Address  Value
+0x7ffefb9ba780: 1112.3
+0x7ffefb9ba788: 1542.6
+0x7ffefb9ba790: 2227.9
+
+Using the pointer to an array of pointers tp functions:
+ Address  Value
+0x7ffefb9ba780: 1112.3
+0x7ffefb9ba788: 1542.6
+0x7ffefb9ba790: 2227.9
 ```
