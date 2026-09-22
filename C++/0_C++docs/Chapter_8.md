@@ -111,7 +111,17 @@ Source code: `C8_Referencefunction`
     - Pass by statements like `ref(x+0.3)` will cause error mostly
     - If not, some older compilers use *temporary and nameless variable* initialized as the value of `x+0.3`
     - Then `ra` becomes a reference to that temporary variable
-- For `const` reference
+- For `const` reference, *temporary variable* exists in:
+    - Actual argument is the correct type but not an *lvalue* like `x+0.3`
+    - Actual argument is the wrong type but of a type can be converted
+- *lvalue*: a data object that can **be referenced by address**
+    - `const`: *non-modifiable lvalue* 
+- Temporary variables last for the duration of the function call, and the compiler is free to dump them
+- Situation creating temporary variables **fails to modify** the variable the parameters refer to
+- We may use `const` whenver it is appropriate to do so
+- *rvalue reference*: `type&& rref = rvalue`
+    - For provide more efficient implementation of certain operations
+    - To implement an approach called *move semantics*
 ```Console
 
 ```
