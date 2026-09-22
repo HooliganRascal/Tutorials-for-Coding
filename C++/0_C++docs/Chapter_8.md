@@ -102,7 +102,50 @@ ref address = 0x7fffb988fdfc
 ### Used in Functions
 Source code: `C8_Referencefunction`
 ```C++
+#include<iostream>
 
+using namespace std;
+
+void swaprr(int& a, int& b);
+void swapcr(const int& a, const int& b); // Unmodifiable
+
+int main(void){
+
+	int a=5;
+	int b=6;
+	double c=7.1;
+	double d=8.6;
+	double& e=c; // reference or lvalue reference of c
+	double&& f=e*5+6; // rvalue reference
+	
+	cout << "Originally: a = " << a << ", b = " << b << endl;
+	swaprr(a,b); // works
+	cout << "After swaprr: a = " << a << ", b = " << b << endl;
+	swapcr(a,b); // not works
+	cout << "After swapcr: a = " << a << ", b = " << b << endl;
+
+	cout << "Originally: c = " << c << ", d = " << d << endl;
+	swapcr(c,d); // not works, type cast and temporary variable
+	cout << "After swapcr: c = " << c << ", d = " << d << endl;
+
+	cout << "Originally: e = " << e << ", d = " << d << endl;
+	swapcr(e,d); // not works, type cast and temporary variable
+	cout << "After swapcr: e = " << e << ", d = " << d << endl;
+	
+	cout << "Test for rvalue reference: f = e*5+6 = " << f << endl;
+	
+	return 0;
+}
+
+void swaprr(int& a, int& b){
+	int temp;
+	temp = a;
+	a = b;
+	b = temp;
+}
+void swapcr(const int& a, const int& b){
+	// Yes, it is nothing
+}
 ```
 - Passing by reference: making a variable name in a function an alias for a variable in the calling program
 - Use the information passed to it without modifying when using reference, use `const`
@@ -122,13 +165,46 @@ Source code: `C8_Referencefunction`
 - *rvalue reference*: `type&& rref = rvalue`
     - For provide more efficient implementation of certain operations
     - To implement an approach called *move semantics*
-```Console
+- Reference variable can recurse!
 
+```Console
+Originally: a = 5, b = 6
+After swaprr: a = 6, b = 5
+After swapcr: a = 6, b = 5
+Originally: c = 7.1, d = 8.6
+After swapcr: c = 7.1, d = 8.6
+Originally: e = 7.1, d = 8.6
+After swapcr: e = 7.1, d = 8.6
+Test for rvalue reference: f = e*5+6 = 41.5
 ```
 
-## Default Arguments
+### Used with Structures
 
+- Return reference refer to? use `const` ?
+
+### Used with Class Objects
+
+- Objects, inheritance, references
+- When to use reference arguments?
+
+## Default Arguments
 
 ## Function Overloading
 
 ## Function Templates
+
+### Overloaded templates
+
+### Template Limitations
+
+### Explicit Specilizations
+
+### 3rd-Generation Specialization(ISO/ANSIC++)
+
+### Instantiations and Specializations
+
+### Exact Matches and Best Matches
+
+### Template function evolution
+- `decltype`
+- Alternative function syntax
