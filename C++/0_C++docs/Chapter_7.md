@@ -741,6 +741,7 @@ const double* f3(const double* ar, int n){
     - `pfun pa[3] = {f1,f2,f3}` and `pa` is an array of 3 pointers to functions
     - `pfun (*pb)[3] = &pa` and `pb` is a pointer to an array of 3 pointers
 - The address cares about **the form rather than the content!**
+- If using `new` in function returning a pointer, not assigned when called, the memory is lost!
 
 ```Console
 Using the p to f:

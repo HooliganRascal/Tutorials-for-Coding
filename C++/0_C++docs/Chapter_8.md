@@ -286,13 +286,330 @@ Age is 18
 ```  
 
 ### Used with Class Objects
+Source code: `C8_Referenceclass`
+```C++
+#include<iostream>
+#include<fstream>
+#include<cstring>
+#include<cstdlib>
 
-- Objects, inheritance, references
-- When to use reference arguments?
+using namespace std;
+
+const int LIMIT=5;
+
+const string& conca(string& s1, const string& s2);
+void fit(ostream& os, double fo, const double* fe, int n);
+
+int main(void){
+
+	string input;
+	string copy;
+	string result;
+
+	double objective;
+	double eps[LIMIT];
+	ofstream fout;
+	const char* fn="ep-data.txt";
+
+	cout << "Enter a string: ";
+	getline(cin,input); // cin uses reference for basic type
+	cout << "Your string as entered: " << input << endl;
+	copy = input;
+
+	// result 1
+	result = conca(input, copy); // pass string objects
+	cout << "Your string enhanced: " << result << endl;
+	cout << "Your original string: " << input << endl;
+
+	// result2
+	result = conca(input, "***"); // pass string objects
+	cout << "Your string enhanced by C-string: " << result << endl;
+	cout << "Your original string by C-string: " << input << endl;
+
+	// class object inheritation
+	fout.open(fn);
+	cout << "Enter the focal length of your telescope in mm: ";;
+	cin >> objective;
+	cout << "Enter the focal lengths of " << LIMIT << " eyepieces: "<< endl;
+	for(int i=0; i<LIMIT; ++i){
+		cout << "Eyepiece #" << i+1 << ": ";
+		cin >> eps[i];
+	}
+	fit(fout, objective, eps, LIMIT);
+	fit(cout, objective, eps, LIMIT);
+	fout.close();
+
+	return 0;
+}
+
+const string& conca(string& s1, const string& s2){
+	s1 = s2 + s1 + s2;
+	return s1;
+}
+
+void fit(ostream& os, double fo, const double* fe, int n){
+
+	// define the settings needed to be recovered
+	ios_base::fmtflags initial;
+
+	// fixed decimal-point notation
+	initial = os.setf(ios_base::fixed); // return a copy of format settings
+
+	os.precision(0); // number of figures to the right of the decimal fixed
+	os << "Focal length of objective: " << fo << " mm" << endl;
+
+	// showing a trailing decimal point
+	os.setf(ios::showpoint); 
+
+	os.precision(1);
+	os.width(12); // field width to be used for the next output action
+	os << "f.l.eyepiece";
+	os.width(15);
+	os << "Magnification" << endl;
+	for(int i=0; i<n; ++i){
+		os.width(12);
+		os << fe[i];
+		os.width(15);
+		os << int(fo / *(fe+1) + 0.5) << endl;
+	}
+
+	os.setf(initial); // restore the initial formatting states
+}
+```
+
+- To pass class objects to a function, to use references!
+- Example: using `string` class: `string ver1(const string& s1, const string& ver2);`
+    - When return with `string` rather than `string&`, the returned value will be copied to a **temporary return location**
+    - then the content of the temporary location will be copied to the `result=ver1(s1,s2)`
+- `ver1(s1,"***")`, input2 is a *C-style string as pointer to `char`*
+    - `string` class defines a `char*`-to-`string` conversion
+    - `const` type-casting: mismatching happens, and can be converted to the correct reference type
+- Class inheritance: possible to pass features from one class to another
+    - `ostream` like `cout`: *base class*
+    - `ofstream` like `ofstream file1`" *derived class*
+- A base class reference can refer to a derived class object without **requiring a type cast**
+    - `void fun1(ostream& s1)` can accept `cout` or `ofstream fout`
+- Using reference arguments: 
+    - Alter a data object in the function
+    - Speed up a program by passing a reference
+- References are just **a different interface** for **pointer-based code**
+- Note: for array, pointer is the only way!
+- Note: `cin` uses references for basic types so that we can use `cin >> n`!
+
+```Console
+Enter a string: I am
+Your string as entered: I am
+Your string enhanced: I amI amI am
+Your original string: I amI amI am
+Your string enhanced by C-string: ***I amI amI am***
+Your original string by C-string: ***I amI amI am***
+Enter the focal length of your telescope in mm: 1800
+Enter the focal lengths of 5 eyepieces: 
+Eyepiece #1: 30
+Eyepiece #2: 19
+Eyepiece #3: 15
+Eyepiece #4: 7.4
+Eyepiece #5: 3.6
+Focal length of objective: 1800 mm
+f.l.eyepiece  Magnification
+        30.0             95
+        19.0             95
+        15.0             95
+         7.4             95
+         3.6             95
+```
+
 
 ## Default Arguments
+Source code: `C8_Defaultarg`
+```C++
+#include<iostream>
+#include<cstring>
+
+const int arsize=80;
+char* left(const char* str, int n=1); // default argument n=1
+
+int main(void){
+
+	using namespace std;
+
+	char sample[arsize];
+	char* ps;
+
+	cout << "Enter a string: " << endl;
+	cin.getline(sample, arsize);
+
+	cout << (ps = left(sample,4)) << endl;
+	delete [] ps; // free old string
+	
+	cout << (ps = left(sample)) << endl;
+	delete [] ps; // free new string
+
+	return 0;
+}
+
+char* left(const char* str, int n){
+
+	if(n < 0){
+		n = 0;
+	}
+	else{
+		n = (n < strlen(str)) ? n : strlen(str);
+	}
+
+	// alternative for efficiency
+	int m=0;
+	while((m<=n)&&(str[m])){ // non-zero are true, zero to false
+		++m;
+	}
+
+	char* p=new char[m+1]; // allocate new memory
+	int i;
+
+	for(i=0; i<n && *(str+i); ++i){
+		*(p+i)=str[i]; // copy
+	}
+
+	while(i<=n){
+		p[i++]='\0'; // set rest to '\0'
+	}
+
+	return p;
+}
+```
+
+- Used automatically if **omitting the corresponding actual argument** from a function call
+- Establish a default value in *function prototype*: `type fun(type1 var=value)` 
+- Define the default for a particular argument with all the right: `type fun(type1 var1, type2 var2=val2, type3 var3=val3)`
+- Actual arguments are assigned to the corresponding formal arguments from **left to right**
+- C programmers are more on faster running, while C++ is more on *reliability*
+
+```Console
+Enter a string: 
+Mteltn is Cosmos
+Mtel
+M
+```
 
 ## Function Overloading
+Source code: `C8_Functionoverloading` 
+```C++
+#include<iostream>
+
+const int arsize=80;
+const int LIMITS=9;
+char* left(const char* str, int n=1); // default argument n=1
+unsigned long left(unsigned long num, unsigned ct); // function overloading
+
+int main(void){
+
+	using namespace std;
+
+	char trip[LIMITS] = "Hawaii!!"; // 9th character is '\0'
+	unsigned long n = 123456789;
+	int i;
+	char* temp;
+
+	for(i=1; i<=LIMITS; ++i){
+		cout << left(n,i) << endl; // display first left of i digits
+		cout << (temp=left(trip,i)) << endl;
+		delete [] temp;
+	}
+
+	return 0;
+}
+
+unsigned long left(unsigned long num, unsigned ct){
+	unsigned digits = 1;
+	unsigned long n=num;
+
+	if(ct==0||num==0){
+		return 0; // return 0 if no digits
+	}
+
+	while(n/=10){
+		++digits; // counting digits
+	}
+
+	if(digits>ct){
+		ct=digits-ct;
+		while(ct--){
+			num /= 10;
+		}
+		return num; // return first left ct digits
+	}
+	else{
+		return num; // return the whole if digits<=ct
+	}
+}
+
+char* left(const char* str, int n){
+
+	if(n < 0){
+		n = 0;
+	}
+
+	// alternative for efficiency
+	int m=0;
+	while((m<=n)&&(str[m])){ // non-zero are true, zero to false
+		++m;
+	}
+
+	char* p=new char[m+1]; // allocate new memory
+	int i;
+
+	for(i=0; i<n && *(str+i); ++i){
+		*(p+i)=str[i]; // copy
+	}
+
+	while(i<=n){
+		p[i++]='\0'; // set rest to '\0'
+	}
+
+	return p;
+}
+```
+
+- *Function polymorphism*, also called *function overloading* 
+- Use multiple functions **sharing the same name**!
+- Key: function's argument list, also called *function signature*
+    - Same signature: same number and types of arguments in the same order
+    - Signatures differ in **number and type** of arguments
+    - Clarify in prototypes, and call for different uses
+    - Be careful of the proper argument types!
+    - Some signatures different from each other nonetheless can't coexist! `double cube(double x)` and `double cube(double& x)` will be considered with the same signature!
+    - Function-matching discriminate between `const` and non-`const` variables
+    - Overloading functions needn't to be the same type **only if the signatures are also different**
+- Overloading reference parameters:
+    - `void fun(const type& f2)` matches modifiable or const lvalue and rvalue
+    - `void fun(type& f1); void fun(const type& f2); void fun(type&& f3)` appear at the same time, the **more exact match** is made
+    - `void fun(const type& f2); void fun(type&& f3);` if we omit the `fun(type&&)` function, `fun(2+3)` will call the `fun(const type& f2)` instead
+- Use function overloading only for functions performing basically the same task but with different forms of data or testing default arguments or other specific tasks, **don't overuse it!**
+
+> C++ use *name decoration* or *name mangling* to keep track of overloaded function:
+> - Each function name is encrypted based on the formal parameter types specified in the function's prototype
+> - Example: `long MyFunction(int,float)`, for compiler, it documented this by transforming the name into an internal representation with an appearance perhaps like this: `?MyFunction@@YAXH`
+
+```Console
+1
+H
+12
+Ha
+123
+Haw
+1234
+Hawa
+12345
+Hawai
+123456
+Hawaii
+1234567
+Hawaii!
+12345678
+Hawaii!!
+123456789
+Hawaii!!
+```
 
 ## Function Templates
 
