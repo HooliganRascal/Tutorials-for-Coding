@@ -612,8 +612,71 @@ Hawaii!!
 ```
 
 ## Function Templates
+Source code: `C8_Templates`
+```C++
+#include<iostream>
+
+using namespace std;
+
+template<class T>
+void Swap(T& a, T& b);
+
+template<typename A>
+void change(A& var);
+
+int main(void){
+
+	int i=10;
+	int j=11;
+	double a=12.1;
+	double b=21.2;
+
+	cout << "Before: i=" << i << ", j=" << j << endl;
+	Swap(i,j);
+	cout << "Swapped: i=" << i << ", j=" << j << endl;
+	change(i);
+	cout << "Changed: i=" << i << endl;
+
+	cout << "Before: a=" << a << ", b=" << b << endl;
+	Swap(a,b);
+	cout << "Swapped: a=" << a << ", b=" << b << endl;
+	change(b);
+	cout << "Changed: b=" << b << endl;
+
+	return 0;
+}
+
+template<class T>
+void Swap(T& a, T& b){
+	T temp;
+	temp = a;
+	a = b;
+	b = temp;
+}
+
+template<typename A>
+void change(A& var){
+	var+=1;
+}
+```
+
+- Generic function discription: in terms of a generic type that can be subsituted
+- Generic programming
+- Parameterized types: types represented by parameters
+- Example: `template<typename younameit> void fun(younameit& var){}`, `typename` by `class`
+- Use templates if needing functions applying the same algorithm to a variety of types
+
+```Console
+Before: i=10, j=11
+Swapped: i=11, j=10
+Changed: i=12
+Before: a=12.1, b=21.2
+Swapped: a=21.2, b=12.1
+Changed: b=13.1
+```
 
 ### Overloaded templates
+- 
 
 ### Template Limitations
 
