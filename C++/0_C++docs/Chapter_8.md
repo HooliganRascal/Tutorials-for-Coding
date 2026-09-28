@@ -665,6 +665,7 @@ void change(A& var){
 - Parameterized types: types represented by parameters
 - Example: `template<typename younameit> void fun(younameit& var){}`, `typename` by `class`
 - Use templates if needing functions applying the same algorithm to a variety of types
+- Final code does not contain any templates
 
 ```Console
 Before: i=10, j=11
@@ -675,19 +676,101 @@ Swapped: a=21.2, b=12.1
 Changed: b=13.1
 ```
 
-### Overloaded templates
-- 
+### Overload and template limits
+Source code: `C8_Overtemplates`
+```C++
+#include<iostream>
 
-### Template Limitations
+using namespace std;
+
+const int arsize = 8;
+
+template<typename T>void SWAP(T& a, T& b);
+template<typename T>void SWAP(T* a, T* b, int n); // Overloaded function
+template<typename T>void SHOW(T* a, int n);
+
+int main(void){
+
+	int i=10;
+	int j=20;
+	double ari[arsize] = {0,1,2,3,4,5,6,7};
+	double arj[arsize] = {1,3,5,7,9,11,13,15};
+
+	cout << "Before: i=" << i << ", j=" << j << endl;
+	SWAP(i,j);
+	cout << "Current: i=" << i << ", j=" << j << endl;
+
+	cout << "Before: " << endl ;
+	cout << "ari = ";
+	SHOW(ari, arsize);
+	cout << "arj = ";
+	SHOW(arj, arsize);
+	SWAP(ari,arj,arsize);
+	cout << "Current: " << endl ;
+	cout << "ari = ";
+	SHOW(ari, arsize);
+	cout << "arj = ";
+	SHOW(arj, arsize);
+
+	return 0;
+}
+
+template<typename T>void SWAP(T& a, T& b){
+	T temp;
+	temp = a;
+	a = b;
+	b = temp;
+}
+
+template<typename T>void SWAP(T* a, T* b, int n){
+	T temp;
+	for(int i=0; i<n; ++i){
+		temp = *(a+i);
+		*(a+i) = b[i];
+		*(b+i) = temp;
+	}
+}
+
+template<typename T>void SHOW(T* a, int n){
+	for(int i=0; i<n; ++i){
+		cout << *(a+i) << " ";
+	}
+	cout << endl;
+}
+```
+
+- Not all types use the same algorithm, then overload the template definition
+- Note that not all template arguments have to be template parameter types
+- It is easy to write a template function that cannot handle certain types, but C++ may overload it in a way we don't have in mind
+- For a `template` function, a `for` loop with range can be ambiguous, use `#include<span>` or `template<std::size_t N>` to **illustrate the length of an array**
+
+```Console
+Before: i=10, j=20
+Current: i=20, j=10
+Before: 
+ari = 0 1 2 3 4 5 6 7 
+arj = 1 3 5 7 9 11 13 15 
+Current: 
+ari = 1 3 5 7 9 11 13 15 
+arj = 0 1 2 3 4 5 6 7 
+```
 
 ### Explicit Specilizations
+Source code: `C8_Explicit`
+```C++
 
-### 3rd-Generation Specialization(ISO/ANSIC++)
+```
+
+> 3rd-Generation Specialization(ISO/ANSIC++)
+
+```Console
+
+```
 
 ### Instantiations and Specializations
 
 ### Exact Matches and Best Matches
 
-### Template function evolution
+### Template Function Evolution
 - `decltype`
 - Alternative function syntax
