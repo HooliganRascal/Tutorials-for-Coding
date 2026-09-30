@@ -77,7 +77,7 @@ int main(void){
 	return 0;
 }
 ```
-- Reference: a name acts as an alias or an alternative name for a previously defined variable
+- Reference: a name acts as an alias or an alternative name for a previously defined :ariable
 - Use for a reference is as a formal argument, function **works with the original data instead of a copy!**
 - A convenient alternative to pointers
 - Alias using: `type var1; type & var2 = var1;`, now `var2` is an alias for `var1`
@@ -758,19 +758,260 @@ arj = 0 1 2 3 4 5 6 7
 ### Explicit Specilizations
 Source code: `C8_Explicit`
 ```C++
+#include<iostream>
+
+using namespace std;
+
+struct job{
+	char name[40];
+	double salary;
+	int floor;
+};
+
+template<class T>void SWAP(T& a, T& b);
+template<>void SWAP<job>(job& a, job& b); // Explicit specilization
+void show(job& j);
+
+int main(void){
+
+	cout.setf(ios::fixed, ios::floatfield);
+	cout.precision(2);
+
+	int i=10; 
+	int j=20;
+	cout << "Before: i=" << i << ", j=" << j << endl;
+	SWAP(i,j); // Use template<class T>void SWAP(T& a, T& b)
+	cout << "Current: i=" << i << ", j=" << j << endl;
+
+	job j1 = {"Mteltn", 3600.21, 4};
+	job j2 = {"Cosmos", 7200.17, 6};
+	cout << "Before: " << endl;
+	show(j1);
+	show(j2);
+	SWAP(j1,j2); // Use template<>void SWAP<job>(job& a, job& b)
+	cout << "Current: " << endl;
+	show(j1);
+	show(j2);
+
+	return 0;
+}
+
+template<class T>void SWAP(T& a, T& b){
+	T temp;
+	temp = a;
+	a = b;
+	b = temp;
+}
+
+template<>void SWAP<job>(job& a, job& b){
+
+	double t1;
+	int t2;
+
+	t1 = a.salary;
+	a.salary = b.salary;
+	b.salary = t1;
+
+	t2 = a.floor;
+	a.floor = b.floor;
+	b.floor = t2;
+}
+
+void show(job& j){
+	cout << j.name 
+		 << ": &" << j.salary 
+		 << " on floor " << j.floor 
+		 << endl;
+}
 
 ```
-
-> 3rd-Generation Specialization(ISO/ANSIC++)
+- Prototype and definition for an ES should be preceded by `template<>` and should mention the specialized type by name
+- Specialization overrides the regular templates, non-template function overrides both
+- Example: `template<>typef fun<typev>(typev, typev);`
+    - Like: `template<>void SWAP<int>(int,int)`
+    - The `<int>` indicating it is a specialization for `int` is optional: `template<>void SWAP(int,int)`
+- If the type mismatched for explicit specilization, the compiler will switch to regular template function
+- The prototype of regular template function should preceed the explicit specialization
 
 ```Console
-
+Before: i=10, j=20
+Current: i=20, j=10
+Before: 
+Mteltn: &3600.21 on floor 4
+Cosmos: &7200.17 on floor 6
+Current: 
+Mteltn: &7200.17 on floor 6
+Cosmos: &3600.21 on floor 4
 ```
 
-### Instantiations and Specializations
+### Instantiations
+Source code: `C8_Instantiations`
+```C++
+#include<iostream>
 
-### Exact Matches and Best Matches
+using namespace std;
 
+struct debts{
+	char name[50];
+	double amount;
+};
+
+template<class T>void Shar(T* arr, int n);
+template<class T>void Shar(T** arr, int n); // Exact match
+template<class T>inline T Less(T a, T b); // Inline template
+inline int Less(int a, int b);
+
+int main(void){
+
+	int m=20, n=-30;
+	double x=15.5, y=25.9;
+	int ar[6] = {13,31,103,310,130};
+	debts deb[3] = {
+		{"Mteltn Guernica", 2400.6},
+		{"Guernica Cosmos", 1020.9},
+		{"Mteltn Cosmoses", 2691.1}
+	};
+	double* pd[3];
+	for(int i=0; i<3; ++i){
+		pd[i] = &(deb+i)->amount;
+	}
+
+	cout << "deb things ";
+	Shar(ar, 6); // Exact match template A
+	cout << "pds things ";
+	Shar(pd, 3); // Exact match template B
+	cout << "Absolute lesser is " << Less(m,n) << endl; // Match regular
+	cout << "Lesser is " << Less(x,y) << endl; // Match template
+	cout << "Lesser is " << Less<>(m,n) << endl; // Match explicit
+	cout << "Lesser is " << Less<int>(x,y) << endl; // Match explicit int
+
+	return 0;
+}
+
+template<class T>void Shar(T* arr, int n){
+	cout << "template A: " << endl;
+	for(int i=0; i<n; ++i){
+		cout << *(arr+i) << ' ';
+	}
+	cout << endl;
+}
+
+template<class T>void Shar(T** arr, int n){
+	cout << "template B: " << endl;
+	for(int i=0; i<n; ++i){
+		cout << **(arr+i) << ' ';
+	}
+	cout << endl;
+}
+
+template<class T>inline T Less(T a, T b){
+	return a<b?a:b;
+}
+
+inline int Less(int a, int b){
+	a = a<0?-a:a;
+	b = b<0?-b:b;
+	return a<b?a:b; // Return lesser absolute value
+}
+```
+
+- `template` is a *plan for generating a function definition*
+- The result of generating a function definition for a particular type with `template` is termed an **instantiation** of the template
+- The instantiation using `int` in `SWAP(i,j)` is a function definition, termed *implicit instantiation*.
+- Using `template void SWAP<int>(int,int)` is for *explicit instantiation*,calling for **generating a function definition for the `int` type with `SWAP` template**
+- While explicit specialization `template<>void SWAP<int>(int, int)` means: **Don't use `SWAP` template but a separate, specialized function definition explicitly defined for the `int` type**
+- Don't use both an **explicit instantiation** and an **explicit specilization** for **the same type** in the same file or **the same translation unit** more generally
+- Using an explicit instantiation in a program: 
+    - Create a template: `template<class T> T ADD(T a, T b)`
+    - Explicit instantiation: `cout << ADD<double>(m,x) << endl` with definition from existing templates;
+- `SWAP<double>(m,x)` may not work for the *reference* variable does not match!
+- Decision for a function call:
+    - Assemble a list of candidate functions with the same names
+    - Assemble a list of viable functions from the candidates
+        - the correct number of arguments
+        - *implicit conversion sequence* (`float` converted to `double` to be the **exact match**)
+    - Determine whether there is a best viable function, otherwise error
+- Ranking from best to worst:
+    - Exact match, regular functions outranking templates
+    - Conversion by promotion, `char` to `int`, `floar` to `double`
+    - Conversion by standard conversion, `int` to `char`, `long` to `double`
+    - User-defined conversion like that it the *class definition*
+- Exact match with *trivial conversions* like `type` to `type&`  
+- Two exact matches are an error with exceptions
+
+> Partial ordering rules for function templates
+> - Only *reference* and *pointer* dicriminate between `const` and non-`const`
+>     - Function calling: `type var; fun(var)`
+>     - Function prototypes: `void fun(type&)` and `void fun(const type&)`
+>     - The compiler preferred the `void fun(type&)`
+> - Functions specialized:
+>     - Regular functions outrank the template including the explicit specialization if exact match happens
+>     - Explicit specialization outranks the implicit instantiation
+>     - More specialized example: 
+>         - `template<class T>void fun(T t)` for 1;
+>         - `template<class T>void fun(T* t)` for 2;
+>         - `type var; fun(&var)` uses 2 for it is *more specialized*
+
+- An **explicit specialization** has to be defined **before** an **explicit instantiation** to make the code works, and it makes the **later explicit instantiation ineffective** if defined **globally**
+- Explicit instantiation inheritates the definition from the existing templates, we can't define a new one, if so, using an explicit specilization
+- Explicit instantiation is less pratical in small program, it is often used for reducing repeated compilation when we compile multiple types
+- Choose it by ourselves: `fun<>(var1,var2)` or `fun<type>(var1, var2)` explicitly calls the `template<class T>type fun(T a, T b)` with specific types, which is a usage of *explicit instantiation*
+- If combining with `inline`, take it after `<class T>` like `template<class T>inline type fun(T)`
+
+```Console
+deb things template A: 
+13 31 103 310 130 0 
+pds things template B: 
+2400.6 1020.9 2691.1 
+Absolute lesser is 20
+Lesser is 15.5
+Lesser is -30
+Lesser is 15
+```
 ### Template Function Evolution
-- `decltype`
+Source code: `C8_Evolution`
+```C++
+#include<iostream>
+
+using namespace std;
+
+template<class T1, class T2>
+auto xpy(T1 x, T2 y)->decltype(x+y);
+
+int main(void){
+
+	double x=5.6;
+	short y=8;
+	decltype(xpy(x,y)) z = 2.3+4;
+	
+	cout << x << " + " << y << " = " << xpy(x,y) << endl;
+	cout << "2.3 + 4 = " << z << endl;
+
+	return 0;
+}
+
+template<class T1, class T2>
+auto xpy(T1 x, T2 y)->decltype(x+y){
+	decltype(x+y) p;
+	p = x+y;
+	return p;
+}
+```
+
+- Use `decltype` to make the type matches like `decltype(x+y) xpy`
+- Normally `decltype(expres) var`, the `expres` can be:
+    - a variable `decltype(x) w;`
+    - a function call(examine the prototype, no need to actually call the function) `decltype(fun()) m;`
+    - a lvalue as **reference**: `decltype((x)) w`
+    - a rvalue as regular one: `decltype(x+y) w`
+- Free to use `typedef` with `decltype`
 - Alternative function syntax
+    - `double h(int x, float y)` can be written as `auto h(int x float y)->double`
+    - `->` is the *trailing return type*
+    - Now the problem solved
+    - `template<class T1, class T2>auto h(int a, float b)->decltype(a+b)`
+
+```Console
+5.6 + 8 = 13.6
+2.3 + 4 = 6.3
+```
