@@ -27,3 +27,4 @@ Computer languages deal with 2 concepts in general: **data** and **algorithm**
 - [Branching Statements and Logical Operators](./0_C++docs/Chapter_6.md)
 - [Functions: C++'s Programming Modules](./0_C++docs/Chapter_7.md)
 - [Adventures in Functions](./0_C++docs/Chapter_8.md)
+- [Memory Models and Namespaces](./0_C++docs/Chapter_9.md)
