@@ -254,17 +254,165 @@ mteltn@mteltn:~/Desktop/Code_Projects/Tutorials-for-Coding/C++/C9_Separationcomp
 ```
 
 ## Storage Duration, Scope and Linkage
+- Review of [Chapter4](Chapter_4.md)
+- Four schemes for storing data:
+    - Automatic storage duration: exist when in **blocks**
+    - Static storage duration: `static` persist for the entire time a program is running
+    - Thread storage duration: 
+        - Multicore processors are CPUs handling several execution tasks simultaneously
+        - A program split conputations into separate **threads** being processed concurrently
+        - `thread_local` persists for the containing **thread** lasts
+    - Dynamic storage duration: allocated by `new`, persists untile freed with `delete`
 
 ### Scope and Linkage
-Source code: `C9_ `
+- Linkage: how a name can be shared in different units
+    - External: shared across files
+    - Internal: shared by functions within a single file
+    - Automatic variables are not shared, with no linkage
+- Scope: how widely a name is in a translation unit (local, global)
+    - Local(Block): known only within the block
+    - Global(File): known throughout the file after the point where defined
+    - Names in function prototype: just within the parenthese
+    - Members in class: class scope
+    - Variables in namespace: namespace scope(global scope is a special namespace scope)
+    - Automatic variable: local
+    - Static variable: either
+    - Functions: class, namespace, or global(no local scope!!! If wanted, use a `lambda`)
+- C++ storage choice:
+    - Storage duration
+    - Scope
+    - Linkage
+### Automatic Storage Duration
+Source code: `C9_Automatic`
+```C++
+#include<iostream>
+
+using namespace std;
+
+template<class type>void test(type x);
+
+int main(void){
+	
+	int a = 5;
+	int b = 6;
+
+	cout << "In main(): a = " << a << " in " << &a << endl;
+	cout << "In main(): b = " << b << " in " << &b << endl;
+	test(a);        
+	cout << "In main(): a = " << a << " in " << &a << endl;
+	cout << "In main(): b = " << b << " in " << &b << endl;
+	
+	return 0;
+}
+
+template<class type>void test(type x){
+
+	type a = 9;
+
+	cout << "In text(): a = " << a << " in " << &a << endl;
+	cout << "In text(): x = " << x << " in " << &x << endl;
+
+	// Block
+	{
+		type a = 7;
+		cout << "In block: a = " << a << " in " << &a << endl;
+		cout << "In block: x = " << x << " in " << &x << endl; // not matter
+	}
+
+	cout << "Outside: a = " << a << " in " << &a << endl;
+	cout << "Outside: x = " << x << " in " << &x << endl;
+
+}
+```
+
+- Function parameters and variables:
+    - Automatic storage duration
+    - Local scope
+    - No linkage
+- Each variable is allocated when program execution enters block, freed when execution leaves
+    - Variables defined in like `{ int a; {int a;}}` will **hide the `a` in outer block when executing the inner block**, outer `a` exists again when execution leaves the inner block
+    - Variable is **allocated** when execution **enters the block**, but the **scope** begins **only after the point of declaration**
+    - Nowadays, automatic storage is allocated by default
+- Compiler implement the automatic variables:
+    - Set aside a section of memory and treat it as a **stack** for managing the flow and ebb of variables
+    - New data stacked atop old data(adjacent location), The size of stack can be changing
+    - Keep track of the stack by using **two pointers**
+        - One to the base where the stack begins
+        - One to the top which is the next free memory location
+    - Function called
+        - Automatic variables added to the stack
+        - Pointer to the top points to next free memory location following
+    - Function terminates, top pointer reset to the value **one by one** it had before function was called
+    - Stack: last-in, first-out *LIFO*, like `A-B-C > return C > back to B...`
+    - New values associated to the names in the function are not erased after function terminantes, but they are no longer labeled
+    - Register variables: `register type name`
+        - Used to suggest that the compiler use a CPU register to store an automatic variable for faster access to the variable
+        - Generalized to mean that the variable was heavily used and compilers may provide some special treatment
+        - Explicitly identify a variable being automatic now
+```Console
+In main(): a = 5 in 0x7fff2ef31120
+In main(): b = 6 in 0x7fff2ef31124
+In text(): a = 9 in 0x7fff2ef31100
+In text(): x = 5 in 0x7fff2ef310fc
+In block: a = 7 in 0x7fff2ef31104
+In block: x = 5 in 0x7fff2ef310fc
+Outside: a = 9 in 0x7fff2ef31100
+Outside: x = 5 in 0x7fff2ef310fc
+In main(): a = 5 in 0x7fff2ef31120
+In main(): b = 6 in 0x7fff2ef31124
+```
+
+### Static Duration Variables
+- Static storage duration variables with **all 3 kinds of linkage**
+    - Number of them does not change as the program runs, compiler allocates a fixed block of memory to hold all the static variables
+    - Stay presents as long as the program executes
+    - Not explicitly initialized are valued `0` in approprate type(zero-initialized), including static arrays and structures 
+- Three kinds of linkage: **`static` is overloaded**
+    - External: `type name; {}`
+    - Internal: `static type name; {}`
+    - No: `{static type name;}`
+- Three kinds of initialization
+    - (Static)Zero-initialized
+    - (Static)Constant expression initialization: new keyword: `constexpr`
+    - Dynamic initialization 
+        - First, all static variables are zero-initialized `int x`
+        - Next, if initialized using a **constant expression** from file contents, it's constant-expression initialized `int y = 2*sizeof(long)+1`
+        - If there is not enough information, the variable is dynamically initialized `double pi = 4.0*atan2(1.0,1.0)`
+
+### Static Duration, External Linkage
+Source code: `C9_Staticexternal`
 ```C++
 
 ```
 - 
 - 
+
 ```Console
 
 ```
 
+### Static Duration, Internal Linkage
+Source code: `C9_Staticinternal`
+```C++
+
+```
+- 
+- 
+
+```Console
+
+```
+
+### Static Duration, No Linkage
+Source code: `C9_Staticnolink`
+```C++
+
+```
+- 
+- 
+
+```Console
+
+```
 ## Namespaces
 

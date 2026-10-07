@@ -832,6 +832,7 @@ void show(job& j){
     - The `<int>` indicating it is a specialization for `int` is optional: `template<>void SWAP(int,int)`
 - If the type mismatched for explicit specilization, the compiler will switch to regular template function
 - The prototype of regular template function should preceed the explicit specialization
+- When using explicit specialization, feel free to simply **declare the meta template function with prototype while not define it**. The key is to define the explicit specilized one, for we could even not use the original one!
 
 ```Console
 Before: i=10, j=20
