@@ -382,13 +382,63 @@ In main(): b = 6 in 0x7fff2ef31124
 ### Static Duration, External Linkage
 Source code: `C9_Staticexternal`
 ```C++
+// f1.cpp
+#include<iostream>
 
+using namespace std;
+
+double a = 0.1;
+
+void update(double);
+void local(void);
+
+int main(void){
+
+	cout << "Now a = " << a << endl;
+	update(a);
+	cout << "Now a = " << a << endl;
+	local();
+	cout << "Now a = " << a << endl;
+
+	return 0;
+}
+
+// f2.cpp
+#include<iostream>
+
+using namespace std;
+
+extern double a; // declaration
+
+void update(double dt){
+	a += dt;
+	cout << "Update, a = " << a << endl;
+}
+
+void local(void){
+	double a = 0.6;
+	cout << "Local, a = " << a << endl; // Hide the global
+	cout << "Global, a = " << ::a << endl; // Restart the global
+}
 ```
-- 
-- 
+
+- Variables with external linkage, external variables, global variables 
+- External variables **need declaring in each file** using the variables
+- ODR: one-definition rule: only one definition of a variable
+    - Definition: storage for the variable to be allocated
+    - Declaration: **reference** to an existing variables
+    - Use `extern type var` without initialization as **the declaration**, otherwise a **definition**
+    - There could be that automatic variables sharing the same name as the external variables inside a block but they can **hide the global ones**
+- Use `extern type var; {::var}` called *scope-resolution operator* to call back the **global variable**
+- Remember to use `const` to protect global variables to avoid unreliable programming
 
 ```Console
-
+Now a = 0.1
+Update, a = 0.2
+Now a = 0.2
+Local, a = 0.6
+Global, a = 0.2
+Now a = 0.2
 ```
 
 ### Static Duration, Internal Linkage
@@ -396,6 +446,7 @@ Source code: `C9_Staticinternal`
 ```C++
 
 ```
+
 - 
 - 
 
