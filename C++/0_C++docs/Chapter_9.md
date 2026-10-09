@@ -444,26 +444,131 @@ Now a = 0.2
 ### Static Duration, Internal Linkage
 Source code: `C9_Staticinternal`
 ```C++
+// in1.cpp
+#include<iostream>
 
+using namespace std;
+
+int a = 3;
+int b = 4;
+static int c = 5;
+
+void remo(void);
+
+int main(void){
+	cout << "In in1.cpp:\n";
+	cout << "&a = " << &a << ", &b = " << &b << ", &c = " << &c << endl;
+	remo();
+	return 0;
+}
+
+// in2.cpp
+#include<iostream>
+
+using namespace std;
+
+extern int a;
+static int b = 10;
+int c = 20;
+
+void remo(void){
+	cout << "In in2.cpp\n";
+	cout << "&a = " << &a << ", &b = " << &b << ", &c = " << &c << endl;
+}
 ```
 
-- 
-- 
+- To define **different variables** in **different files** with the **same name**, use internal variables with `static` to let it be known to that file only 
+- Define an external variable in one and only one file
+- Internal variables with the same names as the external ones will **override** the latter
 
 ```Console
-
+In in1.cpp:
+&a = 0x645955fd1010, &b = 0x645955fd1014, &c = 0x645955fd1018
+In in2.cpp
+&a = 0x645955fd1010, &b = 0x645955fd101c, &c = 0x645955fd1020
 ```
 
 ### Static Duration, No Linkage
 Source code: `C9_Staticnolink`
 ```C++
+#include<iostream>
 
+using namespace std;
+
+const int arsize = 10;
+
+inline void strcount(const char* str){
+	static int total = 0;
+	int count = 0;
+
+	cout << "\"" << str << "\" containes: " << endl;
+	while(*str++){
+		count++;
+	}
+	cout << count << " characters\n" 
+		 << (total += count) << " characters in total\n";
+}
+
+int main(void){
+	char input[arsize];
+	char next;
+
+	cout << "Enter a line: " << endl;
+	cin.get(input, arsize);
+
+	while(cin){
+		cin.get(next);
+
+		while(next != '\n'){
+			cin.get(next); // wasted
+		}
+
+		strcount(input);
+		cout << "Enter next line, empty line to quit: " << endl;
+		cin.get(input, arsize);
+	}
+	cout << "End" << endl;
+
+	return 0;
+}
 ```
-- 
-- 
+- External and Internal linkage own the **file-scope**, or the **global scope**
+- Static local variables with no linkage owns the **static storage duration** and exists even **when the block** where it is known only **is inactive**
+- Static local variables can preserve their values between function calls, like `void fun(void){static int s=1; s++}`, call `fun()` for 3 times, the `s` in `fun()` would be `4`, likely it skips the initialization parts like the automatic variables 
+- For `cin.get(ar, size)`, we input: `xxx xxx` and `Enter`, the `\n` as `Enter` will not be passed to `ar`, but left in **input queue**, and next `cin.get()` will read the `\n`, and it reads no more than `size-1` characters
 
 ```Console
+Enter a line: 
+Cos mos
+"Cos mos" containes: 
+7 characters
+7 characters in total
+Enter next line, empty line to quit: 
+Mte ltn
+"Mte ltn" containes: 
+7 characters
+14 characters in total
+Enter next line, empty line to quit: 
 
+End
 ```
+
+### Specifiers and Qualifiers
+
+- Storage class specifiers(cv-qualifiers):
+    - `register` (`auto` used to be a specifier, but eliminated and switch to be automatic type keywords since C++11)
+    - `static`
+    - `extern`
+    - `thread_local` (C++11, can be used with `static` or `extern`)
+    - `mutable`
+- For `thread_local`
+    - Indicates the duration of the variable is the duration of the containing thread
+    - A `thread_local` variable is to a thread, much as a regular static variable is to the whole program
+       - Long life span
+       - One for each thread
+       - Transcall
+       - More on that, see [Chapter\_11]()
+- Cv-Qualifiers
+
 ## Namespaces
 
