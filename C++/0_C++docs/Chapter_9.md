@@ -606,6 +606,18 @@ End
     - Some compiler-linkers need explicit instructions to identify which libraries to search
 
 ### Language Linking
+- A linker needs a different *symbolic name* for each distinct function 
+    - For C, there can be only one C function with a given name
+    - C language linking: translate a function name like `fun` to `_fun`
+    - For C++, there could be function overloading
+    - C++ language linking: name decoration, like `_fun_d_d` and `_fun_i`
+- What if we want to use a precompiled function from a C library in a C++ program?
+    - Use **function prototype** to indicate which protocol to use
+    - Use C: `extern "C" void fun(int)`
+    - Use C++: `extern "C++" void fun(int)`
+    - Use C++: `extern void fun(int)` or simply `void fun(int)` when in C++
+- C/C++ language linkages are the only specifiers required by C++ Standard
+- Implementations have the option of providing additional language linkage specifiers
 
 ### Storage Schemes and Dynamic Allocation
 
