@@ -347,7 +347,7 @@ template<class type>void test(type x){
     - New values associated to the names in the function are not erased after function terminantes, but they are no longer labeled
     - Register variables: `register type name`
         - Used to suggest that the compiler use a CPU register to store an automatic variable for faster access to the variable
-        - Generalized to mean that the variable was heavily used and compilers may provide some special treatment
+        - Used to be generalized to mean that the variable was heavily used and compilers may provide some special treatment, but C++11 deprecated it
         - Explicitly identify a variable being automatic now
 ```Console
 In main(): a = 5 in 0x7fff2ef31120
@@ -567,7 +567,7 @@ End
        - Long life span
        - One for each thread
        - Transcall
-       - More on that, see [Chapter\_11]()
+       - More on that, see [Chapter\_18](Chapter_18.md)
 - Cv-Qualifiers
     - `const`: memory after initialization will not be altered
     - `volatile`: value in a memory location can be altered even though nothing modifies it
@@ -620,6 +620,361 @@ End
 - Implementations have the option of providing additional language linkage specifiers
 
 ### Storage Schemes and Dynamic Allocation
+Source code: `C9_Newplace`
+```C++
+#include<iostream>
+#include<new>
 
+using namespace std;
+
+const int bufsize = 512;
+const int nsize = 5;
+static char buffer[bufsize]; // sizeof(char)=1
+
+int main(void){
+	/*First time*/
+	cout << "Call new and placement new first time: " << endl;
+	double* pd1 = new double [nsize];
+	double* pd2 = new (buffer) double [nsize]; // placement new
+	for(int i=0; i<nsize; ++i){
+		*(pd1+i) = *(pd2+i) = 1000+20.0*i;
+	}
+
+	cout << "Memory address: " << endl;
+	cout << "  heap: " << pd1 << "  static: " 
+		 << (void*)buffer << endl; // use void* to cast buffer as pointer
+	cout << "Memory contents:" << endl;
+	for(int i=0; i<nsize; ++i){
+		cout << *(pd1+i) << " at " << pd1+i << "; ";
+		cout << *(pd2+i) << " at " << pd2+i << endl;
+	}
+	cout << endl;
+
+	/*Second time*/
+	cout << "Call new and placement new a second time: " << endl;
+	double* pd3 = new double [nsize];
+	double* pd4 = new (buffer) double [nsize]; // overwrite old data
+	for(int i=0; i<nsize; ++i){
+		*(pd3+i) = *(pd4+i) = 1000+40.0*i;
+	}
+
+	cout << "Memory address: " << endl;
+	cout << "  heap: " << pd3 << "  static: " << (void*)buffer << endl;
+	cout << "Memory contents:" << endl;
+	for(int i=0; i<nsize; ++i){
+		cout << *(pd3+i) << " at " << pd3+i << "; ";
+		cout << *(pd4+i) << " at " << pd4+i << endl;
+	}
+	cout << endl;
+
+	/*Third time*/
+	cout << "Call new and placement new a third time: " << endl;
+	delete [] pd1; // free pd1
+	pd1 = new double [nsize];
+	pd2 = new (buffer+nsize*sizeof(double)) double [nsize]; // Offer offsets
+	for(int i=0; i<nsize; ++i){
+		*(pd1+i) = *(pd2+i) = 1000+60.0*i;
+	}
+	cout << "Memory address: " << endl;
+	cout << "  heap: " << pd1 << "  static: " << (void*)buffer << endl;
+	cout << "Memory contents:" << endl;
+	for(int i=0; i<nsize; ++i){
+		cout << *(pd1+i) << " at " << pd1+i << "; ";
+		cout << *(pd2+i) << " at " << pd2+i << endl;
+	}
+
+	/* pd2, pd4 are allocated in buffer, no need to free*/
+	delete [] pd1;
+	delete [] pd3;
+	
+	return 0;
+}
+
+```
+
+- Current 5 schemes used to allocate memory with `new`:
+    - Automatic
+    - Register(automatic)
+    - Static with external linkage
+    - Static with internal linkage
+    - Static with no linkage
+- Dynamic memory: controlled by `new` and `free` rather than scope and linkage rules
+- Compiler use 3 **separate memory chunks**, each for register, static, and dynamic
+- Those 5 schemes don't apply to dynamic memory, but to automatic and static **pointer variables** like `type* pt = new type [size]`
+- Initialization with `new`
+    - Initialize scalar builtin types: `type* var = new type (value)`
+    - Initialize single-valued(C++11): `type* var = new type {value}`
+    - Initialize an ordinary structure: `structname* var = new structname {val, val, val}` 
+    - Initialize an ordinary array: `type* var = new type[size] {val, val, val}` 
+- The `new` may fails, like it can't find the requested amount of memory, it may throw `std::bad_alloc` exception, more on [Chapter\_15](Chapter_15.md)
+> Replacement functions:
+> - The `new` and `new[]` calls on *allocation functions* like `void operator new(sdt::size_t)`
+> - The `delete` and `delete[]` call on *deallocation functions* like `void operator delete(void *)`
+> - They use *operator-overloading* syntax in [Chapter\_11](Chapter_11.md)
+> - Translation: 
+>   - `int* pi = new int` is `int* pi=new(sizeof(int))`
+>   - `int* pi = new int[40]` is `int* pi=new(10*sizeof(int))`
+> - While `new` can also be used to initialize, thus `new` does more than just call the functions.
+> - You can supply replacement functions for `new` and `delete` and tailor them as you wish, like define them with **class scope**
+- Placement `new` operator: to specify the location to be used
+    - Include `<new>`
+    - Use `new` with an argument providing the intended address
+    - Example: `char buffer[20]; {double* p = new (buffer) double;}` or `new buffer double`
+- Remember, dynamic storage is managed by *free store* or *heap*
+- Use `new (buffer+n*sizeof(double)) double [n]` to provide **offsets** into buffer array so that **new memory is used rather than overwrite old data**
+- Default placement `new` function returns the address passed to it and **type casting it to** `void*` **so that it can be assigned to any pointer type** 
+- C++ allows for **overload placement `new`**, more on [Chapter\_12](Chapter_12.md)
+- Other forms of placement `new`
+    - `int* p = new (buffer) int` invokes  `new(sizeof(int), buffer)`
+    - `int* p = new (buffer) int [40]` invokes  `new(40*sizeof(int), buffer)`
+    - `int* p = new (buffer+4*sizeof(int)) int [40]` invokes 
+        - `void* raw = operator new[](40*sizeof(int),static_cast<void*>(buffer+4*sizeof(int)))`
+        - `int* p = static_cast<int*>(raw)`
+- Placement `new` function is not replaceable, but can be overloaded, **requiring at least 2 parameters**, 1st of which is always the size
+
+```Console
+Call new and placement new first time: 
+Memory address: 
+  heap: 0x5e2f9d3506c0  static: 0x5e2f95802160
+Memory contents:
+1000 at 0x5e2f9d3506c0; 1000 at 0x5e2f95802160
+1020 at 0x5e2f9d3506c8; 1020 at 0x5e2f95802168
+1040 at 0x5e2f9d3506d0; 1040 at 0x5e2f95802170
+1060 at 0x5e2f9d3506d8; 1060 at 0x5e2f95802178
+1080 at 0x5e2f9d3506e0; 1080 at 0x5e2f95802180
+
+Call new and placement new a second time: 
+Memory address: 
+  heap: 0x5e2f9d3506f0  static: 0x5e2f95802160
+Memory contents:
+1000 at 0x5e2f9d3506f0; 1000 at 0x5e2f95802160
+1040 at 0x5e2f9d3506f8; 1040 at 0x5e2f95802168
+1080 at 0x5e2f9d350700; 1080 at 0x5e2f95802170
+1120 at 0x5e2f9d350708; 1120 at 0x5e2f95802178
+1160 at 0x5e2f9d350710; 1160 at 0x5e2f95802180
+
+Call new and placement new a third time: 
+Memory address: 
+  heap: 0x5e2f9d3506c0  static: 0x5e2f95802160
+Memory contents:
+1000 at 0x5e2f9d3506c0; 1000 at 0x5e2f95802188
+1060 at 0x5e2f9d3506c8; 1060 at 0x5e2f95802190
+1120 at 0x5e2f9d3506d0; 1120 at 0x5e2f95802198
+1180 at 0x5e2f9d3506d8; 1180 at 0x5e2f958021a0
+1240 at 0x5e2f9d3506e0; 1240 at 0x5e2f958021a8
+```
 ## Namespaces
 
+- Names: variables, functions, structures, enumerations...
+- Using class libraries from more than one source can cause **name conflicts**
+- Use namespace to control the **scope of names**
+
+### Traditional C++ Namespaces
+- Declarative region: 
+    - Region in which **declarations can be made**
+    - Example: global variables outside a function, then the declarative region for that is the file in which it is declared
+- Potential scope:
+    - That of a variable **begins at its point of declaration and ends of its declarative region**
+    - We can not use a variable above the point where it is first defined
+    - A variable might be **implicit in some place** in its potential scope, like **the local can hide the global ones** with the same name
+- Scope: the portion of the program **we can actually see the variable**
+- Namespace hierarchy: each declarative region can declare names that are independent of names declared in other declarative region
+
+### New Namespace Features
+
+- Create **named namespaces** by defining a new kind of declarative region to provide an area in which to declare names
+- Use `namespace name{type var; ...}` to define a namespace
+- Namespaces can be located at the global level or inside other namespaces, but not in a block
+- Names declared in a namespace **has external linkage** by default **aside of referring to `const`**
+- Global namespace: 
+    - File-level declarative region
+    - Global variables --- part of the global namespaces
+- Namespaces are open to add names to existing namespaces, like `namespace name{type newone;}`
+- Use `name::var` to access names in a given namespace
+    - An unadorned `var` is an **unqualified name**
+    - A name with namespace `name::var` is a **qualified name**
+- `using` declarations and `using` directives
+    - `using name::var` is a `using` declaration, free to use `var` instead of `name::var`, adding `var` to *declarative region*, **after declaration, don't declare a same name again!**
+    - `using namespace name` is a `using` directive, free to use **all names** in the namesapce `name`
+    - It could be ambiguous to use `using` directive or `using` declaration causing **name conflicts**
+- Use a `using` declaration is as if the name is declared at the location of the `using` declaration like `using std::cout`
+- Use a `using` directive, as if declaring the names in the **smallest declarative region containing both the `using` declaration and the namespace itself**
+    - Use `using` directive to import globally, the block takes the **local hides global** rules
+    - Use `::` to activate global ones
+- Using `using` declaration is safer
+    - It's an alternative to use `#include<iostream.h>` of `#include<iostream> using namespace std;`
+    - But namespace proponents hope we will be more selective, use `using std::cout` or `std::cout` is better
+### More Namespace Features
+- Nest declaration:
+    - Example: `namespace na1{ namespace na2 {} }`
+    - Using: `using namespace na1::na2`
+- Containing: 
+    - Example:`namespace na1{using na2::var1; using na3::var2;...}`
+    - Using: `using na1::var2` or `using na2::var2` or `using namespace na1; var1=1;`
+- `using` directive is *transitive*:
+    - Example: `namespace na1{ namespace na2 {} }`
+    - Using: `using namespace na1` is the same as `using namespace na1; using namespace na2`
+- Alias for a namespace:
+    - Example: `namespace na1{namespace na2{namespace na3{int flame;}}}`
+    - Using: `namespace na123 = na1::na2::na3; using na123::flame;`
+- Unnamed Namespaces
+    - Example: `namespace{int a; int b}`
+    - Behaves as if the names in that are in **potential scope until the end of the declarative region that contains the unnamed namespace**
+    - Like global variables, and **static global ones**
+    - We **can not explicitly use** a `using` directive or `using` declaration to **make the names available elsewhere**
+    - An alternative to using **`static` variables with internal linkage**
+
+### A Namespace Example
+Source code: `C9_Namespace`
+```C++
+/********nsp.h********/
+
+#include<string>
+#ifndef NSP_H
+#define NSP_H
+
+namespace per{
+	struct person{
+		std::string fname;
+		std::string lname;
+	};
+	void gper(person&);
+	void sper(const person&);
+}
+
+namespace deb{
+	using namespace per;
+	struct debts{
+		person name;
+		double amount;
+	};
+	void gdeb(debts&);
+	void sdeb(const debts&);
+	double sumdeb(const debts* ar, int n);
+}
+
+const int arsize = 3;
+
+#endif
+
+/********nsp.cpp********/
+
+#include<iostream>
+#include"nsp.h"
+
+namespace per{
+	using std::cout;
+	using std::cin;
+	using std::endl;
+
+	void gper(struct person& pr){
+		cout << "Enter first name: ";
+		cin >> pr.fname;
+		cout << "Enter last name: ";
+		cin >> pr.lname;
+	}
+
+	// define inside
+	void sper(const struct person& pr){
+		cout << pr.lname << " " << pr.fname;
+	}
+}
+
+namespace deb{
+	void gdeb(struct debts& db){
+		gper(db.name); // in nsp.h, deb has mentioned using namespace per
+		std::cout << "Enter debt: ";
+		std::cin >> db.amount;
+	}
+	void sdeb(const struct debts& db){
+		sper(db.name); 
+		std::cout << ": $" << db.amount << std::endl;
+	}
+}
+
+// define outside
+double deb::sumdeb(const deb::debts* ar, int n){
+	double total = 0;
+	for(int i=0; i<n; ++i){
+		total += (ar+i)->amount;
+	}
+	return total;
+}
+
+/********usn.cpp********/
+
+#include<iostream>
+#include"nsp.h"
+
+inline void other(void){
+	using namespace std; // namespace directive
+	using namespace deb;
+
+	struct person dg = {"Doodles", "Glister"};
+	sper(dg);
+	cout << endl;
+
+	struct debts zippy[arsize];
+	for(int i=0; i<arsize; ++i){
+		gdeb(*(zippy+i));
+	}
+	for(int i=0; i<arsize; ++i){
+		sdeb(*(zippy+i));
+	}
+	cout << "Total debts: $" << sumdeb(zippy, arsize) << endl;
+}
+
+inline void another(void){
+	per::person col = {"Milo", "Rightshift"};
+	per::sper(col);
+	std::cout << std::endl;
+}
+
+int main(void){
+	using deb::debts;
+	using deb::sdeb;
+
+	debts golf = {{"Cosmos", "Mteltn"}, 120.0};
+	sdeb(golf);
+	other();
+	another();
+
+	return 0;
+}
+
+```
+- Use it in multifile programming process
+- Define a header file with `#ifndef #define ...#endif` to create namespaces with structures, function prototypes, ordinary variables...
+- Define a source code with namespace addition and function definitions, one using declaration, one inside
+- Define a source code to compile
+- If a function were overloaded, a single `using` declaration will import all the versions 
+
+```Console
+Mteltn Cosmos: $120
+Glister Doodles
+Enter first name: Arabella
+Enter last name: Binx
+Enter debt: 100
+Enter first name: Cleve
+Enter last name: Delaprox
+Enter debt: 150
+Enter first name: Eddie
+Enter last name: Fiotox
+Enter debt: 200
+Binx Arabella: $100
+Delaprox Cleve: $150
+Fiotox Eddie: $200
+Total debts: $450
+Rightshift Milo
+```
+### Namespaces and the Future
+- Some guidelines:
+    - Use variables in a named namespace instead of external static variables
+    - Use variables in an unnamed namespace instead of internal static variables
+    - If we develop a library of functions or classes, place them in a namespace, nowadays C++ does so like `std` in `iostream`
+    - Use the `using` directive only as a **temporary means of converting old code to namespace usage**
+    - Don't use `using` directives in header files, place it after the preprocessor `#include` directives
+    - Preferentially import names by using *scope-resolution* operator like `std::cout` or a `using` declaration like `using std::cout`
+    - Preferentially use **local scope** instead of global scope for `using` declaration
+- For one-file programs, using a `using` directive is no great sin
+- Attention that older `iostream.h` does not use namespaces, but `iostream` does so.

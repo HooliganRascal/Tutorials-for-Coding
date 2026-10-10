@@ -925,7 +925,7 @@ inline int Less(int a, int b){
 - Using an explicit instantiation in a program: 
     - Create a template: `template<class T> T ADD(T a, T b)`
     - Explicit instantiation: `cout << ADD<double>(m,x) << endl` with definition from existing templates;
-- `SWAP<double>(m,x)` may not work for the *reference* variable does not match!
+- `SWAP<double>(m,x)` may not work for the *reference* variable that does not match!
 - Decision for a function call:
     - Assemble a list of candidate functions with the same names
     - Assemble a list of viable functions from the candidates
