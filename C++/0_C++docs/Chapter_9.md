@@ -978,3 +978,4 @@ Rightshift Milo
     - Preferentially use **local scope** instead of global scope for `using` declaration
 - For one-file programs, using a `using` directive is no great sin
 - Attention that older `iostream.h` does not use namespaces, but `iostream` does so.
+- Remember, even for a `namspace`, we should not place any **function definition or variable declaration in header files!**
