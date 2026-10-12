@@ -21,4 +21,37 @@
 - In C++:
     - Move a short step from abstraction to get the **user-defined type**
     - The **usr-defined type** is a class design that implements the abstract interface
-### What is a type
+- We begin to think about the `type`
+    - How much memory is needed for a data object
+    - How the bits in memory are interpreted
+    - What operations, or methods, can be performed using the data object
+- Classes in C++
+    - A *vehicle* for translating an abstraction to a user-defined type
+    - Combined with data representation
+    - Combined with methods for manipulating that data into one neat package
+- Define a class:
+    - A class declaration
+        - Describing data component in terms of **data members**
+        - Describing public interface in terms of **member functions**
+    - The class method definitions: how class member functions are implemented
+
+> Interface
+> - Shared framework for interaction between two systems
+> - Example: you press a key, the computer shows a character on the screen
+> - Program interface manages the conversion of your **intentions to specific informations stored in the computer**
+> - Public interface for classes
+>   - Public: program using the class
+>   - **Interacting system consisting of class objects**
+>   - **Interface consisting of the methods** provided enables the program to use the class objects
+
+- Develop a class:
+    - A header file containing **the interface in the form of a class definition**
+        - `class type_name{private: variables; functions; public: variables; functions}`
+        - `type_name` is the type name for this new class
+        - A class declaration enables to **declare variables called *objects* or *instances* for the `type_name`**
+        - The information stored appears to be in the form of **class data members**
+        - The desired operations appear as **class member functions**(**declared function prototypes** with full definitions in another source code file or **defined in place**), the prototypes suffice to describe the the function interfaces!
+    - A source code containing **implementation in the form of code for the class methods**
+> C++ class: **binding of data and methods** into a single unit
+> Creating an object of `type_name` automatically **establishes the rules governing how that objects can be used!**
+- Access control:

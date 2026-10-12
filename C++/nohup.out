@@ -1,0 +1,66 @@
+Created TensorFlow Lite XNNPACK delegate for CPU.
+[24394:25454:1012/201109.466221:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[24394:25454:1012/201109.466449:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[24394:25454:1012/201109.466521:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[24394:25454:1012/201109.466656:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[24394:25454:1012/201109.466692:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+error: Could not determine file type.
+[25538:25545:1012/201336.113501:ERROR:net/socket/ssl_client_socket_impl.cc:949] handshake failed; returned -1, SSL error code 1, net_error -100
+[24394:25454:1012/201530.604631:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[24394:25454:1012/201530.839298:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[24394:25454:1012/201533.534426:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[24394:25454:1012/201533.592962:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[24394:25454:1012/201534.252033:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[24394:25454:1012/201613.010744:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[24394:25454:1012/201613.012940:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25538:25545:1012/201729.066995:ERROR:net/socket/ssl_client_socket_impl.cc:949] handshake failed; returned -1, SSL error code 1, net_error -100
+[25538:25545:1012/201729.087672:ERROR:net/socket/ssl_client_socket_impl.cc:949] handshake failed; returned -1, SSL error code 1, net_error -100
+[24394:25454:1012/202020.575360:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[24394:25454:1012/202020.823900:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[24394:25454:1012/202022.505031:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[24394:25454:1012/202026.829226:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[24394:25454:1012/202027.131571:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[24394:25454:1012/202546.125987:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[24394:25454:1012/202546.373609:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[24394:25454:1012/202548.497142:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[24394:25454:1012/202608.907931:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[24394:25454:1012/202609.393812:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[24394:24394:1012/202843.155518:ERROR:components/signin/internal/identity_manager/account_info_fetcher_gaia.cc:65] OnGetTokenFailure: Connection failed (-7).
+[24394:25454:1012/203253.705420:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[24394:25454:1012/203253.944359:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[24394:25454:1012/203322.250402:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[24394:25454:1012/203324.875410:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[24394:25454:1012/203330.507771:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[24394:25454:1012/204508.827147:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[24394:25454:1012/204508.854215:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[24394:25454:1012/204508.854255:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[24394:25454:1012/204508.854277:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[24394:25454:1012/204508.854300:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[24394:24394:1012/204508.854882:ERROR:components/sharing_message/sharing_service.cc:252] Device registration failed with transient error
+Created TensorFlow Lite XNNPACK delegate for CPU.
+[155446:155454:1012/210027.859717:ERROR:net/socket/ssl_client_socket_impl.cc:949] handshake failed; returned -1, SSL error code 1, net_error -100
+[155400:155431:1012/210143.947679:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[155400:155431:1012/210143.948307:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[155400:155431:1012/210143.948373:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[155400:155431:1012/210143.948400:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[155400:155431:1012/210143.948426:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[155446:155454:1012/210206.612657:ERROR:net/socket/ssl_client_socket_impl.cc:949] handshake failed; returned -1, SSL error code 1, net_error -100
+[155446:155454:1012/210406.747805:ERROR:net/socket/ssl_client_socket_impl.cc:949] handshake failed; returned -1, SSL error code 1, net_error -100
+[155446:155454:1012/210417.736772:ERROR:net/socket/ssl_client_socket_impl.cc:949] handshake failed; returned -1, SSL error code 1, net_error -100
+[155400:155431:1012/210605.469279:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[155400:155431:1012/210605.712926:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[155400:155431:1012/210606.740026:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[155400:155431:1012/210606.740103:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[155400:155431:1012/210606.740121:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[155400:155431:1012/210639.635194:ERROR:google_apis/gcm/engine/connection_handler_impl.cc:473] Timed out waiting for GCM Protocol buffer.
+[155400:155431:1012/210639.635420:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:474] ConnectionHandler failed with net error: -7
+[155400:155431:1012/211056.152499:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[155400:155431:1012/211056.402206:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[155400:155431:1012/211058.341711:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[155400:155431:1012/211058.600476:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[155400:155431:1012/211104.701091:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[155400:155431:1012/211627.368918:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[155400:155431:1012/211627.618688:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[155400:155431:1012/211630.701106:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[155400:155431:1012/211640.081920:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[155400:155431:1012/211655.718507:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.

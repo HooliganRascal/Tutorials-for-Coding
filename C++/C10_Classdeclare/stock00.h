@@ -1,0 +1,23 @@
+#ifndef STOCKzz_H_
+#define STOCKzz_H_
+
+#include <cstring>
+
+class stock{
+	private:
+		std::string company;
+		long shares;
+		double share_val;
+		double total_val;
+		inline void set_tot(void){
+			total_val = shares * share_val;
+		}
+	public:
+		void acquire(const sdt::string& co, long n, double pr);
+		void buy(long num; double price);
+		void sell(long num; double price);
+		void update(double price);
+		void show(void);
+};
+
+#endif
