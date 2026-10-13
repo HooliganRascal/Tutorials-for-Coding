@@ -52,6 +52,23 @@
         - The information stored appears to be in the form of **class data members**
         - The desired operations appear as **class member functions**(**declared function prototypes** with full definitions in another source code file or **defined in place**), the prototypes suffice to describe the the function interfaces!
     - A source code containing **implementation in the form of code for the class methods**
+
 > C++ class: **binding of data and methods** into a single unit
 > Creating an object of `type_name` automatically **establishes the rules governing how that objects can be used!**
+
 - Access control:
+    - `public`: any program using an object of a particular class can access the public portions directly
+    - `private`: a program can access the private members of an object *only* by using the **public member functions**, see in [Chapter\_11](Chapter_11.md), this insulation is called *data hiding*
+    - `protected`: talk about it later we cover the **class inheritance** in [Chapter\_13](Chapter.13)
+- Public member functions provide the interface between object and program
+- A class design:
+    - Public interface: abstraction component
+    - Specifics of the implementation
+- Encapsulation:
+    - Gathering the implementation details together
+    - Separating them from the abstraction
+- Data hiding(putting data into the **private section** of a class) is just an instance of encapsulation
+- Another encapsulation example: place class function definitions in a separate file from class declaration
+    - We need to know that different member functions accomplish, the arguments they take, the value they return
+    - The principle is to **separate the details of implementation from the design of the interface**, so that adjustment can be applied without changing the program interface.
+- Member access control: `public` or `private`
