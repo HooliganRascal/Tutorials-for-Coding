@@ -99,7 +99,7 @@ class stock{
     - Separating them from the abstraction
 - Data hiding(putting data into the **private section** of a class) is just an instance of encapsulation
 - Another encapsulation example: place class function definitions in a separate file from class declaration
-    - We need to know that different member functions accomplish, the arguments they take, the value they return
+    - We need to know that what different member functions accomplish, the arguments they take, the value they return
     - The principle is to **separate the details of implementation from the design of the interface**, so that adjustment can be applied without changing the program interface.
 
 ### Member access control: `public` or `private`
@@ -183,6 +183,7 @@ void stock::show(void){
     - One way: `class name{private: inline type fun(par); public:...};`
     - Another way: `class name{private: type fun(par); public:...}; inline type name::fun(var){definition};` Make sure it is in the same header file though it may be able to be separated from header files to another file in some special way!
     - Do the `inline` for `private` only as a good habit!
+    - Exception: some simple functions in public can be `inline` too
 - Use an object:
     - Create some objects: `classname a, b;`
     - Use the member function: `a.show()`, then `shares` in `show()` to be `a.shares()`
