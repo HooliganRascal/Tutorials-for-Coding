@@ -13,7 +13,7 @@ class stock{
 			total_val = shares * share_val;
 		}
 	public:
-		void acquire(const sdt::string& co, long n, double pr);
+		void acquire(const std::string& co, long n, double pr);
 		void buy(long num; double price);
 		void sell(long num; double price);
 		void update(double price);
