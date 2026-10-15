@@ -1,0 +1,32 @@
+11:22:00.265 INFO  app_lib::utils::resolve:57 T{clash-verge-runtime-7} [ClashVergeRev] Version: 2.5.8
+11:22:00.265 INFO  app_lib::event_handlers:360 T{main} [System] 应用就绪
+11:22:00.424 INFO  app_lib::utils::window_manager:262 T{clash-verge-runtime-7} [Window] 新窗口创建成功，等待前端渲染后显示
+11:22:00.425 INFO  app_lib::config::port:197 T{clash-verge-runtime-2} [Service] Service is NotInstalled, so no managed core can hold mixed proxy port 7897
+11:22:00.431 INFO  app_lib::core::validate:420 T{clash-verge-runtime-2} [Validate] 生成临时配置文件用于验证
+11:22:00.431 INFO  app_lib::core::validate:351 T{clash-verge-runtime-2} [Validate] 开始验证配置文件: /home/mteltn/.local/share/io.github.clash-verge-rev.clash-verge-rev/clash-verge-check.yaml
+11:22:00.431 INFO  app_lib::core::validate:354 T{clash-verge-runtime-2} [Validate] 使用内核: verge-mihomo
+11:22:00.431 INFO  app_lib::core::validate:359 T{clash-verge-runtime-2} [Validate] 验证目录: /home/mteltn/.local/share/io.github.clash-verge-rev.clash-verge-rev
+11:22:00.572 INFO  app_lib::core::validate:379 T{clash-verge-runtime-7} [Validate] -------- 验证结果 --------
+11:22:00.572 INFO  app_lib::core::validate:405 T{clash-verge-runtime-7} [Validate] 验证成功
+11:22:00.572 INFO  app_lib::core::validate:406 T{clash-verge-runtime-7} [Validate] -------- 验证结束 --------
+11:22:00.573 INFO  app_lib::core::tray:494 T{clash-verge-runtime-7} [Tray] 正在从AppHandle创建系统托盘
+11:22:00.580 INFO  app_lib::core::tray:177 T{clash-verge-runtime-7} [Tray] System tray created successfully
+11:22:00.580 INFO  app_lib::core::timer:192 T{clash-verge-runtime-7} [Timer] Refreshing timer tasks map, count: 2
+11:22:00.580 INFO  app_lib::core::timer:166 T{clash-verge-runtime-7} [Timer] Running overdue timer task immediately: uid=RsuR8a7x16om
+11:22:00.580 INFO  app_lib::core::timer:172 T{clash-verge-runtime-7} [Timer] Timer initialization completed
+11:22:00.581 INFO  app_lib::utils::resolve:189 T{clash-verge-runtime-7} [Setup] Silent updater initialized
+11:22:00.581 INFO  app_lib::core::updater:685 T{clash-verge-runtime-7} [System] Silent updater: background task started
+11:22:00.700 INFO  app_lib::core::manager:188 T{clash-verge-runtime-4} [Core] Core running mode changed: NotRunning -> Sidecar
+11:22:00.774 INFO  app_lib::core::sysopt:327 T{clash-verge-runtime-2} [Core] Refreshing system proxy guard...
+11:22:00.774 INFO  app_lib::core::sysopt:336 T{clash-verge-runtime-2} [Core] System proxy guard is disabled.
+11:22:00.989 INFO  app_lib::feat::profile:88 T{clash-verge-runtime-7} [Config] [订阅更新] 远程订阅，URL: https://ktmcloud001.top/api/v1/client/subscribe?token=***
+11:22:05.730 INFO  app_lib::core::sysopt:327 T{clash-verge-runtime-4} [Core] Refreshing system proxy guard...
+11:22:05.730 INFO  app_lib::core::sysopt:331 T{clash-verge-runtime-4} [Core] System proxy is disabled.
+11:22:06.253 INFO  app_lib::core::sysopt:327 T{clash-verge-runtime-5} [Core] Refreshing system proxy guard...
+11:22:06.253 INFO  app_lib::core::sysopt:336 T{clash-verge-runtime-5} [Core] System proxy guard is disabled.
+11:22:10.582 INFO  app_lib::core::updater:611 T{clash-verge-runtime-5} [System] Silent updater: checking for updates...
+11:22:11.579 INFO  app_lib::core::updater:617 T{clash-verge-runtime-5} [System] Silent updater: no update available
+11:22:21.097 WARN  app_lib::feat::profile:169 T{clash-verge-runtime-1} [Config] [订阅更新] 直接更新失败: failed to fetch remote profile: Request failed: error sending request for url (https://ktmcloud001.top/api/v1/client/subscribe?token=***): operation timed out，尝试使用Clash代理更新
+11:22:41.201 WARN  app_lib::feat::profile:169 T{clash-verge-runtime-4} [Config] [订阅更新] Clash代理更新失败: failed to fetch remote profile: Request failed: error sending request for url (https://ktmcloud001.top/api/v1/client/subscribe?token=***): operation timed out，尝试使用系统代理更新
+11:23:01.326 WARN  app_lib::feat::profile:169 T{clash-verge-runtime-5} [Config] [订阅更新] 系统代理更新失败: failed to fetch remote profile: Request failed: error sending request for url (https://ktmcloud001.top/api/v1/client/subscribe?token=***): operation timed out，所有重试均已失败
+11:23:01.326 ERROR app_lib::core::timer:481 T{clash-verge-runtime-5} [[Timer]] Failed to update profile uid RsuR8a7x16om: failed to fetch remote profile

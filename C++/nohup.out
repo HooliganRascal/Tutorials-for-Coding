@@ -101,3 +101,4 @@ Created TensorFlow Lite XNNPACK delegate for CPU.
 [113452:113460:1014/180745.606454:ERROR:net/socket/ssl_client_socket_impl.cc:949] handshake failed; returned -1, SSL error code 1, net_error -100
 [113405:113435:1014/184335.777146:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:474] ConnectionHandler failed with net error: -2
 [113405:113435:1014/192556.948407:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:474] ConnectionHandler failed with net error: -2
+[113405:113405:1014/203545.723606:ERROR:components/signin/internal/identity_manager/account_info_fetcher_gaia.cc:65] OnGetTokenFailure: Connection failed (-7).

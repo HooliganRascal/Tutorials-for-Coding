@@ -86,7 +86,7 @@ class stock{
 > C++ class: **binding of data and methods** into a single unit
 > Creating an object of `type_name` automatically **establishes the rules governing how that objects can be used!**
 
-### Access Control:
+### Access Control
 - `public`: any program using an object of a particular class can access the public portions directly
 - `private`: a program can access the private members of an object *only* by using the **public member functions**, see in [Chapter\_11](Chapter_11.md), this insulation is called *data hiding*
 - `protected`: talk about it later we cover the **class inheritance** in [Chapter\_13](Chapter.13)
@@ -195,7 +195,25 @@ void stock::show(void){
 Source code: `C10_Classdeclare`
 ```C++
 /*****usestock.cpp*****/
+#include <iostream>
+#include "stock00.h"
 
+int main(void){
+	stock test;
+
+	test.acquire("Mteltn Cosmos", 20, 12.45);
+	test.show();
+	test.buy(15, 15.5);
+	test.show();
+	test.sell(50, 20.0);
+	test.show();
+	test.buy(3000, 40.125);
+	test.show();
+	test.sell(50, 60.1);
+	test.show();
+	
+	return 0;
+}
 ```
 - Make using classes as similar as possible to using the basic, built-in types like `int` and `char` 
 - In this case, `main()` is just a vehicle for testing the design of a class, use the class as a *user-defined* type to understand what the member functions do rather than thinking about the implementation details!
@@ -207,7 +225,96 @@ Source code: `C10_Classdeclare`
     - Server is responsible for seeing itself **reliably and accurately performs according to the interface**, make changes to **details of implementation only, not to the interface!!**
 
 ```Console
+Company: Mteltn CosmosShares: 20
+Share Price: $12.45
+Total Worth: $249
 
+Company: Mteltn CosmosShares: 35
+Share Price: $15.5
+Total Worth: $542.5
+
+You can't sell more than you have! Transaction aborted.
+
+Company: Mteltn CosmosShares: 35
+Share Price: $15.5
+Total Worth: $542.5
+
+Company: Mteltn CosmosShares: 3035
+Share Price: $40.125
+Total Worth: $121779
+
+Company: Mteltn CosmosShares: 2985
+Share Price: $60.1
+Total Worth: $179398
 ```
 
 ### Changing the Implementations
+Source code: `C10_Classdeclare`
+```C++
+/*****stock00.cpp/void stock::show(void) adjusted*****/
+void stock::show(void){
+	std::ios_base::fmtflags	orig = std::cout.setf(
+			std::ios_base::fixed, 
+			std::ios_base::floatfield
+			);
+	std::streamsize prec = std::cout.precision(3);
+
+	std::cout << "Company: " << company
+			  << "Shares: " << shares << "\n"
+			  << "Share Price: $" << share_val << "\n";
+	std::cout.precision(2);
+	std::cout << "Total Worth: $" << total_val << "\n";
+	std::cout << std::endl;
+
+	std::cout.setf(orig, std::ios_base::floatfield);
+	std::cout.precision(prec);
+}
+```
+
+- To be consistent in number formats, use member function `setf()` from class `ostream` to avoid *e-notation*
+- `std::cout.setf(std::ios_base::fixed, std::ios_base::floatfield);` sets a flag in the `cout` object instructing `cout` to use **fixed-point** notation 
+- `std::cout.precision(3)` causes `cout` object to **show 3 places** to the right of the decimal
+- When changing the implementation for a method, the changes should not affect other parts of the client program
+- It is polite to reset the information before to the state existed before the function was called
+    - `std::streamsize prec = std::cout.precision(3);...std::cout.precision(prec);` to save preceding value and reset old ones
+    - `std::ios_base::fmtflags orig = std::cout.setf(std::ios_base::fixed);...std::cout.setf(orig, std::ios_base::floatfield);` to store original flags and reset to stored value
+    - Here, `std` is a namespace, `cout` is an object of `ostream` class, `fmtflags` is a type defined in `ios_base` class defined in `std` namespace
+>  **Attention!** `prec` stored the **old precision**, and from now on, the precision is set to 3. Similarly, `orig` saved the **old format** as a flag, and from now on, the formats is `fixed`!
+
+```Console
+Company: Mteltn CosmosShares: 20
+Share Price: $12.450
+Total Worth: $249.00
+
+Company: Mteltn CosmosShares: 35
+Share Price: $15.500
+Total Worth: $542.50
+
+You can't sell more than you have! Transaction aborted.
+
+Company: Mteltn CosmosShares: 35
+Share Price: $15.500
+Total Worth: $542.50
+
+Company: Mteltn CosmosShares: 3035
+Share Price: $40.125
+Total Worth: $121779.38
+
+Company: Mteltn CosmosShares: 2985
+Share Price: $60.100
+Total Worth: $179398.50
+```
+
+### A Little Review
+- Provide a *class declaration* to specify a class design
+- The class declaration is modeled and can include data members and function members(or member functions);
+- Typical class design: `class name{private: data member declarations; public: member function prototypes};`
+    - `public`: abstract part, provide interface
+    - `private`: data hiding, where the data is *encapsulated*
+- Next, implement the class method(or member function), defined inside the class declaration instead of using a prototype if it is brief, more commonly we provide the function definition separately, use *scope-resolution operator* `::` to indicate which class the function belongs
+- Create an object like `classname obj`, in fact, **a class is a user-defined type!**
+- Invoke a member function using the *dot membership operator* like `obj.fun()`
+
+## Class Constructors and Destructors
+
+- 
