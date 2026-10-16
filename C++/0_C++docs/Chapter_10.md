@@ -50,8 +50,8 @@
 Source code: `C10_Classdeclare`
 ```C++
 /*****stock00.h*****/
-#ifndef STOCKzz_H_
-#define STOCKzz_H_
+#ifndef STOCK00_H_
+#define STOCK00_H_
 
 #include <cstring>
 
@@ -194,7 +194,7 @@ void stock::show(void){
 ### Using Classes
 Source code: `C10_Classdeclare`
 ```C++
-/*****usestock.cpp*****/
+/*****usestock00.cpp*****/
 #include <iostream>
 #include "stock00.h"
 
@@ -317,4 +317,307 @@ Total Worth: $179398.50
 
 ## Class Constructors and Destructors
 
-- 
+- Usual initialization syntax does not carry over for the objects for the data parts have `private` access status
+- We need to provide an appropriate **member function if to initialize an object**
+- Special *member functions*: class constructors
+    - Have objects initialized automatically when created
+    - Construct new objects and **assign values to their data members**
+    - A possible constructor: `class name{...}; name()`
+    - The constructor has **no return value and no declared type**
+
+### Declaring and Defining Constructors
+- Get the prototype in `public` section: `name(var1,var2,..);`
+- Define the constructor: `name::name(var1,var2,...){};`
+- Constructor is used to initialize the members in its class, and the parameters in definition should be unique! A common practice: `name::name(m_member1, m_member2...)` where `member` stands for the members in the class
+
+### Using Constructors
+- Explicitly: `name object = name(val1,val2,...);`
+- Implicitly: `name object(val1,val2,...);`
+- Use with `new`: `name* objpt = new name(val1,val2,...);` 
+    - The object has no name but can be managed by  `objpt`
+- Rather than **beging invoked by an object, constructor is to create an object**
+
+### Default Constructor
+- Create an object when we don't provide explicit initialization values
+- If we don't provide any constructors, C++ **automatically supplies one**
+- `name object;` uses the default one doing nothing: `name::name(){}`
+> - Default constructors are provided **by the compiler** only if we don't define any constructor
+> - If we define any constructor like `name(m_member1,m_member2...)`, we **need to define a default version**, or the `name object;` will **become an error**
+- If to create objects without explicit initialization, **define a default construtcor taking no arguments** yourself:
+    - Provide default values: `name(m_member1=val1, m_member2=val2,...)`
+    - Use function overloading: `name(){member1=val1; member2=val2;...}`
+    - We can only have **one default constructor**!
+    - After defined, feel free to use 
+        - Implicit: `name obj;`
+        - Explicit: `name obj=name()`
+        - Implicit: `name* obj = new name;`
+    - Don't mess up with **non-default construtors**!
+
+### Destructors
+- We need to track the object until it expires
+- The program **automatically** calls a special member function called *destructor* cleaning up any debris
+    - If the constructor uses `new` to allocate memory, the destructor should use `delete` to free that memory
+    - If not using `new`, the destructor does not have to do any task to perform, we can simply let the compiler generate an implicit, do-nothing destructor
+- Declare and define a destructor:
+    - Destructor for the `name` class: `~name()`
+    - Destructor has **no return value and no declared type and no arguments!**
+    - Prototype: `~name();`
+    - Define a do nothing vital: `name::~name(){std::cout<<"Bye!\n"}`
+- Normally, a code should not explicitly call a destructor, but there could be [exception when doing dynamic memory allocation](Chapter_12.md)
+    - Static storage class object, destructor is called automatically when the program terminates
+    - Automatic storage class object, destructor is called automatically when the program exits the block of code in which the class object is defined
+    - Dynamic storage class object using `new`, destructor is called automatically when we use `delete` to free the memory
+    - Program can create **temporary objects**, and it automatically calls the destructor for the object when it has finished using it
+- A destructor is called automatically when a class object expires
+    - There ought to be a destructor
+    - If no destructor exists, the compiler **implicitly declares a default destructor**, and if the compiler detects code **leading to the destruction of an object**, it provides a definition for that destructor
+
+### Improving the Code
+Source code: `C10_Classconde`
+```C++
+/*****stock10.h*****/
+#ifndef STOCK10_H_
+#define STOCK10_H_
+
+#include <cstring>
+
+class stock{
+	private:
+		std::string company;
+		long shares;
+		double share_val;
+		double total_val;
+
+		inline void set_tot(void){
+			total_val = shares * share_val;
+		}
+	public:
+		stock(); // default constructor
+		stock(const std::string& co, long n, double pr); // self-defined constructor
+		~stock(); // destructor
+				  
+		void buy(long num, double price);
+		void sell(long num, double price);
+		void update(double price);
+		void show(void);
+};
+
+#endif
+
+/*****stock10.cpp*****/
+#include <iostream>
+#include "stock10.h"
+
+// constructor definition
+stock::stock(){
+	std::cout << "Default constructor called!\n";
+	company = "no name";
+	shares = 0;
+	share_val = 0.0;
+	total_val = 0.0;
+}
+
+stock::stock(const std::string& co, long n, double pr){
+	std::cout << "Constructor using " << co << " called!\n";
+	company = co;
+	if(n<0){
+		std::cout << "Number of shares can't be negative! "
+				  << company << " shares set to 0.\n ";
+		shares = 0;
+	}
+	else{
+		shares = n;
+	}
+	share_val = pr;
+	set_tot();
+}
+
+// destructor definition
+stock::~stock(){
+	std::cout << "Bye, " << company << "\n";
+}
+
+void stock::buy(long num, double price){
+	if(num<0){
+		std::cout << "Number of shares purchased can't be negative! "
+				  << "Transaction aborted.\n\n";
+	}
+	else{
+		shares += num; // access members in private
+		share_val = price;
+		set_tot();
+	}
+}
+
+void stock::sell(long num, double price){
+	using std::cout;
+	if(num<0){
+		cout << "Number of shares can't be negative!"
+			 << "Transaction aborted.\n\n";
+	}
+	else if(num>shares){
+		cout << "You can't sell more than you have! "
+			 << "Transaction aborted.\n\n";
+	}
+	else{
+		shares -= num; // access members in private
+		share_val = price;
+		set_tot();
+	}
+}
+
+void stock::update(double price){
+	share_val = price;
+	set_tot();
+}
+
+void stock::show(void){
+	std::ios_base::fmtflags	orig = std::cout.setf(
+			std::ios_base::fixed, 
+			std::ios_base::floatfield
+			);
+	std::streamsize prec = std::cout.precision(3);
+
+	std::cout << "Company: " << company << "\n"
+			  << "Shares: " << shares << "\n"
+			  << "Share Price: $" << share_val << "\n";
+	std::cout.precision(2);
+	std::cout << "Total Worth: $" << total_val << "\n";
+	// std::cout << std::endl;
+
+	std::cout.setf(orig, std::ios_base::floatfield);
+	std::cout.precision(prec);
+}
+
+/*****usestock10.cpp*****/
+#include <iostream>
+#include "stock10.h"
+
+int main(void){
+	std::cout << "Use constructors to create new objects\n";
+	std::cout << std::endl;
+
+	// Use block to activate destructor
+	{
+		// default constructor
+		stock stock1; 
+		stock1.show();
+		std::cout << std::endl;
+
+		// self-defined constructor
+		stock stock2("Mteltn Cosmos", 2, 2.0);
+		stock2.show();
+		std::cout << std::endl;
+		
+		// constructor by assignment
+		// some compiler produces temporary objects
+		stock stock3 = stock("Guernica Mteltn", 12, 20.0);
+		stock3.show();
+		std::cout << std::endl;
+
+		// Assignment
+		stock3 = stock2;
+		std::cout << "Use assignment to overwrite: \n";
+		stock2.show();
+		stock3.show();
+		std::cout << std::endl;
+
+		// Revise with constructor
+		// Create a temporary object and destruct it 
+		stock2 = stock("Cosmos Guernica", 25, 32.0);
+		stock2.show();
+		std::cout << std::endl;
+	} 
+
+	std::cout << std::endl;
+	stock stock4 = stock("KKNNF", 25, 5.21);
+	stock4.show();
+	std::cout << std::endl;
+	//stock4.~stock(); // we don't call destructor
+	std::cout << "Done!" << std::endl << std::endl;
+	
+	return 0;
+}
+```
+- Incorporate the constructors and the destructors into the class and method definitions
+- Put constructor and destructor declared in header file
+- Implement them in a source code
+- Try to use brackets to **create temporary objects in a block!**
+- Assigning with constructors after initilization also creates a temporary object!
+- Assigning with constructors for initialization **may create temporary objects**
+- If not using **block for automatic objects**, the destructor will not be called until `main()` finishes its block. In a windowing environment, the **window would close before the destructors were called!**
+- Pay attention to the order:
+    - The objects defined in 1,2,3
+    - The destructor is called 3,2,1
+    - *LIFO*! Last In First Out!
+- Explicitly calling destructor will **not cancel the automatical calling for destructor when the execution exiting the block**!
+- Using object assignment **overwrites** the assigned one!
+- Use initialization rather than assignment when setting object values for higher efficiency!
+- In C++11, use *list-initialization*: 
+    - `name object = {member1, member2,...};` 
+    - `name object{member1};` for **default value**
+    - `name object{}` for **default constructor**
+    - matching the constructor `name::name(m_member1, m_member2,...)` or the default constructor
+> Attention! `name object{}` is good for initializationwith **default constructor**, while `name object()` is **declaring a function returning an object!**
+- C++11 offers a class called `std::initializer_list` used as a type for a function or method parameter, representing a **list of arbitrary length**, providing all the entries are of the **same type** or **can be converted to the same type**, [more on that see Chapter\_16](Chapter_16.md) 
+- When using member functions like `const name object = name();`, use `type name::fun(arg) const{}` to **promise not to change the objects invoking**, called  **`const` member functions**
+- Constructors can be overloaded! But **only one destructor exists per class**
+- If the constructor has only one argument like `name(type var)`, it could be initialized by:
+    - `name object = name(val);`
+    - `name object(val);`
+    - `name object = val;` But we better not do it, it could lead to some unpleasant surprise, see in [Chapter\_11](Chapter_11.md)
+
+```Console
+Use constructors to create new objects
+
+Default constructor called!
+Company: no name
+Shares: 0
+Share Price: $0.000
+Total Worth: $0.00
+
+Constructor using Mteltn Cosmos called!
+Company: Mteltn Cosmos
+Shares: 2
+Share Price: $2.000
+Total Worth: $4.00
+
+Constructor using Guernica Mteltn called!
+Company: Guernica Mteltn
+Shares: 12
+Share Price: $20.000
+Total Worth: $240.00
+
+Use assignment to overwrite:
+Company: Mteltn Cosmos
+Shares: 2
+Share Price: $2.000
+Total Worth: $4.00
+Company: Mteltn Cosmos
+Shares: 2
+Share Price: $2.000
+Total Worth: $4.00
+
+Constructor using Cosmos Guernica called!
+Bye, Cosmos Guernica
+Company: Cosmos Guernica
+Shares: 25
+Share Price: $32.000
+Total Worth: $800.00
+
+Bye, Mteltn Cosmos
+Bye, Cosmos Guernica
+Bye, no name
+
+Constructor using KKNNF called!
+Company: KKNNF
+Shares: 25
+Share Price: $5.210
+Total Worth: $130.25
+
+Done!
+
+Bye, KKNNF
+```
+
+## Knowing Your Objects: The `this` Pointer

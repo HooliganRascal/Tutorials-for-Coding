@@ -1,5 +1,5 @@
-#ifndef STOCKzz_H_
-#define STOCKzz_H_
+#ifndef STOCK00_H_
+#define STOCK00_H_
 
 #include <cstring>
 
