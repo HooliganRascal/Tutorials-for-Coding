@@ -44,7 +44,9 @@
 > - Public interface for classes
 >   - Public: program using the class
 >   - **Interacting system consisting of class objects**
->   - **Interface consisting of the methods** provided enables the program to use the class objects
+>   - **Interface consisting of the methods** provided enabling the program to use the class objects
+> 
+> The concept corresponding to interface is **implementation**
 
 ---
 Source code: `C10_Classdeclare`
@@ -177,7 +179,7 @@ void stock::show(void){
 - Other member functions of the same class can use the functions in the class **without `::`**
 - Using the functions outside the class declaration and method definitions requires special measures, `classname::method()` is *qualified*, and `method()` is *unqualified* which can be used **just in class scope**
 - A method can access the private members of a class without `::`
-- If a nonmember function access the data members, it stops, except **friend functions** 
+- If a nonmember function access the data members, it stops, except [friend functions in Chapter\_11](Chapter_11.md)
 - Include the header file to access the class definitions
 - Any function with a definition in the class declaration automatically becomes an `inline` function:
     - One way: `class name{private: inline type fun(par); public:...};`
@@ -560,7 +562,7 @@ int main(void){
     - matching the constructor `name::name(m_member1, m_member2,...)` or the default constructor
 > Attention! `name object{}` is good for initializationwith **default constructor**, while `name object()` is **declaring a function returning an object!**
 - C++11 offers a class called `std::initializer_list` used as a type for a function or method parameter, representing a **list of arbitrary length**, providing all the entries are of the **same type** or **can be converted to the same type**, [more on that see Chapter\_16](Chapter_16.md) 
-- When using member functions like `const name object = name();`, use `type name::fun(arg) const{}` to **promise not to change the objects invoking**, called  **`const` member functions**
+- When using member functions with objects like `const name object();`, use `type name::fun(arg) const{}` to **promise not to change the objects invoking implicitly**, called  **`const` member functions**
 - Constructors can be overloaded! But **only one destructor exists per class**
 - If the constructor has only one argument like `name(type var)`, it could be initialized by:
     - `name object = name(val);`
@@ -621,3 +623,226 @@ Bye, KKNNF
 ```
 
 ## Knowing Your Objects: The `this` Pointer
+Source code: `C10_Classthis`
+```C++
+/*****stock20.h*****/
+#ifndef STOCK20_H_
+#define STOCK20_H_
+
+#include <cstring>
+
+class stock{
+	private:
+		std::string company;
+		long shares;
+		double share_val;
+		double total_val;
+
+		inline void set_tot(void){
+			total_val = shares * share_val;
+		}
+
+	public:
+		stock(); 
+		stock(const std::string& co, long n=0, double pr=0.0);
+		~stock();
+				  
+		void buy(long num, double price);
+		void sell(long num, double price);
+		void update(double price);
+		void show(void)const;
+		const stock& topval(const stock& e) const;
+};
+
+#endif
+
+/*****stock20.cpp*****/
+#include <iostream>
+#include "stock20.h"
+
+// constructor definition
+stock::stock(){
+	company = "no name";
+	shares = 0;
+	share_val = 0.0;
+	total_val = 0.0;
+}
+
+stock::stock(const std::string& co, long n, double pr){
+	company = co;
+	if(n<0){
+		std::cout << "Number of shares can't be negative! "
+				  << company << " shares set to 0.\n ";
+		shares = 0;
+	}
+	else{
+		shares = n;
+	}
+	share_val = pr;
+	set_tot();
+}
+
+// destructor definition
+stock::~stock(){} // silence version
+
+void stock::buy(long num, double price){
+	if(num<0){
+		std::cout << "Number of shares purchased can't be negative! "
+				  << "Transaction aborted.\n\n";
+	}
+	else{
+		shares += num; // access members in private
+		share_val = price;
+		set_tot();
+	}
+}
+
+void stock::sell(long num, double price){
+	using std::cout;
+	if(num<0){
+		cout << "Number of shares can't be negative!"
+			 << "Transaction aborted.\n\n";
+	}
+	else if(num>shares){
+		cout << "You can't sell more than you have! "
+			 << "Transaction aborted.\n\n";
+	}
+	else{
+		shares -= num; // access members in private
+		share_val = price;
+		set_tot();
+	}
+}
+
+void stock::update(double price){
+	share_val = price;
+	set_tot();
+}
+
+void stock::show(void)const{
+	std::ios_base::fmtflags	orig = std::cout.setf(
+			std::ios_base::fixed, 
+			std::ios_base::floatfield
+			);
+	std::streamsize prec = std::cout.precision(3);
+
+	std::cout << "Company: " << company << "\n"
+			  << "Shares: " << shares << "\n"
+			  << "Share Price: $" << share_val << "\n";
+	std::cout.precision(2);
+	std::cout << "Total Worth: $" << total_val << "\n";
+
+	std::cout.setf(orig, std::ios_base::floatfield);
+	std::cout.precision(prec);
+}
+
+const stock& stock::topval(const stock& e) const{
+	// same as if(e.total_val > this->total_val)
+	if(e.total_val > total_val) 
+		return e;
+	else
+		return *this;
+}
+
+```
+
+- A method deal with two or more objects, use `this` pointer
+- If there are some contents in each object to compare
+    - We can provide a method to access the contents for each object, then do the comparison
+    - Or we can provide a method with directly two objects to compare, and return the greater one
+- For the second way, use a function `const name& compare(const name& object) const`, the second way access one object **implicitly** and another object **explicitly**
+    - First `const` refers to the returned value with the same type as the argument
+    - Second `const` refers to the type of the argument as a `const`, stating that **the program will not modify the explicitly accessed objects**
+    - Third `const` promise **not to change the members in the objects invoking implicitly**
+- Then it is free to use either one of them: `top = object1.compare(object2)`, `top = object2.compare(object1)`
+- It would be clearer to use `<` as [overloading operator in Chapter\_11](Chapter_11.md)
+- There is no alias for the implicit invoking object! Use `this` pointer to access!
+> - In general, all class methods have a `this` pointer **set to the address of the object that invokes the method**, including *constructor* and *destructor*
+> - The `member` in `object1` when using `object1.fun()` is just a shorthand notation of `this->member`, it is used for `struct`, but also makes sense for `class`!
+> - If needing to refer to the object invoking as a whole, use `*this`
+> - The third `const` qualifies `this` points to a `const`, we can not use `this` to change the object's value
+- The `&` means that the returned object is the **invoking object itself implicitly or explicitly** rather than a copy passed by return mechanism
+
+## An array of objects
+Source code: `C10_Classthis`
+```C++
+/*****usestock20.cpp*****/
+#include <iostream>
+#include "stock20.h"
+
+const int obsize = 4;
+
+int main(void){
+	stock objects[obsize] = {
+		stock("Mteltn Cosmos", 12, 20.0),
+		stock("Cosmos Guernica", 24, 31.3),
+		stock("Guernica Mteltn", 36, 42.1),
+	}; // leave one default
+	
+	std::cout << "Stock holding: \n\n";
+	for(int i=0; i<obsize; ++i){
+		(objects+i)->show();
+		std::cout << std::endl;
+	}
+
+	// find the most valuable holding
+	const stock* top = objects;
+	for(int i=1; i<obsize; ++i){
+		// same as top = &((*top).topval(*(top+i)));
+		top = &(top->topval(*(objects+i))); 
+	}
+	std::cout << "Most valuable holding:\n\n";
+	(*top).show();
+
+	return 0;
+}
+```
+
+- Declare an array of objects the same way to declare an array of any of the standard types: `name objects[size];`
+- The constructor default or not is called when creating such an array, and feel free to use member functions like: `objects[num].fun();`
+- Use constructor *non-default* to initialize the array elements: `name objects[size] = {name(val1), name(val2),...}`
+- If the program has more than 1 constructor, we can use different constructors for different elements
+- And **partially initialized** array of objects will leave the rest of **implicit objects in the array initialized by default constructor**
+> Original Unix system used a C++ front-end `cfront` to convert C++ programs to C programs
+> - C++: `void name::fun() const{ cout << member; }`
+> - C: `void fun(const name* this){ cout << this->member; }`
+> 
+> - It converts a `name::` qualifier to a **function argument** being a **pointer to `name` then uses the pointer to access the class members**
+
+- For a pointer to object, use `pt->fun()` or `*pt.fun()` to call the member function!
+
+```Console
+Stock holding:
+
+Company: Mteltn Cosmos
+Shares: 12
+Share Price: $20.000
+Total Worth: $240.00
+
+Company: Cosmos Guernica
+Shares: 24
+Share Price: $31.300
+Total Worth: $751.20
+
+Company: Guernica Mteltn
+Shares: 36
+Share Price: $42.100
+Total Worth: $1515.60
+
+Company: no name
+Shares: 0
+Share Price: $0.000
+Total Worth: $0.00
+
+Most valuable holding:
+
+Company: Guernica Mteltn
+Shares: 36
+Share Price: $42.100
+Total Worth: $1515.60
+```
+
+## Class Scope
+
+
+## Abstract Data Type

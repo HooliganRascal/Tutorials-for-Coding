@@ -9,7 +9,6 @@ class stock{
 		long shares;
 		double share_val;
 		double total_val;
-
 		inline void set_tot(void){
 			total_val = shares * share_val;
 		}

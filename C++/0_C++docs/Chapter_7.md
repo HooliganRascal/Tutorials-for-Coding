@@ -199,15 +199,19 @@ void showar(const int* ar, int limit){
 - *Bottom-up programming* for OOP: from component parts to the whole
 - *Top-down programming* for PP: from a modular grand design to detail
 - Functions **using array ranges**: `type name(type* begin, type* end)`; 
-- Pointer and `const`: `const type* name`
-    - Make a pointer point to a constant object(not to change the value with the pointer)
-    - Make the pointer itself a constant(not to change where the pointer points)
+### Pointer and `const` 
+- `const type* pt = &data`
+    - Makes a pointer point to a constant data(not to change the value with the pointer)
+    - But the `data` does not have to be a `const`
+    - It does not prevent us from changing the value of `pt` itself! We can still use `pt = &another`
+- `type* const pt = `&data`
+    - Makes the pointer itself a constant(not to change where the pointer points)
+    - It allows for using `pt` to change the value of `data`, but `pt` can only point to `data`!
 - Assign the address of a `const` variable to a pointer to const is valid
 - Assign the address of a regular variable to a pointer to const is valid
 - Assign the address of a `const` variable to a regular pointer is **not valid**
 - Pointer to pointer is a bit more complex
 - Using `const` allows both `const` and non-`const` arguments, while omitting `const` in the prototype can accept only non-`const` data
-- `const type* pointer` does not prevent us from changing the value of `pointer` itself!
 - `int* const name` allows to using `name` to alter the value of which the address is assigned to `name`
 - `type* name(const type* ar, type var)` can not alter the values in the array that passed to it, works **as long as there is just one level of indirection**
 
