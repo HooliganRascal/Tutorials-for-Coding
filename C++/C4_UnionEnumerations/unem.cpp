@@ -56,6 +56,7 @@ int main(void){
 	cout << teststu.id_double << endl;
 
 	// Output enumerations
+	cout << endl;
 	cout << yellow << endl;
 	cout << color << endl;
 	cout << testcol << endl;

@@ -100,6 +100,10 @@ class stock{
     - Gathering the implementation details together
     - Separating them from the abstraction
 - Data hiding(putting data into the **private section** of a class) is just an instance of encapsulation
+
+> Notes: 
+> Just like `struct`, if we define a memberin `public` section: `class name{public: int a=1;};`, we can use `name.a` to access it
+
 - Another encapsulation example: place class function definitions in a separate file from class declaration
     - We need to know that what different member functions accomplish, the arguments they take, the value they return
     - The principle is to **separate the details of implementation from the design of the interface**, so that adjustment can be applied without changing the program interface.
@@ -844,5 +848,200 @@ Total Worth: $1515.60
 
 ## Class Scope
 
+- Applied to the names defined in a class, like data members and data functions
+    - Known **within** the class 
+    - Available to have the same class member names in different class
+    - Within the class, we can use an unadorned member name like `fun()` rather than `name.fun()`
+    - But outside the class, we need to use **direct`.`**, **scope-resolution `::`** or **indirect `->`** when using a class member name
+- Class definition describes what an object looks like rather than creates an object
+- Create class scope constant with `enum`
+    - Declare an `enum` within a class to provide class scope symbolic names for integer constants, like `class name{private: enum{a=1};};`, and we **need not to provide a tag**
+    - In fact, `ios_base` does something similar to this `enum`, where `fixed` is an enumerator defined in class `ios_base`
+- Another way of defining a constant within a class: use `static`
+    - Like `class name{private: static const type var = val;}`
+    - C++ 98 can use this only for constant integer or enumeration, C++ 11 removes this restriction
+    - More on `static` class members, see in [Chapter\_12](Chapter_12.md)
+- For enumeration:
+    - `emum a{a_1}; enum b{a_1}` can **conflict for `a_1` in the 2 enumerations would be in the same scope**
+    - In C++11, use `class` to avoid this problem: `enum class a{a_1}; enum class b{a_1};`
+    - Here, `class` can b altered by `struct`, and use `a enm1 = a::a_1`
+    - Now, the enumerators have class scope
+- Type security for scoped enumerations:
+    - Regular enumerations get converted into `int` automatically
+    - Scoped enumerations have no implicit conversions to `int`, thus not allowed for `int` operations like `if(a::a_1<1)`
+    - But explicit conversion is available: `int text = int(a::a_1)`
+- Enumerations are represented by some **underlying integer types**
+    - Under C98, this was *implementation dependent*, thus the `struct` containing `enum` can be of different sizes in different systems, C++11 has removed the dependency for **scoped enumerations**
+    - By default, the underlying type of *scoped* `enum` in C++11 is `int` 
+    - Use `:` to indicate a different choice: `enum class:short a{a_1};`, which specifies the underlying type to be `short`, it has to be an **integer type**
+    - This could work for unscoped enumerations too, but if we don't specify the underlying type, the choice the compiler makes is implementation-dependent
 
 ## Abstract Data Type
+Source code: `C10_Stack`
+```C++
+/*****stack.h****/
+#ifndef STACK_H_
+#define STACK_H_
+
+typedef unsigned long item; // general type of stack
+
+class stack{
+	private:
+		enum {limit=10};
+		item items[limit];
+		int top;
+	public:
+		stack(void);
+		bool isempty(void) const;
+		bool isfull(void) const;
+		bool push(const item& neo); // false if the stack is full
+		bool pop(item& neo); // false if the stack is empty
+};
+
+#endif
+
+/*****stack.cpp*****/
+#include "stack.h"
+ 
+stack::stack(void){
+	top=0;
+}
+
+bool stack::isempty(void) const{
+	return top==0;
+}
+
+bool stack::isfull(void) const{
+	return top==limit;
+}
+
+bool stack::push(const item& neo){
+	if(top<limit){
+		*(items+top) = neo; // overwrite
+		++top;
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+bool stack::pop(item& neo){
+	if(top>0){
+		--top;
+		neo = *(items+top);
+		return true;
+	}
+	else{
+		return false;
+	}
+}	
+
+/*****usestack.cpp*****/
+#include <iostream>
+#include <cctype>
+#include "stack.h"
+
+int main(void){
+	stack st;
+	char ch;
+	unsigned long po;
+
+	std::cout << "Enter A to add a purchase order,\n"
+			  << "Enter P to process a PO, \n"
+			  << "Enter Q to quit \n";
+	std::cout << std::endl;
+
+	while((std::cin>>ch)&&(toupper(ch)!='Q')){
+		while(std::cin.get()!='\n'){
+			continue;
+		}// empty the waste invalid input in the queue
+		if(!isalpha(ch)){
+			std::cout << "\a"
+					  << "Please enter a valid letter,\n"
+					  << "Enter A to add a purchase order,\n"
+					  << "Enter P to process a PO, \n"
+			  		  << "Enter Q to quit \n";
+			std::cout << std::endl; 
+			continue;
+		}
+		switch(ch){
+			case 'A':
+			case 'a': std::cout << "Enter a PO number to add: ";
+					  std::cin >> po;
+					  if(st.isfull()){
+						  std::cout << "Stack already full\n";
+					  }
+					  else{
+						  st.push(po);
+					  }
+					  break;
+			case 'p':
+			case 'P': if(st.isempty()){
+						  std::cout << "Stack already empty\n";
+					  }
+					  else{
+						  st.pop(po);
+						  std::cout << "PO #" << po << " popped\n";
+					  }
+					  break;
+		}
+
+		std::cout << std::endl;
+	//	std::cout << "Enter A to add a purchase order,\n"
+	//  		  << "Enter P to process a PO, \n"
+	//		      << "Enter Q to quit \n";
+	}
+	std::cout << "Bye!\n";
+
+	return 0;
+}
+```
+
+- Define a class to represent more general concepts
+- Use a class to implement *abstract data types*(ADTs)
+- Describe a data type **in a general fashion without bringing in language or implementation details**, like using the *stack* to manage automatic variables
+    - New automatic variables generated, they are added to the top
+    - When they expire, they are removed from the stack
+- More on stack:
+    - Stack holds several items (making stack a *container*)
+    - Stack is characterized by the **operation** you can perform on it
+        - Create an empty stack
+        - Add an item to the top(push)
+        - Remove an item from the top(pop)
+        - Check whether the stack is full
+        - Check whether the stack is empty
+- Match the description with `class`
+    - `public` member functions represent the operations, 
+    - `private` data members take care of **storing** the data, with array or advanced data structure
+- Always remember to use `private` members to protect the codes
+
+```Console
+Enter A to add a purchase order,
+Enter P to process a PO,
+Enter Q to quit
+
+A
+Enter a PO number to add: 1
+
+A
+Enter a PO number to add: 2
+
+A
+Enter a PO number to add: 3
+
+P
+PO #3 popped
+
+P
+PO #2 popped
+
+P
+PO #1 popped
+
+P
+Stack already empty
+
+Q
+Bye!
+```
