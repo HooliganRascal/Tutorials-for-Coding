@@ -29,4 +29,4 @@ Computer languages deal with 2 concepts in general: **data** and **algorithm**
 - [Adventures in Functions](./0_C++docs/Chapter_8.md)
 - [Memory Models and Namespaces](./0_C++docs/Chapter_9.md)
 - [Objects and Classes](./0_C++docs/Chapter_10.md)
-
+- [Working with Classes](./0_C++docs/Chapter_11.md)

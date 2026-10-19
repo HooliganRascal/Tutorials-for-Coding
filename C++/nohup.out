@@ -433,3 +433,4 @@ Fontconfig error: Cannot load default config file: File not found
 [29383:29415:1018/162233.576996:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
 [29383:29415:1018/162233.578267:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
 [29383:29383:1018/165706.463891:ERROR:chrome/browser/ui/webui/ntp/new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+Created TensorFlow Lite XNNPACK delegate for CPU.

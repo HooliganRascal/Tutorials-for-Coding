@@ -483,6 +483,7 @@ char* left(const char* str, int n){
 - Define the default for a particular argument with all the right: `type fun(type1 var1, type2 var2=val2, type3 var3=val3)`
 - Actual arguments are assigned to the corresponding formal arguments from **left to right**
 - C programmers are more on faster running, while C++ is more on *reliability*
+- For function creation, **don't repeatly specify the default value**!
 
 ```Console
 Enter a string: 

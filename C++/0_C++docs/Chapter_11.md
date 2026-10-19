@@ -1,1 +1,357 @@
-# 
+# Working with Classes
+---
+## Operator Overloading
+
+- Overloading just like the language, one word for multiplie meanings
+- Many operators are already overloaded like `*`
+- *Operator function* to overload operators: `operatorop(arguments)`
+    - Example, to overload `+`, use `operator+()`
+    - Define an operator function in a class, and all the objects in the same class share it
+    - Translation: `obj1=obj2+obj3` is `obj1 = obj2.operator+(obj3)`
+- There are some restrictions though
+
+## Develop an Operator Overloading Example
+Source code: `C11_Operatoroverload`
+```C++
+/*****time0.h*****/
+#ifndef TIME0_H_
+#define TIME0_H_
+
+class TIME{
+	private:
+		int hours;
+		int minutes;
+	public:
+		TIME(void);
+		TIME(int h, int m=0);
+		~TIME(void);
+
+		void ADDMIN(int m);
+		void ADDHOUR(int h);
+		void RESET(int h=0, int m=0);
+		TIME SUM(const TIME& t) const;
+		void SHOW(void) const;
+};
+		
+#endif
+
+/*****time0.cpp*****/
+#include <iostream>
+#include "time0.h"
+
+
+time::time(void){
+	hours = minutes = 0;
+}
+
+time::time(int h, int m){
+	hours = h;
+	minutes = m;
+}
+
+time::~time(void){} // destructor
+
+void time::addmin(int m){
+	minutes += m;
+	hours += minutes/60;
+	minutes %= 60;
+}
+
+void time::addhour(int h){
+	hours += h;
+}
+
+void time::reset(int h, int m){
+	hours = h;
+	minutes = m;
+}
+
+time time::sum(const time& t) const{
+	time sum;
+	sum.minutes = minutes + t.minutes;
+	sum.hours = hours+t.hours+sum.minutes/60;
+	sum.minutes %= 60;
+	return sum;
+}
+
+void time::show(void) const{
+	std::cout << hours << " hours " << minutes << " minutes\n";
+}
+
+/*****usetime0.cpp*****/
+#include <iostream>
+#include "time0.h"
+
+int main(void){
+	TIME planning;
+	TIME coding(2,40);
+	TIME fixing(5,55);
+	TIME total;
+
+	std::cout<< "planning time = ";
+	planning.SHOW();
+	std::cout<< "coding time = ";
+	coding.SHOW();
+	std::cout<< "fixing time = ";
+	fixing.SHOW();
+	
+	total = coding.SUM(fixing);
+	std::cout << "coding.SUM(fixing) = ";
+	total.SHOW();
+
+	return 0;
+}
+```
+- For comparison, we make an ordinary version first
+- For addition, we can use division and modulus
+
+```Console
+planning time = 0 hours 0 minutes
+coding time = 2 hours 40 minutes
+fixing time = 5 hours 55 minutes
+coding.SUM(fixing) = 8 hours 35 minutes
+```  
+
+### Adding an Addition Operator
+Source code: `C11_Operatoroverload`
+```C++
+/*****time1.h*****/
+#ifndef TIME1_H_
+#define TIME1_H_
+
+class TIME{
+	private:
+		int hours;
+		int minutes;
+	public:
+		TIME(void);
+		TIME(int h, int m=0);
+		~TIME(void);
+
+		void ADDMIN(int m);
+		void ADDHOUR(int h);
+		void RESET(int h=0, int m=0);
+		TIME operator+(const TIME& t) const;
+		void SHOW(void) const;
+};
+		
+#endif
+
+/*****time1.cpp*****/
+#include <iostream>
+#include "time1.h"
+
+TIME::TIME(void){
+	hours = minutes = 0;
+}
+
+TIME::TIME(int h, int m){
+	hours = h;
+	minutes = m;
+}
+
+TIME::~TIME(void){} // destructor
+
+void TIME::ADDMIN(int m){
+	minutes += m;
+	hours += minutes/60;
+	minutes %= 60;
+}
+
+void TIME::ADDHOUR(int h){
+	hours += h;
+}
+
+void TIME::RESET(int h, int m){
+	hours = h;
+	minutes = m;
+}
+
+TIME TIME::operator+(const TIME& t) const{
+	TIME sum;
+	sum.minutes = minutes + t.minutes;
+	sum.hours = hours+t.hours+sum.minutes/60;
+	sum.minutes %= 60;
+	return sum;
+}
+
+void TIME::SHOW(void) const{
+	std::cout << hours << " hours " << minutes << " minutes\n";
+}
+
+/*****usetime1.cpp*****/
+#include <iostream>
+#include "time1.h"
+
+int main(void){
+	TIME planning;
+	TIME coding(2,40);
+	TIME fixing(5,55);
+	TIME morefixing(3,28);
+	TIME total;
+
+	std::cout<< "planning time = ";
+	planning.SHOW();
+	std::cout<< "coding time = ";
+	coding.SHOW();
+	std::cout<< "fixing time = ";
+	fixing.SHOW();
+	
+	total = coding+fixing; 
+	std::cout << "coding + fixing = ";
+	total.SHOW();
+
+	std::cout<< "more fixing time = ";
+	morefixing.SHOW();
+	total=total.operator+(morefixing);
+	std::cout<< "total.operator+(morefixing) = ";
+	total.SHOW();
+
+	return 0;
+}
+```
+- Change the `SUM` to `operator+`
+- The object to the left of`+` is **the invoking object**
+- The object to the right of `+` is the one **passed as an argument**
+- The order matters sometimes
+- Operating function allows to be invoked by either function notation or operator notation
+- For *left-to-right* `+` operator, it is available to do `t4=t1+t2+t3`
+
+```Console
+planning time = 0 hours 0 minutes
+coding time = 2 hours 40 minutes
+fixing time = 5 hours 55 minutes
+coding + fixing = 8 hours 35 minutes
+more fixing time = 3 hours 28 minutes
+total.operator+(morefixing) = 12 hours 3 minutes
+```
+
+### Overloading Restriction
+- Overloaded operators with some exceptions do **not necessarily have to be member functions**!
+- Restrictions:
+    - Overloaded operator must have **at least one operand with user-defined type**, `double operator-(double a, double b){return a+b}` is not allowed
+    - We can’t use an operator in a manner that **violates the syntax rules for the original**, overloaded `%` is not allowed for simply `% a;`, and **precedence is not allowed to be altered**
+    - We can't create new operator symbols like `operator**()`
+    - List of not allowable overloading operators like `::`
+    - Most of the allowable overloading operators can be done by using **member functions or nonmember functions**, but list of operators **only allowable for member functions like `=`**
+- Use **sensible restraint** in overloading operators as a good habit
+
+### More Overloaded Operators
+Source code: `C11_Operatoroverload`
+```C++
+/*****time2.h*****/
+#ifndef TIME2_H_
+#define TIME2_H_
+
+class TIME{
+	private:
+		int hours;
+		int minutes;
+	public:
+		TIME(void);
+		TIME(int h, int m=0);
+		~TIME(void);
+
+		void ADDMIN(int m);
+		void ADDHOUR(int h);
+		void RESET(int h=0, int m=0);
+		void SHOW(void) const;
+
+		TIME operator+(const TIME& t) const;
+		TIME operator-(const TIME& t) const;
+		TIME operator*(double mult) const;
+};
+		
+#endif
+
+/*****time2.cpp*****/
+#include <iostream>
+#include "time1.h"
+
+TIME::TIME(void){
+	hours = minutes = 0;
+}
+
+TIME::TIME(int h, int m){
+	hours = h;
+	minutes = m;
+}
+
+TIME::~TIME(void){} // destructor
+
+void TIME::ADDMIN(int m){
+	minutes += m;
+	hours += minutes/60;
+	minutes %= 60;
+}
+
+void TIME::ADDHOUR(int h){
+	hours += h;
+}
+
+void TIME::RESET(int h, int m){
+	hours = h;
+	minutes = m;
+}
+
+TIME TIME::operator+(const TIME& t) const{
+	TIME sum;
+	sum.minutes = minutes + t.minutes;
+	sum.hours = hours+t.hours+sum.minutes/60;
+	sum.minutes %= 60;
+	return sum;
+}
+
+void TIME::SHOW(void) const{
+	std::cout << hours << " hours " << minutes << " minutes\n";
+}
+
+/*****usetime2.cpp*****/
+#include <iostream>
+#include "time2.h"
+
+int main(void){
+	TIME weeding(4,35);
+	TIME waxing(2,47);
+	TIME total;
+	TIME diff;
+	TIME adjusted;
+
+	std::cout<< "weeding time = ";
+	weeding.SHOW();
+	std::cout<< "waxing time = ";
+	waxing.SHOW();
+	
+	total = weeding+waxing; 
+	std::cout << "total work time = ";
+	total.SHOW();
+
+	diff = weeding-waxing; 
+	std::cout<< "weeding time - waxing time = ";
+	diff.SHOW();
+
+	adjusted = total*1.5; 
+	std::cout << "adjusted work time = ";
+	adjusted.SHOW();
+
+	return 0;
+}
+```
+
+- The overloaded `-` or `*` works in the same principle as `operator+`
+
+```Console
+weeding time = 4 hours 35 minutes
+waxing time = 2 hours 47 minutes
+total work time = 7 hours 22 minutes
+weeding time - waxing time = 1 hours 48 minutes
+adjusted work time = 11 hours 3 minutes
+```
+
+## Introducing Friends
+
+- Another way to access the `private` portion of a class despite the methods declared in `public
+- Friend: 
+    - Friend functions
+    - Friend classes
+    - Friend member functions

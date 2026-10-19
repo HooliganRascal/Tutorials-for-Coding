@@ -358,6 +358,7 @@ Total Worth: $179398.50
         - Explicit: `name obj=name()`
         - Implicit: `name* obj = new name;`
     - Don't mess up with **non-default construtors**!
+- We should usually define a default constructor **implicitly initializing the objects**
 
 ### Destructors
 - We need to track the object until it expires
