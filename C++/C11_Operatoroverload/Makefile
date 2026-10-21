@@ -1,4 +1,4 @@
 build:
-	g++ time2.cpp usetime2.cpp -o time2
+	g++ time3.cpp usetime3.cpp -o time3
 run:
-	./time2
+	./time3

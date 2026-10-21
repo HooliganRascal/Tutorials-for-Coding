@@ -434,3 +434,41 @@ Fontconfig error: Cannot load default config file: File not found
 [29383:29415:1018/162233.578267:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
 [29383:29383:1018/165706.463891:ERROR:chrome/browser/ui/webui/ntp/new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
 Created TensorFlow Lite XNNPACK delegate for CPU.
+Created TensorFlow Lite XNNPACK delegate for CPU.
+Fontconfig error: Cannot load default config file: File not found
+[78369:78376:1021/105402.274286:ERROR:net/socket/ssl_client_socket_impl.cc:949] handshake failed; returned -1, SSL error code 1, net_error -100
+[78322:78354:1021/105543.780143:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[78322:78354:1021/110009.856715:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[78322:78354:1021/110146.305876:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[78322:78354:1021/110324.412839:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[78322:78354:1021/110324.415057:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[78322:78354:1021/110736.392677:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[78322:78354:1021/111329.347234:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[78322:78354:1021/111329.347812:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[78322:78354:1021/111329.348589:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[78322:78354:1021/112550.036109:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[78322:78354:1021/112852.398316:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[78322:78354:1021/112852.400052:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[78322:78354:1021/113333.573048:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[78322:78354:1021/113333.575224:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[78322:78354:1021/113335.578077:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[78322:78354:1021/113546.395831:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[78322:78354:1021/113546.396650:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[78322:78354:1021/115136.889864:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[78322:78354:1021/115136.892217:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[78322:78354:1021/115208.490386:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[78322:78354:1021/115208.491709:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[78322:78354:1021/120526.693903:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:474] ConnectionHandler failed with net error: -2
+[78322:78354:1021/120819.754344:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[78322:78354:1021/120819.755732:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[78322:78354:1021/124609.763665:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[78322:78354:1021/125030.916263:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[78322:78354:1021/125542.086199:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[78322:78354:1021/130017.392390:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[78322:78354:1021/130017.392450:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[78322:78354:1021/130017.393804:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[78322:78354:1021/130049.212010:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[78322:78354:1021/130049.213233:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[78322:78354:1021/130338.676226:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[78322:78354:1021/130842.070971:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[78322:78354:1021/130842.072258:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105

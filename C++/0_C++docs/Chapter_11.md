@@ -350,8 +350,196 @@ adjusted work time = 11 hours 3 minutes
 
 ## Introducing Friends
 
-- Another way to access the `private` portion of a class despite the methods declared in `public
+- Another way to access the `private` portion of a class despite the methods declared in `public`
 - Friend: 
     - Friend functions
     - Friend classes
     - Friend member functions
+- Look into friend functions now, other 2 features in [Chapter\_15](Chapter_15.md)
+    - Consider `A = B * 2.75` to `A = B.operator* (2.75)`
+    - What about `A = 2.75 * B`?
+    - Consider a nonmember oveloaded operator function: `A = operator* (double m,const classtype& t)`, that might work
+    - Thus we need the nonmember function to access `private` data to get our **desired order of parameters**
+
+### Creating Friends
+
+- Place a function prototype in **class declaration**: `friend name operator+(type1,const name& t);` It is not a member function
+- Implement the function definition like `name operator+(type1, const name& t){}`
+- A friend function to a class is a **nonmember function with the same access rights as a member function**
+- A tricky thought, implement it by overloading operators: `name operator* (type1 m, const name& t){return t * m;}`
+
+### A Common Kind of Friend: Overloading `<<`
+Source code:`C11_Operatoroverloaded`
+```C++
+/*****time3.h*****/
+#ifndef TIME3_H_
+#define TIME3_H_
+#include <iostream>
+
+class TIME{
+	private:
+		int hours;
+		int minutes;
+	public:
+		TIME(void);
+		TIME(int h, int m=0);
+		~TIME(void);
+
+		void ADDMIN(int m);
+		void ADDHOUR(int h);
+		void RESET(int h=0, int m=0);
+
+		TIME operator+(const TIME& t) const;
+		TIME operator-(const TIME& t) const;
+		TIME operator*(double mult) const;
+		friend inline TIME operator*(double mult, const TIME& t){
+			return t*mult;
+		}
+		friend std::ostream& operator<<(
+			std::ostream& os, 
+			const TIME&t
+		);
+};
+		
+#endif
+
+/*****time3.cpp*****/
+#include "time3.h"
+
+TIME::TIME(void){
+	hours = minutes = 0;
+}
+
+TIME::TIME(int h, int m){
+	hours = h;
+	minutes = m;
+}
+
+TIME::~TIME(void){} // destructor
+
+void TIME::ADDMIN(int m){
+	minutes += m;
+	hours += minutes/60;
+	minutes %= 60;
+}
+
+void TIME::ADDHOUR(int h){
+	hours += h;
+}
+
+void TIME::RESET(int h, int m){
+	hours = h;
+	minutes = m;
+}
+
+TIME TIME::operator+(const TIME& t) const{
+	TIME sum;
+	sum.minutes = minutes + t.minutes;
+	sum.hours = hours+t.hours+sum.minutes/60;
+	sum.minutes %= 60;
+	return sum;
+}
+
+TIME TIME::operator-(const TIME& t) const{
+	TIME diff;
+	int tot1 = t.minutes + 60*t.hours; // to subtract
+	int tot2 = minutes + 60*hours; // to be subtracted
+	diff.minutes = (tot2-tot1)%60;
+	diff.hours = (tot2-tot1)/60;
+	return diff;
+}
+
+TIME TIME::operator*(double mult) const{
+	TIME result;
+	long totalmin = hours*mult*60+minutes*mult;
+	result.minutes = totalmin%60;
+	result.hours = totalmin/60;
+	return result;
+}
+
+std::ostream& operator<<(std::ostream& os, const TIME& t){
+	os << t.hours << " hours, " << t.minutes << " minutes\n";
+	return os;
+}
+
+/*****usetime3.cpp*****/
+#include <iostream> // time3.h already includes one
+#include "time3.h"
+
+int main(void){
+	TIME cosmos(4,35);
+	TIME mteltn(2,47);
+	TIME temp;
+
+	std::cout << "Cosmos and Mteltn:\n";
+	std::cout << cosmos 
+			  << mteltn << "\n";
+	std::cout << "Cosmos + Mteltn:\n"
+			  << (temp = cosmos+mteltn) << "\n";
+	std::cout << "Cosmos*1.7:\n"
+			  << (temp = cosmos*1.7) << "\n";
+	std::cout << "10.2*Mteltn:\n"
+			  << (temp = 10.2*mteltn) << "\n";
+
+	return 0;
+}
+```
+
+- It is already heavily overloaded in `ostream` class
+- `ostream` class definition includes an overloaded `operator<<()`
+- It’s a dangerous idea to alter the iostream file and mess around with a standard interface.
+- Use the `name` class declaration to teach `name` class how to use `<<`
+- Remember that `cout` is an object of `ostream` class
+- First version: `friend void operator<<(ostream& os, const name& t)`
+    - Declared in `name` class definition, thus a friend of `name` rather than `ostream`
+    - Another `ostream` object: `cerr` to route output to the standard error stream, the display by default
+    - By [inheritance](Chaper_13.md), methods in `ostream` can work in `ofstream`, thus we can *redirect the standard error stream to a file, just replace the first**argument**with `ofstream`
+- Second version: `friend ostream& operator<<(ostream& os, const name& t)`
+    - First version works with `cout << obj`, but not for `cout << obj << ...`
+    - The `cout` works in `cout << x << y` as `(cout << x) << y`, thus it **returns a reference to the `ostream` object**
+- Use `friend` for prototypes found in class declaration only
+
+```Console
+Cosmos and Mteltn:
+4 hours, 35 minutes
+2 hours, 47 minutes
+
+Cosmos + Mteltn:
+7 hours, 22 minutes
+
+Cosmos*1.7:
+7 hours, 47 minutes
+
+10.2*Mteltn:
+28 hours, 23 minutes
+```
+
+## Overloaded Operators: Member Versus Nonmember Functions
+- The nonmember version is typically a `friend` function to directly access the private data for a class
+- Member version passed one object **implicitly** while another one **explicitly**
+- Nonmember version passed them all **explicitly**
+- For the **same figures**, we can choose **only one version**
+
+## More Overloading: A Vector Class
+Source code:`C11_Vectoroverload`
+```C++
+/*****vect.h*****/
+
+/*****vect.cpp*****/
+
+/*****randwalk.cpp*****/
+```
+
+- Vector: a quantity with both size and direction
+- Implement a 2-D vector with 2 numbers, either `x-y` or `mag-ang`
+- Define a class to represent such stuff in a `namespace` to reflesh our memory
+
+```Console
+
+```
+
+## Automatic Conversions and Type Casts for Classes
+
+### Conversion Functions
+
+### Conversions and Friends
