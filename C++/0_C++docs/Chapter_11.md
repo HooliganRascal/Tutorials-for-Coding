@@ -518,7 +518,7 @@ Cosmos*1.7:
 - The nonmember version is typically a `friend` function to directly access the private data for a class
 - Member version passed one object **implicitly** while another one **explicitly**
 - Nonmember version passed them all **explicitly**
-- For the **same figures**, we can choose **only one version**
+- For the **same signatures**, we can choose **only one version**
 
 ## More Overloading: A Vector Class
 Source code:`C11_Vectoroverload`
@@ -533,7 +533,47 @@ Source code:`C11_Vectoroverload`
 - Vector: a quantity with both size and direction
 - Implement a 2-D vector with 2 numbers, either `x-y` or `mag-ang`
 - Define a class to represent such stuff in a `namespace` to reflesh our memory
+- Short functions could be good to be inlining
+- Define all the functions in a namespace with its **open nature**
+- Define constants in a namespace or globally in a header file. former is the better
+- `friend` operator overloading functions 
+    - Declared in a class in a namespace have namespace scop
+    - though it is not a member function, scope is **out of class**, more like global but not,
+    - **The name of friend function has namespace scope**
+- State member describe the state an object is in, like `mode = RECT`
+- Operator overloading is implemented with functions, we can overload the same operator many times as long as the **signature is distinct** and same **number of operands as the built-in C++ operators** 
+- For overloading operators, the **order of parameters determines the order of operands!**
+    - Subtraction: *binary operator*
+    - Minus sign: *unary operator*
+- A class can help us think of a quantity in terms of its essential nature rather than in terms of representations
+- If a method is to compute a new class object, see if we can use a class constructor to make sure it is in a proper fashion
+- This case uses a *random walk problem* as an example, to estimate how a drunckard inefficient in walking can be, the variations are shown from trial to trial, but by probability:
+    $$\bar N = \left(\frac{D}{s}\right)^{2}$$
+    - $\bar N$ is the average steps it takes
+    - $D$ is the total distance
+    - $s$ is the step size
+- So if you find yourself walking randomly, be confident and take long steps.You still won’t have any control over the direction you wind up going, **but at least you’ll get farther**.
 
+> Note:
+> For multifile compilation, each translation unit is quite independent, thus the **header file including function prototypes needs including** to have each unit **sees the function declarations**
+
+- Random numbers:
+    - `rand()` returns a **random integer from zero to some implementation-dependent** value
+    - `rand()` apply an algorithm to an **initial seed** to get a random value
+    - The first random value is **used as the seed for the second** function call, and so on
+    - The numbers are **pseudorandom**
+        - Simply using the `rand()` for multiple times can produce different random numbers
+        - But each time we rerun the program, **the same sequence of random numbers** will be applied
+    - `srand()` can **override the default seed value** and initiate a different sequence of random numbers
+    - Typically, we use the return value of `time(0)` or `time(NULL)` to set the seed
+- About `time()`
+    - Take the **address of a type `time_t` variable**
+    - Put the time into that variable, return it
+    - Use `0` as the address argument obviates the need for an otherwise unneeded `time_t` variable
+- C++11 provides more extensive random numbers support with functions functions supported by `random` header file
+- Overloading operator function, when using it, it creates the object by using the **default constructor**, then it is assigned to the value(temporary object!)
+- We can **override the default assignment by defining an assignment operator for the class**, see [Chapter\_12](Chapter_12.md)
+- To save successive positions in a file, use `<fstream>` and create `ofstream obj1`, then use `obj1.open("filename")` and replace `cout` with `obj1`
 ```Console
 
 ```
