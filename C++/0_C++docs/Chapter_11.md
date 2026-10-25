@@ -524,22 +524,22 @@ Cosmos*1.7:
 Source code:`C11_Vectoroverload`
 ```C++
 /*****vect.h*****/
-#ifndef vector_h_
-#define vector_h_
+#ifndef VECTOR_H_
+#define VECTOR_H_
 #include <iostream>
 
 namespace vect{
-	class vector{
+	class VECTOR{
 		// variables
 		public:
-			enum mode{
-				rect, 
-				pola
+			enum MODE{
+				RECT, 
+				POLA
 			};
 		private:
 			double x,y; // x-coor, y-coor
 			double r,w; // magnitude, angle(radian)
-			mode mode;
+			MODE mode;
 		
 		// function
 		private:
@@ -549,12 +549,12 @@ namespace vect{
 			void set_y(void);
 		public:
 			// constructor and destructor
-			vector(void);
-			vector(double n1, double n2, mode form=rect);
-			~vector(void);
+			VECTOR(void);
+			VECTOR(double n1, double n2, MODE form=RECT);
+			~VECTOR(void);
 
 			// basic interface
-			void reset(double n1, double n2, mode form=rect);
+			void reset(double n1, double n2, MODE form=RECT);
 			inline double xval(void) const{return x;};
 			inline double yval(void) const{return y;};
 			inline double rval(void) const{return r;};
@@ -565,19 +565,19 @@ namespace vect{
 			void mode_rect(void);
 
 			// overloading
-			vector operator+(const vector& b) const;
-			vector operator-(const vector& b) const;
-			vector operator-(void) const; // negation
-			vector operator*(double n) const; 
+			VECTOR operator+(const VECTOR& b) const;
+			VECTOR operator-(const VECTOR& b) const;
+			VECTOR operator-(void) const; // negation
+			VECTOR operator*(double n) const; 
 			
 			// friend functions
-			friend vector operator*(
+			friend VECTOR operator*(
 					double n, 
-					const vector& a
+					const VECTOR& a
 				);
 			friend std::ostream& operator<<(
 					std::ostream& os, 
-					const vector& v
+					const VECTOR& v
 				);
 	};
 
@@ -585,13 +585,13 @@ namespace vect{
 	const double rad_to_deg = 180.0/pi;
 	const double deg_to_rad = pi/180.0;
 
-	vector operator*(
+	VECTOR operator*(
 			double n, 
-			const vector& a
+			const VECTOR& a
 		);
 	std::ostream& operator<<(
 			std::ostream& os, 
-			const vector& v
+			const VECTOR& v
 		);
 }
 
@@ -836,7 +836,17 @@ Bye!
 ```
 
 ## Automatic Conversions and Type Casts for Classes
+Source code: `C11_Conversions`
+```C++
 
+```
+- Automatic conversions may lose **precisions like `int a = 0.3`**
+- C++ does not convert incompatible types like `int* p = 10`, to do so, use `int* p = (int*) 10`, called *type-casting*
+- Use a class to do the type casting
+
+```Console
+
+```
 ### Conversion Functions
 
 ### Conversions and Friends

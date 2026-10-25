@@ -4,7 +4,7 @@
 
 namespace vect{
 	class VECTOR{
-		// Variables
+		// variables
 		public:
 			enum MODE{
 				RECT, 
@@ -15,36 +15,36 @@ namespace vect{
 			double r,w; // magnitude, angle(radian)
 			MODE mode;
 		
-		// Function
+		// function
 		private:
 			void set_r(void);
 			void set_w(void);
 			void set_x(void);
 			void set_y(void);
 		public:
-			// Constructor and Destructor
+			// constructor and destructor
 			VECTOR(void);
 			VECTOR(double n1, double n2, MODE form=RECT);
 			~VECTOR(void);
 
-			// Basic Interface
+			// basic interface
 			void reset(double n1, double n2, MODE form=RECT);
 			inline double xval(void) const{return x;};
 			inline double yval(void) const{return y;};
 			inline double rval(void) const{return r;};
 			inline double wval(void) const{return w;};
 
-			// Mode Transfer
+			// mode transfer
 			void mode_pola(void);
 			void mode_rect(void);
 
-			// Overloading
+			// overloading
 			VECTOR operator+(const VECTOR& b) const;
 			VECTOR operator-(const VECTOR& b) const;
-			VECTOR operator-(void) const; // Negation
+			VECTOR operator-(void) const; // negation
 			VECTOR operator*(double n) const; 
 			
-			// Friend Functions
+			// friend functions
 			friend VECTOR operator*(
 					double n, 
 					const VECTOR& a
