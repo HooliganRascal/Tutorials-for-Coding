@@ -838,15 +838,128 @@ Bye!
 ## Automatic Conversions and Type Casts for Classes
 Source code: `C11_Conversions`
 ```C++
+/*****stonewt.h*****/
+#ifndef STONEWT_H_
+#define STONEWT_H_
+
+class STONEWT{
+    private:
+        enum {lbs_per_stn = 14}; // pounds per stone
+        int stone;
+        double pds_left; // fractional pounds 
+        double pounds; // entire weight in pounds
+    public:
+        STONEWT(double lbs); // pounds
+        STONEWT(int stn, double lbs); // stone, lbs
+        STONEWT(void);
+        ~STONEWT(void);
+
+        void show_lbs(void) const; // in pounds
+        void show_stn(void) const; // in stone
+};
+
+#endif
+
+/*****stonewt.cpp*****/
+#include <iostream>
+#include "stonewt.h"
+
+STONEWT::STONEWT(double lbs){
+	stone = int(lbs) / lbs_per_stn;
+	pds_left = int(lbs)%lbs_per_stn + lbs-int(lbs);
+	pounds = lbs;
+}
+
+STONEWT::STONEWT(int stn, double lbs){
+	stone = stn;
+	pds_left = lbs;
+	pounds = stn*lbs_per_stn + lbs;
+}
+
+STONEWT::STONEWT(void){
+	stone = pounds = pds_left = 0;
+}
+
+STONEWT::~STONEWT(void){}
+
+void STONEWT::show_stn(void) const{
+	std::cout << stone << " stone, " 
+		      << pds_left << " pounds\n";
+}
+
+void STONEWT::show_lbs(void) const{
+	std::cout << pounds << " pounds\n";
+}
+
+/*****stone.cpp*****/
+#include <iostream>
+#include "stonewt.h"
+
+void display(const STONEWT& st, int n);
+
+int main(void){
+	STONEWT incognito = 275;
+	STONEWT wolfe(285.7);
+	STONEWT taft(21, 8);
+
+	std::cout << "The celebrity weighed ";
+	incognito.show_stn();
+	std::cout << "The detective weighed ";
+	wolfe.show_stn();
+	std::cout << "The president weighed ";
+	taft.show_stn();
+
+	incognito = 276.8; // auto conversion
+	taft =325; // auto conversion(int-double-STONE)
+
+	std::cout << "After dinner, the celebrity weighed ";
+	incognito.show_stn();
+	std::cout << "After dinner, the president weighed ";
+	taft.show_lbs();
+
+	display(taft, 2);
+	std::cout << "The wrestler weighed even more.\n";
+	display(422,2); // int-double-STONE
+	std::cout << "No stone left unearned.\n";
+
+	return 0;
+}
+
+void display(const STONEWT& st, int n){
+	for(int i=0; i<n; ++i){
+		std::cout << "Wow! ";
+		st.show_stn();
+	}
+}
 
 ```
 - Automatic conversions may lose **precisions like `int a = 0.3`**
 - C++ does not convert incompatible types like `int* p = 10`, to do so, use `int* p = (int*) 10`, called *type-casting*
 - Use a class to do the type casting
+- In C++, any constructor that takes a single argument acts as a blueprint for converting a value of that argument type to the class type
+    - For `NAME(double n)`
+    - We can use `NAME obj; obj = 14.1`, which uses `NAME(double n)` to convert types
+    - Which is called *implicit conversion*
+    - Works for **constructors with only one argument**, unless with **default value** like `NAME(double n, int n_1 = 10);`
+- Use keyword `explicit` to **turn off** automatic aspects, like **declare a constructor in `explicit NAME(double n)`**, which still allows for **explicit conversion** like `(NAME)29.1` or `NAME(29.1)`
+- Implicit conversions can be dangerous
 
 ```Console
+The celebrity weighed 19 stone, 9 pounds
+The detective weighed 20 stone, 5.7 pounds
+The president weighed 21 stone, 8 pounds
+After dinner, the celebrity weighed 19 stone, 10.8 pounds
+After dinner, the president weighed 325 pounds
+Wow! 23 stone, 3 pounds
+Wow! 23 stone, 3 pounds
+The wrestler weighed even more.
+Wow! 30 stone, 2 pounds
+Wow! 30 stone, 2 pounds
+No stone left unearned.
 
 ```
 ### Conversion Functions
+
+- Conversion functions
 
 ### Conversions and Friends
