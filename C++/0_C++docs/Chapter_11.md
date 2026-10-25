@@ -524,10 +524,245 @@ Cosmos*1.7:
 Source code:`C11_Vectoroverload`
 ```C++
 /*****vect.h*****/
+#ifndef vector_h_
+#define vector_h_
+#include <iostream>
+
+namespace vect{
+	class vector{
+		// variables
+		public:
+			enum mode{
+				rect, 
+				pola
+			};
+		private:
+			double x,y; // x-coor, y-coor
+			double r,w; // magnitude, angle(radian)
+			mode mode;
+		
+		// function
+		private:
+			void set_r(void);
+			void set_w(void);
+			void set_x(void);
+			void set_y(void);
+		public:
+			// constructor and destructor
+			vector(void);
+			vector(double n1, double n2, mode form=rect);
+			~vector(void);
+
+			// basic interface
+			void reset(double n1, double n2, mode form=rect);
+			inline double xval(void) const{return x;};
+			inline double yval(void) const{return y;};
+			inline double rval(void) const{return r;};
+			inline double wval(void) const{return w;};
+
+			// mode transfer
+			void mode_pola(void);
+			void mode_rect(void);
+
+			// overloading
+			vector operator+(const vector& b) const;
+			vector operator-(const vector& b) const;
+			vector operator-(void) const; // negation
+			vector operator*(double n) const; 
+			
+			// friend functions
+			friend vector operator*(
+					double n, 
+					const vector& a
+				);
+			friend std::ostream& operator<<(
+					std::ostream& os, 
+					const vector& v
+				);
+	};
+
+	const double pi = 3.1415926535897;
+	const double rad_to_deg = 180.0/pi;
+	const double deg_to_rad = pi/180.0;
+
+	vector operator*(
+			double n, 
+			const vector& a
+		);
+	std::ostream& operator<<(
+			std::ostream& os, 
+			const vector& v
+		);
+}
+
+#endif
 
 /*****vect.cpp*****/
+#include <cmath>
+#include "vect.h"
+
+void vect::VECTOR::set_r(void){
+	r = std::sqrt(x*x+y*y);
+}
+
+void vect::VECTOR::set_w(void){
+	if(x==0 && y==0)
+		w = 0.0;
+	else
+		w = std::atan2(y,x);
+}
+
+void vect::VECTOR::set_x(void){
+	x = r*std::cos(w);
+}
+
+void vect::VECTOR::set_y(void){
+	y = r*std::sin(w);
+}
+
+// Constructor and Destructor
+vect::VECTOR::VECTOR(void){
+	x = y = r = w = 0.0;
+	mode = RECT;
+}
+vect::VECTOR::VECTOR(double n1, double n2, vect::VECTOR::MODE form){
+	mode = form;
+	if (form==RECT){
+		x = n1;
+		y = n2;
+		set_r();
+		set_w();
+	}
+	else if (form==POLA){
+		r = n1;
+		w = n2*vect::deg_to_rad;
+		set_x();
+		set_y();
+	}
+	else{
+		std::cout << "Incorrect 3rd argumemt to VECTOR() -- "
+				  << "vector set to 0\n";
+		x = y = r = w = 0.0;
+	}
+}
+vect::VECTOR::~VECTOR(void){}
+
+// Interface
+void vect::VECTOR::reset(double n1, double n2, MODE form){
+	mode = form;
+	if (form==RECT){
+		x = n1;
+		y = n2;
+		set_r();
+		set_w();
+	}
+	else if (form==POLA){
+		r = n1;
+		w = n2*vect::deg_to_rad;
+		set_x();
+		set_y();
+	}
+	else{
+		std::cout << "Incorrect 3rd argumemt to VECTOR() -- "
+				  << "vector set to 0\n";
+		x = y = r = w = 0.0;
+	}
+}
+
+void vect::VECTOR::mode_pola(void){mode = POLA;}
+void vect::VECTOR::mode_rect(void){mode = RECT;}
+
+// Operator Overloading
+vect::VECTOR 
+vect::VECTOR::operator+(const vect::VECTOR& b) const{
+	return VECTOR(x+b.x, y+b.y);
+}
+
+vect::VECTOR 
+vect::VECTOR::operator-(const vect::VECTOR& b) const{
+	return VECTOR(x-b.x, y-b.y);
+}
+
+vect::VECTOR 
+vect::VECTOR::operator-(void) const{
+	return VECTOR(-x, -y);
+}
+
+vect::VECTOR 
+vect::VECTOR::operator*(double n) const{
+	return VECTOR(n*x,n*y);
+}
+
+vect::VECTOR 
+vect::operator*(double n, const vect::VECTOR& a){
+	return a*n;
+}
+
+std::ostream& 
+vect::operator<<(std::ostream& os, const vect::VECTOR& v){
+	if (v.mode == vect::VECTOR::RECT){
+		os << "(x,y) = (" 
+		   << v.x << ", " 
+		   << v.y << ")";
+	}
+	else if (v.mode == vect::VECTOR::POLA){
+		os << "(r,w) = (" 
+		   << v.r << ", "
+		   << v.w*vect::rad_to_deg 
+		   << ")";
+	}
+	else
+		os << "Vector object mode is invalid";
+	return os;
+}
 
 /*****randwalk.cpp*****/
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include "vect.h"
+
+int main(void){
+
+	vect::VECTOR step_vec, result_vec;
+	unsigned long step_num = 0;
+	double angle_dir, target, step_len;
+
+	srand(time(0));
+	std::cout << "Enter target distance (q to quit): ";
+
+	while(std::cin >> target){
+		std::cout << "Enter step length: ";
+		if(!(std::cin >> step_len))
+			break;
+
+		while(result_vec.rval() < target){
+			angle_dir = rand() % 360;
+			step_vec.reset(step_len, angle_dir, vect::VECTOR::POLA);
+			result_vec = result_vec + step_vec;
+			step_num++;
+		}
+
+		std::cout << "After " << step_num 
+				  << " steps, the subject has the following location:\n";
+		std::cout << result_vec << std::endl;
+		result_vec.mode_pola();
+		std::cout << "or\n" << result_vec << std::endl;
+		std::cout << "Average outward distance per step = "
+				  << result_vec.rval()/step_num << std::endl;
+		
+		step_num = 0;
+		result_vec.reset(0.0, 0.0);
+		std::cout << "Enter target distance (q to quit): ";
+	}
+
+	std::cout << "Bye!\n";
+	std::cin.clear(); // clean out flags including eof
+	while(std::cin.get()!='\n')
+		continue;
+	
+	return 0;
+}
 ```
 
 - Vector: a quantity with both size and direction
@@ -575,7 +810,29 @@ Source code:`C11_Vectoroverload`
 - We can **override the default assignment by defining an assignment operator for the class**, see [Chapter\_12](Chapter_12.md)
 - To save successive positions in a file, use `<fstream>` and create `ofstream obj1`, then use `obj1.open("filename")` and replace `cout` with `obj1`
 ```Console
-
+Enter target distance (q to quit): 50
+Enter step length: 2
+After 999 steps, the subject has the following location:
+(x,y) = (50.4941, -2.28782)
+or
+(r,w) = (50.5459, -2.59422)
+Average outward distance per step = 0.0505965
+Enter target distance (q to quit): 50
+Enter step length: 2
+After 387 steps, the subject has the following location:
+(x,y) = (-21.2538, -46.4217)
+or
+(r,w) = (51.0558, -114.6)
+Average outward distance per step = 0.131927
+Enter target distance (q to quit): 50
+Enter step length: 1
+After 4068 steps, the subject has the following location:
+(x,y) = (31.8877, -38.6079)
+or
+(r,w) = (50.0739, -50.4455)
+Average outward distance per step = 0.0123092
+Enter target distance (q to quit): q
+Bye!
 ```
 
 ## Automatic Conversions and Type Casts for Classes

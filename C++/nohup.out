@@ -992,3 +992,9 @@ Fontconfig error: Cannot load default config file: File not found
 [78322:78354:1021/213944.526106:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
 [78322:78354:1021/213944.526943:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
 [78322:78354:1021/213946.558225:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+Created TensorFlow Lite XNNPACK delegate for CPU.
+[17042:17042:1023/161607.426081:ERROR:ui/gfx/x/atom_cache.cc:236] Add application/vnd.portal.filetransfer to kAtomsToCache
+[17042:17042:1023/161607.426191:ERROR:ui/gfx/x/atom_cache.cc:236] Add application/vnd.portal.files to kAtomsToCache
+[17042:17071:1023/161718.835135:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[17042:17071:1023/162148.657632:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[17042:17071:1023/162647.778627:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
