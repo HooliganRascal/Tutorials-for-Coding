@@ -1,4 +1,4 @@
 build:
-	g++ stonewt.cpp stone.cpp -o stone
+	g++ stonewt1.cpp stone1.cpp -o stone1
 run:
-	./stone
+	./stone1

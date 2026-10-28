@@ -959,7 +959,113 @@ No stone left unearned.
 
 ```
 ### Conversion Functions
+Source code: `C11_Conversions`
+```C++
+/*****stonewt1.h*****/
+#ifndef STONEWT1_H_
+#define STONEWT1_H_
 
-- Conversion functions
+class STONEWT1{
+	private:
+		enum {lbs_per_stn = 14}; // pounds per stone
+		int stone;
+		double pds_left; // fractional pounds 
+		double pounds; // entire weight in pounds
+	public:
+		STONEWT1(double lbs); // pounds
+		STONEWT1(int stn, double lbs); // stone, lbs
+		STONEWT1(void);
+		~STONEWT1(void);
 
+		void show_lbs(void) const; // in pounds
+		void show_stn(void) const; // in stone
+
+		// conversion
+		operator int(void) const;
+		operator double(void) const;
+};
+
+#endif
+
+/*****stonewt1.cpp*****/
+#include <iostream>
+#include "stonewt1.h"
+
+STONEWT1::STONEWT1(double lbs){
+	stone = int(lbs) / lbs_per_stn;
+	pds_left = int(lbs)%lbs_per_stn + lbs-int(lbs);
+	pounds = lbs;
+}
+
+STONEWT1::STONEWT1(int stn, double lbs){
+	stone = stn;
+	pds_left = lbs;
+	pounds = stn*lbs_per_stn + lbs;
+}
+
+STONEWT1::STONEWT1(void){
+	stone = pounds = pds_left = 0;
+}
+
+STONEWT1::~STONEWT1(void){}
+
+void STONEWT1::show_stn(void) const{
+	std::cout << stone << " stone, " 
+		      << pds_left << " pounds\n";
+}
+
+void STONEWT1::show_lbs(void) const{
+	std::cout << pounds << " pounds\n";
+}
+
+STONEWT1::operator int(void) const{return int(pounds+0.5);}
+STONEWT1::operator double(void) const{return pounds;}
+
+/*****stone1.cpp*****/
+#include <iostream>
+#include "stonewt1.h"
+
+int main(void){
+	STONEWT1 poppins(9,2.8);
+	double p_wt = poppins; // implicit conversion
+	
+	std::cout << "Convert to double => "
+			  << "Poppins: " << p_wt 
+			  << "pounds.\n";
+	std::cout << "Convert to int => "
+			  << "Poppins: " << (int)poppins 
+			  << "pounds.\n";
+
+	return 0;
+}
+
+```
+- We can convert a `double` to `NAME` type automatically
+- As the reverse, could we also convert a `NAME` type to `double` like `NAME obj1;double a = obj1`?
+- Not by constructor, but by *conversion functions!*
+    - Use `double a = double (obj1)` or `double a = (double) obj1`
+    - Use `double a = obj1` implicitly
+    - With **a definition of conversion function**!
+- Define a conversion function: `operator type()` like `operator double()`
+    - It is a **class method**
+    - Must **not specify a return type**
+    - Must **have no argument**
+- Often it’s best to use explicit conversions and exclude the possibility of implicit conversions, use `explicit` after C++11 like `explicit operator double(void) const`
+- Implicity always causes problems!
+
+
+```Console
+Convert to double => Poppins: 128.8pounds.
+Convert to int => Poppins: 129pounds.
+```
 ### Conversions and Friends
+- Combine friend functions and conversion functions with ambiguity can causes the compiler to mess up
+- Be careful, the type mismatch could invoke the *constructor* or *conversion function* implicitly to do the type-conversion
+- Having too many conversion functions creates ambiguities
+- Maybe, for overloading addition, *friend* is the better, for both operands become function arguments
+- Choices in conversion implementation
+    - Define one friend function using two class argument: `friend operator+(const NAME&, const NAME&);` let the constructor handle the **implicit conversion**
+    - Overload the operation: `NAME operator+(double);` Then use a friend function `friend NAME operator+(double, NAME&)`
+> - First choice results in **shorter program**, fewer chances to mess up, but runs a little bit slower
+> - Second choice makes for **longer program** and more work on our parts, but runs a little faster
+> - Be more careful, we can use the `explicit` conversion like `explicit NAME operator double(void) const`
