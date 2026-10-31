@@ -9,7 +9,8 @@ class stringbad{
 		static int num_str;
 	public:
 		stringbad(const char* str);
-		stringbad(void); ~stringbad(void);
+		stringbad(void); 
+		~stringbad(void);
 		friend std::ostream& 
 		operator<<(std::ostream& os, const stringbad& stb);
 };

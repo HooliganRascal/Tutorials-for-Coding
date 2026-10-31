@@ -1,4 +1,4 @@
 build:
-	g++ stringbad.cpp usebad.cpp -o bad
+	g++ stringgood.cpp usegood.cpp -o good
 run:
-	./bad
+	./good

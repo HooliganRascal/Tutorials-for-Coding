@@ -1007,3 +1007,104 @@ Opening in existing browser session.
 Opening in existing browser session.
 [1:1:0100/000000.910694:ERROR:content/zygote/zygote_main_linux.cc:197] Failed sending zygote boot message: Broken pipe (32)
 [19369:19369:0100/000000.916270:ERROR:content/zygote/zygote_linux.cc:662] write: Broken pipe (32)
+Gdk-Message: 20:42:04.328: Lost connection to Wayland compositor.
+Created TensorFlow Lite XNNPACK delegate for CPU.
+[25070:25070:1031/102258.839771:ERROR:ui/compositor/compositor_animation_observer.cc:65] CompositorAnimationObserver is active for too long (130.311s) location=Button@ui/views/controls/button/button.cc:669
+[25070:25101:1031/102447.462224:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[25070:25101:1031/102912.367507:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[25070:25101:1031/103401.910481:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[25070:25101:1031/104000.230548:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[25070:25070:1031/104521.621061:ERROR:components/signin/internal/identity_manager/account_info_fetcher_gaia.cc:65] OnGetTokenFailure: Connection failed (-7).
+[25070:25101:1031/104729.482455:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[25070:25101:1031/104939.031763:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:474] ConnectionHandler failed with net error: -2
+[25070:25101:1031/105809.347653:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[25070:25070:1031/112612.130527:ERROR:chrome/browser/ui/webui/ntp/new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+[25124:25133:1031/125100.480005:ERROR:services/network/p2p/socket_manager.cc:145] Failed to resolve address for hw-v2-web-player-tracker.biliapi.net., errorcode: -105
+[25124:25133:1031/125102.830580:ERROR:services/network/p2p/socket_manager.cc:145] Failed to resolve address for hw-v2-web-player-tracker.biliapi.net., errorcode: -105
+[25124:25133:1031/125105.612873:ERROR:services/network/p2p/socket_manager.cc:145] Failed to resolve address for hw-v2-web-player-tracker.biliapi.net., errorcode: -105
+[25124:25133:1031/125108.017471:ERROR:services/network/p2p/socket_manager.cc:145] Failed to resolve address for hw-v2-web-player-tracker.biliapi.net., errorcode: -105
+[25124:25133:1031/125108.350900:ERROR:services/network/p2p/socket_manager.cc:145] Failed to resolve address for hw-v2-web-player-tracker.biliapi.net., errorcode: -105
+[25124:25133:1031/125110.499486:ERROR:services/network/p2p/socket_manager.cc:145] Failed to resolve address for hw-v2-web-player-tracker.biliapi.net., errorcode: -105
+[405441:60:1031/125110.961734:ERROR:third_party/webrtc/pc/sdp_offer_answer.cc:3515] AddIceCandidate: ICE candidates can't be added without any remote session description.
+[405441:60:1031/125110.962381:ERROR:third_party/webrtc/pc/sdp_offer_answer.cc:3515] AddIceCandidate: ICE candidates can't be added without any remote session description.
+[405441:60:1031/125110.962756:ERROR:third_party/webrtc/pc/sdp_offer_answer.cc:3515] AddIceCandidate: ICE candidates can't be added without any remote session description.
+[405441:60:1031/125110.963008:ERROR:third_party/webrtc/pc/sdp_offer_answer.cc:3515] AddIceCandidate: ICE candidates can't be added without any remote session description.
+[405441:60:1031/125110.963086:ERROR:third_party/webrtc/pc/sdp_offer_answer.cc:3515] AddIceCandidate: ICE candidates can't be added without any remote session description.
+[405441:60:1031/125110.963302:ERROR:third_party/webrtc/pc/sdp_offer_answer.cc:3515] AddIceCandidate: ICE candidates can't be added without any remote session description.
+[25124:25133:1031/125112.620283:ERROR:services/network/p2p/socket_manager.cc:145] Failed to resolve address for hw-v2-web-player-tracker.biliapi.net., errorcode: -105
+[405441:60:1031/125112.648932:ERROR:third_party/webrtc/pc/sdp_offer_answer.cc:3515] AddIceCandidate: ICE candidates can't be added without any remote session description.
+[25124:25133:1031/125112.883274:ERROR:services/network/p2p/socket_manager.cc:145] Failed to resolve address for hw-v2-web-player-tracker.biliapi.net., errorcode: -105
+[25124:25133:1031/125114.747658:ERROR:services/network/p2p/socket_manager.cc:145] Failed to resolve address for hw-v2-web-player-tracker.biliapi.net., errorcode: -105
+[25124:25133:1031/125115.017405:ERROR:services/network/p2p/socket_manager.cc:145] Failed to resolve address for hw-v2-web-player-tracker.biliapi.net., errorcode: -105
+[405441:60:1031/125115.300546:ERROR:third_party/webrtc/pc/sdp_offer_answer.cc:3515] AddIceCandidate: ICE candidates can't be added without any remote session description.
+[25124:25133:1031/125116.878506:ERROR:services/network/p2p/socket_manager.cc:145] Failed to resolve address for hw-v2-web-player-tracker.biliapi.net., errorcode: -105
+[25124:25133:1031/125117.113313:ERROR:services/network/p2p/socket_manager.cc:145] Failed to resolve address for hw-v2-web-player-tracker.biliapi.net., errorcode: -105
+[25124:25133:1031/125119.118669:ERROR:services/network/p2p/socket_manager.cc:145] Failed to resolve address for hw-v2-web-player-tracker.biliapi.net., errorcode: -105
+[25124:25133:1031/125121.185383:ERROR:services/network/p2p/socket_manager.cc:145] Failed to resolve address for hw-v2-web-player-tracker.biliapi.net., errorcode: -105
+[25124:25133:1031/125123.385294:ERROR:services/network/p2p/socket_manager.cc:145] Failed to resolve address for hw-v2-web-player-tracker.biliapi.net., errorcode: -105
+[25124:25133:1031/125244.222443:ERROR:services/network/p2p/socket_manager.cc:145] Failed to resolve address for hw-v2-web-player-tracker.biliapi.net., errorcode: -105
+[405441:60:1031/125244.270277:ERROR:third_party/webrtc/pc/sdp_offer_answer.cc:3515] AddIceCandidate: ICE candidates can't be added without any remote session description.
+[25124:25133:1031/125249.401171:ERROR:services/network/p2p/socket_manager.cc:145] Failed to resolve address for hw-v2-web-player-tracker.biliapi.net., errorcode: -105
+[405441:60:1031/125249.445584:ERROR:third_party/webrtc/pc/sdp_offer_answer.cc:3515] AddIceCandidate: ICE candidates can't be added without any remote session description.
+[25124:25133:1031/125255.844106:ERROR:services/network/p2p/socket_manager.cc:145] Failed to resolve address for hw-v2-web-player-tracker.biliapi.net., errorcode: -105
+[25124:25133:1031/125257.861950:ERROR:services/network/p2p/socket_manager.cc:145] Failed to resolve address for hw-v2-web-player-tracker.biliapi.net., errorcode: -105
+[405441:60:1031/125257.910918:ERROR:third_party/webrtc/pc/sdp_offer_answer.cc:3515] AddIceCandidate: ICE candidates can't be added without any remote session description.
+[405441:60:1031/125257.911395:ERROR:third_party/webrtc/pc/sdp_offer_answer.cc:3515] AddIceCandidate: ICE candidates can't be added without any remote session description.
+[25124:25133:1031/125300.092056:ERROR:services/network/p2p/socket_manager.cc:145] Failed to resolve address for hw-v2-web-player-tracker.biliapi.net., errorcode: -105
+[405441:60:1031/125300.137490:ERROR:third_party/webrtc/pc/sdp_offer_answer.cc:3515] AddIceCandidate: ICE candidates can't be added without any remote session description.
+[25124:25133:1031/125432.077817:ERROR:services/network/p2p/socket_manager.cc:145] Failed to resolve address for hw-v2-web-player-tracker.biliapi.net., errorcode: -105
+[25124:25133:1031/125437.081611:ERROR:services/network/p2p/socket_manager.cc:145] Failed to resolve address for hw-v2-web-player-tracker.biliapi.net., errorcode: -105
+[405441:60:1031/125437.569495:ERROR:third_party/webrtc/pc/sdp_offer_answer.cc:3515] AddIceCandidate: ICE candidates can't be added without any remote session description.
+[405441:60:1031/125437.570342:ERROR:third_party/webrtc/pc/sdp_offer_answer.cc:4468] Called in wrong state: stable (INVALID_STATE)
+[405441:60:1031/125437.570374:ERROR:third_party/webrtc/pc/sdp_offer_answer.cc:1338] Failed to set remote answer sdp: Called in wrong state: stable
+[25124:25133:1031/125442.167565:ERROR:services/network/p2p/socket_manager.cc:145] Failed to resolve address for hw-v2-web-player-tracker.biliapi.net., errorcode: -105
+[25124:25133:1031/125447.342895:ERROR:services/network/p2p/socket_manager.cc:145] Failed to resolve address for hw-v2-web-player-tracker.biliapi.net., errorcode: -105
+[25124:25133:1031/125452.170241:ERROR:services/network/p2p/socket_manager.cc:145] Failed to resolve address for hw-v2-web-player-tracker.biliapi.net., errorcode: -105
+[25070:25101:1031/132523.975194:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/132523.975984:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/133528.184660:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[25070:25101:1031/133956.848211:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[25070:25101:1031/134437.538570:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[25070:25101:1031/134528.708175:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/134528.709588:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/134841.660504:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[25070:25101:1031/135037.981937:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/135037.983069:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/135416.313848:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[25070:25101:1031/135528.771638:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/135528.772204:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/135626.088069:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/135626.089577:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/140217.535744:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[25070:25101:1031/141233.985750:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/141233.987555:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/141236.015329:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/142240.781716:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/142240.782591:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/142301.983567:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/142805.509119:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/142805.509699:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/142921.463294:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/142921.464687:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/143424.502404:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/143424.503180:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/143552.674113:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/143552.675736:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/143554.678933:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25124:25133:1031/143752.206627:ERROR:net/socket/ssl_client_socket_impl.cc:949] handshake failed; returned -1, SSL error code 1, net_error -100
+[25124:25133:1031/143802.876163:ERROR:net/socket/ssl_client_socket_impl.cc:949] handshake failed; returned -1, SSL error code 1, net_error -100
+[25124:25133:1031/143813.420006:ERROR:net/socket/ssl_client_socket_impl.cc:949] handshake failed; returned -1, SSL error code 1, net_error -100
+[25070:25101:1031/144055.635878:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/144055.637221:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/144356.371043:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/144356.372685:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/144849.306491:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/144849.307922:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/145108.035133:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/145108.036446:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/145652.689401:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/145652.690183:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/145952.057579:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/145952.058695:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/150454.516452:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[25070:25101:1031/150454.517351:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
