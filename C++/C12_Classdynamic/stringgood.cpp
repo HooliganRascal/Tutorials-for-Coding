@@ -18,7 +18,7 @@ stringgood::stringgood(void){
 	++num_str;
 	len = 1;
 	str = new char[1];
-	str[0] = '\0'; // or str = nullptr
+	str[0] = '\0'; // or str = nullptr, or str = 0
 }
 
 stringgood::stringgood(const stringgood& obj){

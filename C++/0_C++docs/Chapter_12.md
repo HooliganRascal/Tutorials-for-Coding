@@ -187,7 +187,7 @@ Aborted (core dumped)
         - `NAME* po2 = new NAME(obj1)`, allocate memory and initialize an **anonymous object** to `obj1`, assign the address of the new object to `po2`
     - Less obviously, it is used when the compiler generates copies of an object, like calling `fun(const NAME obj)`, which **passes an object by value**, it is better to pass by **reference** instead
     - Also used when **generating temporary objects**
-- Default constructor does:
+- Default copy constructor does:
     - Member-to-member copy of the **non-static members**
     - Membewise copying, shallow copying, each member **copied by value**, if a member itself is a class member, **the copy constructor for that class** is used to copy one member object to another
     - **Static members are unaffected** when using default copy constructors, which **belong to the class as a whole**
@@ -275,7 +275,7 @@ stringgood::stringgood(void){
 	++num_str;
 	len = 1;
 	str = new char[1];
-	str[0] = '\0'; // or str = nullptr
+	str[0] = '\0'; // or str = nullptr, or str = 0
 }
 
 stringgood::stringgood(const stringgood& obj){
@@ -467,8 +467,47 @@ A fool and his money are soon parted
 ```
 
 ## Things to Remember When Using `new` in Constructors
+- Be cautious about using `new` to initialize pointer members of an object in a class
+    - Use `new` in the constructors, use `delete` in the destructors
+    - Use of `new` and `delete` should be compatible
+        - Like pairing `new []` with `delete []`. 
+        - If the constructors vary, all should use `new` in the same way
+        - Unless initializing a pointer with `new` in one constructor with the `nullptr` or`0`, or `NULL` in C ways, thus the *null pointer*
+    - Define a *copy constructor* initializing one object to another by doing **deep copying**
+    - Define an *assignment operator* copying one object to another by doing **deep copying**
+        - Check for self-assignment
+        - Free memory formerly pointed to by the **member pointer**
+        - Return a reference to the invoking object
+- Memberwise copying for classes with class members
+    - Consider `class N1{private: NAME obj;}`
+    - The default memberwise copying and assignment behavior have some smart
+    - Uses the copy constructors and assignment operators defined for the member type
+    - The copy constructors and assignment operators defined in `NAME` class is used to do the **memberwise copying**
+    - Things get complicated if `N1` needs a copy constructor and assignment operator for some other class member, thus **explicitly calling the copy constructor and assignment operators** of `NAME` is necessaray
 
 ## Observations About Returning Objects
+- Returning a reference to a `const` object
+    - For efficiency
+    - Returning an object invokes the copy constructor, **returning a reference doesn't**
+    - Reference should be to an object **existing when the calling function is executing**
+    - `const` reference as parameters, then the return type has to be `const` reference to match
+- Returning a reference to a non-`const` object
+    - Example: overloading assignment operator, efficiency
+        - Hint: `return *this` **doesn't force to use reference**
+    - Example: overloading `<<` operator, necessity
+        - Hint: `ostream` has **no public copy constructor**
+- Returning an object:
+    - The object being returned is local to the called function
+    - When control returns to the calling function, there is no object left to which the reference can refer
+    - A temporary, new object is generated possibly 
+    - Example: overloaded arithmetic operators
+- Returning a `const` object:
+    - Consider `net = obj1 + obj2;`
+    - Bizarre stuff:  `obj1 + obj2 = net;`
+    - Not all the code is written for sensible reasons
+    - The code is possible, `net` is assigned to the **temporary object**
+    - The temporary object is **used and then discarded**
+    - Return type with `const` allows for `net=obj1+obj2`, and forbiddens the `obj1+obj2=net`
 
 ## Using Pointers to Objects
 
