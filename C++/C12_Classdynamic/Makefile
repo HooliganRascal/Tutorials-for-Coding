@@ -1,4 +1,4 @@
 build:
-	g++ stringgood.cpp usegood.cpp -o good
+	g++ stringgood.cpp usepointer.cpp -o pointer
 run:
-	./good
+	./pointer

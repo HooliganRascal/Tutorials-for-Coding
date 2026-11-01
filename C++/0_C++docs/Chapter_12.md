@@ -511,6 +511,258 @@ A fool and his money are soon parted
 
 ## Using Pointers to Objects
 
+### Looking at `new` and `delete`
+Source code: `C12_Classdynamic`
+```C++
+/*****placenew1.cpp*****/
+#include <iostream>
+#include <cstdlib> // rand, srand
+#include <ctime> // time()
+#include "stringgood.h"
+
+const int arsize = 10;
+const int maxlen = 81;
+
+int main(void)
+{
+	stringgood name;
+	stringgood sayings[arsize];
+	char temp[maxlen];
+	int i, total;
+
+	std::cout << "Hi, what is your name?\n>> ";
+	std::cin >> name;
+	std::cout << name << ", please enter up to "
+			  << arsize << " short saying <enter to quit>:\n";
+	
+	for(i=0; i<arsize; ++i)
+	{
+		std::cout << i+1 << ": ";
+		std::cin.get(temp,maxlen);
+		while(std::cin && (std::cin.get()!='\n'))
+			continue; // clear up the queue
+		if(!std::cin || (temp[0]=='\0')) // test empty line
+			break;
+		else
+			sayings[i] = temp;
+	}
+
+	total = i;
+
+	if(total > 0)
+	{
+		std::cout << "Here are your sayings:\n";
+		for(i=0; i<total; ++i)
+		{
+			std::cout << sayings[i][0] << ": " 
+					  << sayings[i] << "\n";
+		}
+
+		stringgood* shortest = &sayings[0];
+		stringgood* first = &sayings[0]; // use pointer to object
+		for(i=1; i<total; ++i)
+		{
+			if(sayings[i].length() < shortest->length())
+				shortest = sayings+i;
+			if(sayings[i] < *first)
+				first = sayings+i;
+		}
+
+		std::cout << "Shortest saying:\n"
+				  << *shortest << "\n";
+		std::cout << "First saying alphabetically:\n"
+				  << *first << "\n";
+
+		// new and delete
+		srand(time(0));
+		int choice = rand() % total;
+		stringgood* favorite = new stringgood(sayings[choice]);
+		std::cout << "My favorite saying:\n"
+				  << *favorite << "\n";
+		delete favorite;
+	}
+	else
+		std::cout << "No input! Bye.\n";
+
+	return 0;
+}
+```
+- Try to use pointers to **keep track of the change of objects**
+- It is invoking `NAME(type)` when using `NAME* obj = new NAME(val)`, it is a constructor
+    - It does not allocate memory for `static` member!
+    - When the member invokes pointers, and the space created by `new` is cleared by `delete`, the space taken up by the pointers is removed, while the contents the pointer removed pointing to is still there
+    - The destructor takes care of the contents pointed
+- When the destructor is called:
+    - Automatic object, exited the block in which the object is defined
+    - Static object(external, internal, or from a namespace, which has **static storage duration**), when the program terminates
+    - Dynamic object created by `new`, called when explicitly using `delete`
+```Console
+Hi, what is your name?
+>> Mteltn Cosmos
+Mteltn Cosmos, please enter up to 10 short saying <enter to quit>:
+1: A friend in need is a friend indeed
+2: Neither a borrower nor a lender be
+3: A stitch in time saves nine
+4: A niche in time saves stine
+5: It takes a crook to catch a croom
+6: Cold hands, warm heart
+7:
+Here are your sayings:
+A: A friend in need is a friend indeed
+N: Neither a borrower nor a lender be
+A: A stitch in time saves nine
+A: A niche in time saves stine
+I: It takes a crook to catch a croom
+C: Cold hands, warm heart
+Shortest saying:
+Cold hands, warm heart
+First saying alphabetically:
+A friend in need is a friend indeed
+My favorite saying:
+It takes a crook to catch a croom
+```
+
+### Pointers and Objects Summary
+- Declare a pointer to an object: `NAME* ptrobj`
+- Initialize a pointer to an existing object: `NAME* ptrobj = &obj`
+- Initialize a pointer using `new` with **default constructor** like `NAME* ptrobj = new NAME`
+- Initialize a pointer using `new` **creating an new object**: `NAME* ptrobj = new NAME(obj)`, using the *copy constructor*, there could be other constructor ways
+- Use `->` like the `struct` to access a class method via a **pointer** like `NAME* ptr = &obj; ptr->fun()`
+- Use `*` to obtain an object: `(*ptr).fun()`
+
+### Looking at Placement `new`
+Source code: `C12_Placementnew`
+```C++
+/*****placenew2.cpp*****/
+#include <iostream>
+#include <cstring>
+#include <new>
+
+namespace testnew{
+	const int BUFFER = 512;
+	class TEST
+	{
+	private:
+		std::string words;
+		int number;
+	public:
+		inline 
+		TEST(const std::string& s = "Just Testing", int n = 0){
+			words = s;
+			number = n;
+			std::cout << words << " constructed\n";
+		}
+		inline 
+		~TEST(void){
+			std::cout << words << " destroyed\n";
+		}
+		inline 
+		void SHOW(void){
+			std::cout << words << ", " << number << "\n";
+		}
+	};
+}
+
+int main(void){
+	char* buffer = new char[testnew::BUFFER];
+
+	testnew::TEST *pc1, *pc2;
+	pc1 = new (buffer) testnew::TEST; // default constructor
+	pc2 = new testnew::TEST("Heap1", 20);
+
+	std::cout << std::endl;
+	std::cout << "Memory block address:\n" 
+			  << "Buffer: " << (void*) buffer << "\t"
+			  << "Heap: " << pc2 << "\n";
+
+	std::cout << "Memory contents:\n";
+	std::cout << pc1 << ": "; // print the address?
+	pc1->SHOW();	
+	std::cout << pc2 << ": ";
+	pc2->SHOW();	
+	std::cout << std::endl;
+
+	testnew::TEST *pc3, *pc4;
+	pc3 = new (buffer+sizeof(testnew::TEST)) 
+			 testnew::TEST("Better Idea", 6);
+	pc4 = new testnew::TEST("Heap2", 10);
+	std::cout << std::endl;
+
+	std::cout << "Memory contents:\n";
+	std::cout << pc3 << ": "; 
+	pc3->SHOW();	
+	std::cout << pc4 << ": ";
+	pc4->SHOW();	
+
+	pc1->~TEST();
+	pc3->~TEST();
+	delete pc2;
+	delete pc4;
+	delete [] buffer;
+
+	return 0;
+}
+
+```
+
+- Used to **specify the memory location** used to allocate memory
+- Aside of C-string like `char* name`, others use `std::cout << ptr` **prints the address**
+- Using the placement `new` to allocate memory in a **buffer** can cause problem:
+    - Simply overwrite the original objects without calling the destructor
+    - Use `delete [] buffer` never destruct the anonymous objects created by placement `new`
+- Make sure the locations don't overlap, like using `new (buffer+sizeof(TEST)) TEST;`
+> - Attention! The **`delete` works in conjunction with `new` rather than placement `new`**
+> - Using `delete pc1` where points to the buffer location freed the buffer rather than `pc1` itself(even if the buffer is compatible with `pc1` using `new` rather than `new []`)
+- Call the **destructor explicitly for any objects that the placement `new` constructs in the block**
+- Let the buffer be freed **only after all the contained objects are destroyed**
+
+```Console
+Just Testing constructed
+Heap1 constructed
+
+Memory block address:
+Buffer: 0x56da2ab002b0  Heap: 0x56da2ab008d0
+Memory contents:
+0x56da2ab002b0: Just Testing, 0
+0x56da2ab008d0: Heap1, 20
+
+Better Idea constructed
+Heap2 constructed
+
+Memory contents:
+0x56da2ab002d8: Better Idea, 6
+0x56da2ab00900: Heap2, 10
+Just Testing destroyed
+Better Idea destroyed
+Heap1 destroyed
+Heap2 destroyed
+```
+
 ## Reviewing Techniques
+- Overloading the `<<` operator: `ostream& operator<<(ostream& os, const NAME& obj)`
+- Conversion functions: 
+    - `double` to `NAME` object: use constructor `NAME(double)`
+    - `NAME` object to `double`: use conversion function `operator double(void) const`, **returns a value without declared returned type**! 
+    - Better usage: `explicit NAME(double)`, and `explicit operator double(void) const` in **class declaration**, in definition we no need to precede the `explicit`
+    - Avoid the implicit stuff!
+- Classes whose constructors use `new`:
+    - Pair `new` with `delete`
+    - If the destructor freed memory by applying `delete` to a pointer that is a class member, initialize the pointer in every constructor, do the *deep copying* and overload the `=` operator sometimes is necessary
+    - Constructors should settle on using either `new` or `new []` to be consistent with destructors
+    - Define a copy constructor that **allocates new memory**: `NAME(const NAME&)`
+    - Define a class member function overloading assignment operator: `NAME& NAME::operator=(const NAME& obj)`
 
 ## A Queue Simulation
+- A stack is LIFO(last in, first out), while the queue is FIFO(first in, first out)
+- Define a `QUEUE` class
+    - $1/3$ of the customers take $1$ min to be processed
+    - $1/3$ of the customers take $2$ min to be processed
+    - $1/3$ of the customers take $3$ min to be processed
+    - Customers arrive at **random intervals**, while the **average number of customers per hour is constant**
+
+### A Queue Class
+- Basic attributes:
+- Interface:
+- Implementation:
+
+
