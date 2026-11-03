@@ -762,7 +762,72 @@ Heap2 destroyed
 
 ### A Queue Class
 - Basic attributes:
+    - Holds an ordered sequence of items with a limit number
+    - Create
+    - Check whether it is full/empty
+    - Add/remove an item
+    - Determine the number of items in the queue
 - Interface:
+    - The size(`private`)
+    - Private representations
+    - Public constructros and destructors, check full/empty, count, add and remove
 - Implementation:
+    - Choose the way to represent the queue data: a *linked list*
+    - A linked list consists of a sequence of *nodes*
+    - Each node contains its own information to be held in the list 
+    - Each node contains a pointer to the *next node*
+    - A **singly** linked list: `struct node{ ITEM item; struct node* next}`
+    - The pointer in the **last node is set to `nullptr` or `0`**, and we should know **the address of the first node**
+    - Set up 2 pointers, one to the first node, and the other to the last node
+    - Nest the `struct` inside a `class` to give it `class` scope
+- The class methods:
+    - Constructors: 
+        - `QUEUE::QUEUE(int qs) : qsize(qs){};`, to initialize a `const` in the class, use *member initializer list*, which is the `qsize(qs)`
+        - It is not limited to `const` initialization: `QUEUE:QUEUE(int qs) : qsize(qt), front(NULL), rear(NULL){}`
+        - Use for `const` class members and declared as **reference** like `NAME::NAME(type& a) : refe(a){}`, both can be initialized only when created (This feature works for ordinary initializations too, like `int a(1)`, which is different from **defining a constant** with `static const type var = val`
+        - Free to use **in-class** initialization like `class NAME{ int mem = 1; const int mem2 = 2;}`, which is the same as `NAME::NAME : mem(1), mem2(2){}`, but it only works for **non-static or static const** member, which is called **default member initializer**, initialize it when declaring the class!
+    - Test the queue is full or empty is simple
+    - Adding an item to the rear:
+        - Terminate if the queue is full
+        - Create a new node, and place proper values into it, copy the value into the data part, sets the node's next pointer to `NULL`
+        - Increment the item count
+        - Attach the node to the rear of the queue, **have the `next` pointer of the current rear node point to the new rear node**, and set **the member pointer `rear` to point to the new node** to directly access it.
+        - If there is just one node, it's both the front and the rear node
+    - Removing an item to the front:
+        - Terminate if the queue is empty
+        - Provide **the first item in the queue**, decrease the item counts by one
+        - Save the location of the `front` node, and set the `front` pointer point to the next node
+        - Delete the former **first** node, remember, `delete` **does not clear out the pointer** itself, it **just frees the content it points to**
+        - If the list is now empty, set `rear` to `NULL`
+    - Destructor: use `delete` to clear out former nodes
+    - Better provide a **copy constructor and an assignment operator** for the class to do the *deep copying* **even if we don't need it yet!** And put them into `private` section. In C++11, it is available to **use `delete` to disable a method** alternatively, see [Chapter\_18](Chapter_18.md)
+- Define a `customer` class at last to calculate the time
+- For the **client**:
+    - Enter the max queue size, number of hours to be simulated, average number of customers per hour
+    - Use a loop in which a circle represents one minute
+        - Determine whether a customer is arrived, if so, add him to the queue if available 
+        - If no one is being processed, take the first from the queue,  determine his waiting time and set a counter to the processing time the new customer will need
+        - If a customer is being processed, decrement the counter by one minute
+        - Track the number of customers served, turned away, cumulative time spent waiting in line, cumulative queue length...
+    - When the simulation cycle is finished, report various statistical findings
+- Setup random but average matching flag showing whether a customer has arrived
+    - A simple way is `bool test(avg){return rand()*avg/RAND_MAX < 1;}` 
+    - Which states that 1/`avg` possibly a customer will arrive per minute
+    - Averagely, a customer comes every `avg` minutes 
+    - It could be better!
+- Also notice:
+    $$
+    \begin{align*}
+    &\lambda = \frac{15\text{ per}}{60\text{ min}} = \frac{1}{4} \text{per}/\text{min}\\
+    &\mu = \frac{1\text{ per}}{1/3 * 1+1/3 * 2 + 1/3 * 3\text{ min}} = \frac{1}{2}\text{per}/\text{min}\\ 
+    \end{align*}
+    $$
+    Where $\lambda$ is the rate of using, and $\mu$ is the serving capability, and:
+    $$\rho = \frac{\lambda}{\mu},\qquad t_{\text{avg}} = \frac{\rho}{\mu - \lambda} = 2\,\text{min}$$
+    Thus by this calculation, the waiting time in average for 1 person is 2 min, while when the coming rate becomes 30 per/hour:
+    $$
+    \rho = 1,\qquad t_{\text{avg}} = \lim_{\lambda\rightarrow\mu}\frac{\rho}{\mu-\lambda} = \infty
+    $$
+    That is the theory of queue, the algorithm is rough, but we can get the point
 
 

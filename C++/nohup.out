@@ -3341,3 +3341,164 @@ Created TensorFlow Lite XNNPACK delegate for CPU.
 [15798:15798:1101/152910.734397:ERROR:chrome/browser/ui/webui/ntp/new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
 [15798:15829:1101/161858.889759:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
 [15798:15829:1101/161858.890962:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[15798:15829:1101/180953.202749:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[15798:15829:1101/180953.204126:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[15798:15829:1101/204223.861333:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[15798:15829:1101/204223.862304:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[15798:15829:1101/205228.352845:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[15798:15829:1101/205228.353603:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[15798:15829:1101/211129.713789:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[15798:15829:1101/211129.714891:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[15798:15829:1101/212211.654522:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[15798:15829:1101/212211.655388:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[15798:15829:1101/212815.031254:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[15798:15829:1101/212815.032695:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[15846:15889:1101/213037.374954:ERROR:components/viz/service/display/display.cc:271] Frame latency is negative: -0.168 ms
+[15798:15829:1101/215122.971849:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[15798:15829:1101/215122.973025:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[15798:15829:1101/215252.018989:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[15798:15829:1101/215252.019430:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[15798:15829:1101/220630.741950:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[15798:15829:1101/220630.743445:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+18:00:15.696 INFO  app_lib::utils::resolve:57 T{clash-verge-runtime-7} [ClashVergeRev] Version: 2.5.8
+18:00:15.696 INFO  app_lib::event_handlers:360 T{main} [System] 应用就绪
+18:00:15.847 INFO  app_lib::utils::window_manager:262 T{clash-verge-runtime-0} [Window] 新窗口创建成功，等待前端渲染后显示
+18:00:15.849 INFO  app_lib::config::port:238 T{clash-verge-runtime-7} [Service] Service no longer tracks a core for this owner (code 0, active true, pid None); mixed proxy port 7897 is unattributed
+18:00:15.861 INFO  app_lib::core::validate:420 T{clash-verge-runtime-0} [Validate] 生成临时配置文件用于验证
+18:00:15.861 INFO  app_lib::core::validate:351 T{clash-verge-runtime-0} [Validate] 开始验证配置文件: /home/mteltn/.local/share/io.github.clash-verge-rev.clash-verge-rev/clash-verge-check.yaml
+18:00:15.861 INFO  app_lib::core::validate:354 T{clash-verge-runtime-0} [Validate] 使用内核: verge-mihomo
+18:00:15.861 INFO  app_lib::core::validate:359 T{clash-verge-runtime-0} [Validate] 验证目录: /home/mteltn/.local/share/io.github.clash-verge-rev.clash-verge-rev
+18:00:16.031 INFO  app_lib::core::validate:379 T{clash-verge-runtime-7} [Validate] -------- 验证结果 --------
+18:00:16.031 INFO  app_lib::core::validate:405 T{clash-verge-runtime-7} [Validate] 验证成功
+18:00:16.031 INFO  app_lib::core::validate:406 T{clash-verge-runtime-7} [Validate] -------- 验证结束 --------
+18:00:16.032 INFO  app_lib::core::tray:494 T{clash-verge-runtime-7} [Tray] 正在从AppHandle创建系统托盘
+18:00:16.038 INFO  app_lib::core::tray:177 T{clash-verge-runtime-7} [Tray] System tray created successfully
+18:00:16.038 INFO  app_lib::core::timer:192 T{clash-verge-runtime-7} [Timer] Refreshing timer tasks map, count: 2
+18:00:16.038 INFO  app_lib::core::timer:166 T{clash-verge-runtime-7} [Timer] Running overdue timer task immediately: uid=RsuR8a7x16om
+18:00:16.038 INFO  app_lib::core::timer:166 T{clash-verge-runtime-7} [Timer] Running overdue timer task immediately: uid=RSaKne2KoltJ
+18:00:16.038 INFO  app_lib::core::timer:172 T{clash-verge-runtime-7} [Timer] Timer initialization completed
+18:00:16.038 INFO  app_lib::core::updater:359 T{clash-verge-runtime-7} [System] Update cache version (2.5.9) > current (2.5.8), asking user to install
+18:00:16.062 INFO  app_lib::core::service:985 T{clash-verge-runtime-6} [Service] 服务已运行且版本匹配，直接使用
+18:00:16.231 INFO  app_lib::core::service:967 T{clash-verge-runtime-2} [Service] 服务成功启动核心 (session generation 17)
+18:00:16.231 INFO  app_lib::core::manager:188 T{clash-verge-runtime-2} [Core] Core running mode changed: NotRunning -> Service
+18:00:17.263 INFO  app_lib::core::sysopt:327 T{clash-verge-runtime-0} [Core] Refreshing system proxy guard...
+18:00:17.263 INFO  app_lib::core::sysopt:331 T{clash-verge-runtime-0} [Core] System proxy is disabled.
+18:00:21.039 INFO  app_lib::feat::profile:88 T{clash-verge-runtime-7} [Config] [订阅更新] 远程订阅，URL: https://ktmcloud001.top/api/v1/client/subscribe?token=***
+18:00:21.039 INFO  app_lib::feat::profile:88 T{clash-verge-runtime-1} [Config] [订阅更新] 远程订阅，URL: https://update.glados-config.com/mihomo/752298/3ad014a/261305/glados.yaml
+18:00:21.209 ERROR rustls_platform_verifier::verification::others:149 T{clash-verge-runtime-1} failed to verify TLS certificate: invalid peer certificate: Other(OtherError(UnsupportedCertVersion))
+18:00:21.507 WARN  app_lib::feat::profile:169 T{clash-verge-runtime-1} [Config] [订阅更新] 直接更新失败: failed to fetch remote profile: static webpki roots fallback failed after platform TLS verifier failed: Request failed: error sending request for url (https://update.glados-config.com/mihomo/752298/3ad014a/261305/glados.yaml): client error (Connect): invalid peer certificate: Other(OtherError(UnsupportedCertVersion))，尝试使用Clash代理更新
+18:00:22.464 INFO  app_lib::feat::profile:168 T{clash-verge-runtime-0} [Config] [订阅更新] 使用 Clash代理 更新订阅配置成功
+18:00:30.036 INFO  app_lib::core::updater:448 T{clash-verge-runtime-5} [System] Installing update v2.5.9...
+18:00:32.874 INFO  app_lib::core::updater:399 T{clash-verge-runtime-1} [System] Installing cached update v2.5.9 at startup...
+18:00:32.900 INFO  app_lib::core::updater:583 T{clash-verge-runtime-1} [System] Update splash window shown
+(Reading database… 581774 files and directories currently installed.)
+Preparing to unpack …/package.deb…
+18:00:34.602 WARN  tauri_plugin_mihomo::mihomo:63 T{clash-verge-runtime-7} websocket error: WebSocket protocol error: Connection reset without closing handshake
+18:00:34.602 WARN  tauri_plugin_mihomo::mihomo:63 T{clash-verge-runtime-7} websocket error: WebSocket protocol error: Connection reset without closing handshake
+18:00:34.602 WARN  tauri_plugin_mihomo::mihomo:63 T{clash-verge-runtime-3} websocket error: WebSocket protocol error: Connection reset without closing handshake
+Unpacking clash-verge (2.5.9) over (2.5.8)…
+dpkg: error: dpkg frontend lock was locked by another process with pid 934568
+Note: removing the lock file is always wrong, can damage the locked area
+and the entire system. See <https://wiki.debian.org/Teams/Dpkg/FAQ#db-lock>.
+Setting up clash-verge (2.5.9)…
+Processing triggers for hicolor-icon-theme (0.17-2)…
+Processing triggers for gnome-menus (3.36.0-1.1ubuntu3)…
+Processing triggers for desktop-file-utils (0.27-2build1)…
+18:00:38.262 INFO  app_lib::core::updater:98 T{clash-verge-runtime-7} [System] Update cache deleted
+18:00:38.263 INFO  app_lib::config::config:305 T{clash-verge-runtime-7} [Config] save all draft data finished
+18:00:38.284 WARN  app_lib::feat::window:185 T{clash-verge-runtime-7} [Window] Controlled core stop failed; interactive quit or restart must remain cancelled: 无法连接到Clash Verge Service: IPC path unavailable: No such file or directory (os error 2)
+18:00:38.284 INFO  app_lib::feat::window:200 T{clash-verge-runtime-7} [System] Interactive cleanup complete - core stopped: false, all cleanup successful: false
+18:00:38.284 INFO  app_lib::feat::clash:47 T{clash-verge-runtime-7} [System] 资源清理完成，退出代码: 1
+18:00:41.145 WARN  app_lib::feat::profile:169 T{clash-verge-runtime-3} [Config] [订阅更新] 直接更新失败: failed to fetch remote profile: Request failed: error sending request for url (https://ktmcloud001.top/api/v1/client/subscribe?token=***): operation timed out，尝试使用Clash代理更新
+18:00:41.250 WARN  app_lib::feat::profile:169 T{clash-verge-runtime-3} [Config] [订阅更新] Clash代理更新失败: failed to fetch remote profile: Request failed: error sending request for url (https://ktmcloud001.top/api/v1/client/subscribe?token=***): client error (Connect): tunnel error: failed to create underlying connection: tcp connect error: Connection refused (os error 111)，尝试使用系统代理更新
+18:00:46.059 INFO  app_lib::core::updater:410 T{clash-verge-runtime-5} [System] Update v2.5.9 install triggered at startup
+18:00:46.059 INFO  app_lib::utils::resolve:180 T{clash-verge-runtime-5} [Setup] Update installed at startup, restarting...
+18:00:46.060 INFO  app_lib::config::config:305 T{clash-verge-runtime-7} [Config] save all draft data finished
+18:00:46.081 WARN  app_lib::feat::window:185 T{clash-verge-runtime-7} [Window] Controlled core stop failed; interactive quit or restart must remain cancelled: 无法连接到Clash Verge Service: IPC path unavailable: No such file or directory (os error 2)
+18:00:46.081 INFO  app_lib::feat::window:200 T{clash-verge-runtime-7} [System] Interactive cleanup complete - core stopped: false, all cleanup successful: false
+18:00:46.081 INFO  app_lib::feat::clash:47 T{clash-verge-runtime-7} [System] 资源清理完成，退出代码: 1
+18:00:46.081 INFO  app_lib::utils::resolve:189 T{clash-verge-runtime-7} [Setup] Silent updater initialized
+18:00:46.081 INFO  app_lib::core::updater:685 T{clash-verge-runtime-0} [System] Silent updater: background task started
+18:00:50.742 INFO  app_lib::core::sysopt:327 T{clash-verge-runtime-0} [Core] Refreshing system proxy guard...
+18:00:50.742 INFO  app_lib::core::sysopt:336 T{clash-verge-runtime-0} [Core] System proxy guard is disabled.
+18:00:56.081 INFO  app_lib::core::updater:611 T{clash-verge-runtime-0} [System] Silent updater: checking for updates...
+18:00:56.091 WARN  app_lib::core::updater:621 T{clash-verge-runtime-7} [System] Silent updater: check failed: error sending request for url (https://github.com/clash-verge-rev/clash-verge-rev/releases/download/updater/update.json)
+18:00:56.091 WARN  app_lib::core::updater:691 T{clash-verge-runtime-7} [System] Silent updater: cycle error: error sending request for url (https://github.com/clash-verge-rev/clash-verge-rev/releases/download/updater/update.json)
+18:01:01.086 WARN  app_lib::core::service:1631 T{clash-verge-runtime-0} [Service] service owner status unavailable for 3 samples (generation 5); preserving local proxy state while the core endpoint still answers
+18:01:01.086 WARN  app_lib::core::service:1780 T{clash-verge-runtime-0} [Service] service owner recovery (TransportFailure); clearing local proxy and PAC state
+18:01:01.111 INFO  app_lib::core::manager:202 T{clash-verge-runtime-0} [Core] Core running mode changed: Service -> NotRunning
+18:01:01.373 WARN  app_lib::feat::profile:169 T{clash-verge-runtime-7} [Config] [订阅更新] 系统代理更新失败: failed to fetch remote profile: Request failed: error sending request for url (https://ktmcloud001.top/api/v1/client/subscribe?token=***): operation timed out，所有重试均已失败
+18:01:01.373 ERROR app_lib::core::timer:481 T{clash-verge-runtime-7} [[Timer]] Failed to update profile uid RsuR8a7x16om: failed to fetch remote profile
+18:01:05.051 INFO  app_lib::core::service:1933 T{clash-verge-runtime-7} [Service] running privileged service action ForceReinstall
+18:01:05.051 INFO  app_lib::core::service:769 T{clash-verge-runtime-7} [Service] 用户请求强制重装服务
+18:01:11.540 INFO  app_lib::core::service:985 T{clash-verge-runtime-3} [Service] 服务已运行且版本匹配，直接使用
+18:01:11.607 INFO  app_lib::core::service:967 T{clash-verge-runtime-1} [Service] 服务成功启动核心 (session generation 18)
+18:01:11.607 INFO  app_lib::core::manager:188 T{clash-verge-runtime-1} [Core] Core running mode changed: NotRunning -> Service
+18:01:12.686 INFO  app_lib::core::sysopt:327 T{clash-verge-runtime-1} [Core] Refreshing system proxy guard...
+18:01:12.686 INFO  app_lib::core::sysopt:336 T{clash-verge-runtime-1} [Core] System proxy guard is disabled.
+18:02:31.313 INFO  app_lib::core::sysopt:327 T{clash-verge-runtime-5} [Core] Refreshing system proxy guard...
+18:02:31.313 INFO  app_lib::core::sysopt:331 T{clash-verge-runtime-5} [Core] System proxy is disabled.
+18:02:41.538 INFO  clash_verge_signal::unix:61 T{tokio-rt-worker} [SysSignal] Caught signal SIGTERM
+18:02:41.539 INFO  app_lib::config::config:305 T{tokio-rt-worker} [Config] save all draft data finished
+18:02:41.565 WARN  tauri_plugin_mihomo::mihomo:63 T{clash-verge-runtime-4} websocket error: WebSocket protocol error: Connection reset without closing handshake
+18:02:41.565 WARN  tauri_plugin_mihomo::mihomo:63 T{clash-verge-runtime-4} websocket error: WebSocket protocol error: Connection reset without closing handshake
+18:02:41.566 WARN  tauri_plugin_mihomo::mihomo:63 T{clash-verge-runtime-3} websocket error: WebSocket protocol error: Connection reset without closing handshake
+18:02:41.567 INFO  app_lib::core::service:1524 T{tokio-rt-worker} [Service] 服务成功停止核心
+18:02:41.567 INFO  app_lib::core::manager:202 T{tokio-rt-worker} [Core] Core running mode changed: Service -> NotRunning
+18:02:41.567 INFO  app_lib::feat::window:200 T{tokio-rt-worker} [System] Interactive cleanup complete - core stopped: true, all cleanup successful: true
+18:02:41.567 INFO  app_lib::feat::window:142 T{tokio-rt-worker} [System] 资源清理完成，退出代码: 0
+18:02:41.567 INFO  app_lib::utils::server:324 T{tokio-rt-worker} [Window] shutting down embedded server
+18:02:41.568 INFO  app_lib:493 T{main} [System] Application exited
+18:02:47.767 INFO  app_lib::utils::resolve:56 T{clash-verge-runtime-3} [ClashVergeRev] Version: 2.5.9
+18:02:47.768 INFO  app_lib::event_handlers:269 T{main} [System] 应用就绪
+18:02:47.843 INFO  app_lib::utils::window_manager:262 T{clash-verge-runtime-2} [Window] 新窗口创建成功，等待前端渲染后显示
+18:02:47.863 INFO  app_lib::config::port:238 T{clash-verge-runtime-2} [Service] Service no longer tracks a core for this owner (code 0, active false, pid None); mixed proxy port 7897 is unattributed
+18:02:47.872 INFO  app_lib::core::validate:426 T{clash-verge-runtime-0} [Validate] 生成临时配置文件用于验证
+18:02:47.873 INFO  app_lib::core::validate:357 T{clash-verge-runtime-2} [Validate] 开始验证配置文件: /home/mteltn/.local/share/io.github.clash-verge-rev.clash-verge-rev/clash-verge-check.yaml
+18:02:47.873 INFO  app_lib::core::validate:360 T{clash-verge-runtime-2} [Validate] 使用内核: verge-mihomo
+18:02:47.873 INFO  app_lib::core::validate:365 T{clash-verge-runtime-2} [Validate] 验证目录: /home/mteltn/.local/share/io.github.clash-verge-rev.clash-verge-rev
+18:02:47.895 INFO  app_lib::core::validate:385 T{clash-verge-runtime-0} [Validate] -------- 验证结果 --------
+18:02:47.895 INFO  app_lib::core::validate:411 T{clash-verge-runtime-0} [Validate] 验证成功
+18:02:47.895 INFO  app_lib::core::validate:412 T{clash-verge-runtime-0} [Validate] -------- 验证结束 --------
+18:02:47.895 INFO  app_lib::core::tray:368 T{clash-verge-runtime-0} [Tray] 正在从AppHandle创建系统托盘
+18:02:47.900 INFO  app_lib::core::tray:156 T{clash-verge-runtime-0} [Tray] System tray created successfully
+18:02:47.900 INFO  app_lib::core::timer:192 T{clash-verge-runtime-0} [Timer] Refreshing timer tasks map, count: 2
+18:02:47.900 INFO  app_lib::core::timer:166 T{clash-verge-runtime-0} [Timer] Running overdue timer task immediately: uid=RsuR8a7x16om
+18:02:47.900 INFO  app_lib::core::timer:172 T{clash-verge-runtime-0} [Timer] Timer initialization completed
+18:02:47.900 INFO  app_lib::utils::resolve:188 T{clash-verge-runtime-0} [Setup] Silent updater initialized
+18:02:47.900 INFO  app_lib::core::updater:685 T{clash-verge-runtime-0} [System] Silent updater: background task started
+18:02:47.910 INFO  app_lib::core::service:985 T{clash-verge-runtime-2} [Service] 服务已运行且版本匹配，直接使用
+18:02:47.995 INFO  app_lib::core::service:967 T{clash-verge-runtime-1} [Service] 服务成功启动核心 (session generation 19)
+18:02:47.995 INFO  app_lib::core::manager:188 T{clash-verge-runtime-1} [Core] Core running mode changed: NotRunning -> Service
+18:02:49.022 INFO  app_lib::core::sysopt:327 T{clash-verge-runtime-1} [Core] Refreshing system proxy guard...
+18:02:49.022 INFO  app_lib::core::sysopt:331 T{clash-verge-runtime-1} [Core] System proxy is disabled.
+18:02:49.107 INFO  app_lib::feat::profile:88 T{clash-verge-runtime-1} [Config] [订阅更新] 远程订阅，URL: https://ktmcloud001.top/api/v1/client/subscribe?token=***
+18:02:52.220 INFO  app_lib::core::sysopt:327 T{clash-verge-runtime-1} [Core] Refreshing system proxy guard...
+18:02:52.220 INFO  app_lib::core::sysopt:336 T{clash-verge-runtime-1} [Core] System proxy guard is disabled.
+18:02:57.901 INFO  app_lib::core::updater:611 T{clash-verge-runtime-0} [System] Silent updater: checking for updates...
+18:03:04.567 INFO  app_lib::core::updater:617 T{clash-verge-runtime-2} [System] Silent updater: no update available
+18:03:09.212 WARN  app_lib::feat::profile:169 T{clash-verge-runtime-2} [Config] [订阅更新] 直接更新失败: failed to fetch remote profile: Request failed: error sending request for url (https://ktmcloud001.top/api/v1/client/subscribe?token=***): operation timed out，尝试使用Clash代理更新
+18:03:10.664 INFO  app_lib::feat::profile:168 T{clash-verge-runtime-3} [Config] [订阅更新] 使用 Clash代理 更新订阅配置成功
+18:03:10.674 INFO  app_lib::core::validate:426 T{clash-verge-runtime-2} [Validate] 生成临时配置文件用于验证
+18:03:10.674 INFO  app_lib::core::validate:357 T{clash-verge-runtime-2} [Validate] 开始验证配置文件: /home/mteltn/.local/share/io.github.clash-verge-rev.clash-verge-rev/clash-verge-check.yaml
+18:03:10.674 INFO  app_lib::core::validate:360 T{clash-verge-runtime-2} [Validate] 使用内核: verge-mihomo
+18:03:10.674 INFO  app_lib::core::validate:365 T{clash-verge-runtime-2} [Validate] 验证目录: /home/mteltn/.local/share/io.github.clash-verge-rev.clash-verge-rev
+18:03:10.699 INFO  app_lib::core::validate:385 T{clash-verge-runtime-3} [Validate] -------- 验证结果 --------
+18:03:10.699 INFO  app_lib::core::validate:411 T{clash-verge-runtime-3} [Validate] 验证成功
+18:03:10.699 INFO  app_lib::core::validate:412 T{clash-verge-runtime-3} [Validate] -------- 验证结束 --------
+18:03:19.084 WARN  app_lib::config::profiles:866 T{clash-verge-runtime-0} [Config] gave up putting back 3 selected node(s) the core never loaded: 国内请求, steam社区, steam下载
+18:14:45.722 INFO  app_lib::core::sysopt:327 T{clash-verge-runtime-2} [Core] Refreshing system proxy guard...
+18:14:45.722 INFO  app_lib::core::sysopt:331 T{clash-verge-runtime-2} [Core] System proxy is disabled.
+18:14:58.222 INFO  clash_verge_signal::unix:61 T{tokio-rt-worker} [SysSignal] Caught signal SIGTERM
+18:14:58.223 INFO  app_lib::config::config:305 T{tokio-rt-worker} [Config] save all draft data finished
+18:14:58.246 WARN  tauri_plugin_mihomo::mihomo:63 T{clash-verge-runtime-3} websocket error: WebSocket protocol error: Connection reset without closing handshake
+18:14:58.246 WARN  tauri_plugin_mihomo::mihomo:63 T{clash-verge-runtime-0} websocket error: WebSocket protocol error: Connection reset without closing handshake
+18:14:58.246 WARN  tauri_plugin_mihomo::mihomo:63 T{clash-verge-runtime-2} websocket error: WebSocket protocol error: Connection reset without closing handshake
+18:14:58.249 INFO  app_lib::core::service:1524 T{tokio-rt-worker} [Service] 服务成功停止核心
+18:14:58.249 INFO  app_lib::core::manager:202 T{tokio-rt-worker} [Core] Core running mode changed: Service -> NotRunning
+18:14:58.249 INFO  app_lib::feat::window:198 T{tokio-rt-worker} [System] Interactive cleanup complete - core stopped: true, all cleanup successful: true
+18:14:58.249 INFO  app_lib::feat::window:142 T{tokio-rt-worker} [System] 资源清理完成，退出代码: 0
+18:14:58.249 INFO  app_lib::utils::server:273 T{tokio-rt-worker} [Window] shutting down embedded server
+18:14:58.250 INFO  app_lib:399 T{main} [System] Application exited
+Created TensorFlow Lite XNNPACK delegate for CPU.
+[957632:957662:1103/182114.472016:ERROR:extensions/browser/content_verifier/content_verify_job.cc:493] Content verify job failed for extension: gjjabgpgjpampikjhjpfhneeoapjbjaf at path: background_compiled.js and for reason:1
