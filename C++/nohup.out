@@ -3502,3 +3502,5 @@ Processing triggers for desktop-file-utils (0.27-2build1)…
 18:14:58.250 INFO  app_lib:399 T{main} [System] Application exited
 Created TensorFlow Lite XNNPACK delegate for CPU.
 [957632:957662:1103/182114.472016:ERROR:extensions/browser/content_verifier/content_verify_job.cc:493] Content verify job failed for extension: gjjabgpgjpampikjhjpfhneeoapjbjaf at path: background_compiled.js and for reason:1
+Gdk-Message: 18:25:27.543: Error flushing display: Broken pipe
+Created TensorFlow Lite XNNPACK delegate for CPU.
