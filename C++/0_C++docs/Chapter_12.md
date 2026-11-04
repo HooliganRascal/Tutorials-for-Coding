@@ -822,12 +822,12 @@ Heap2 destroyed
     &\mu = \frac{1\text{ per}}{1/3 * 1+1/3 * 2 + 1/3 * 3\text{ min}} = \frac{1}{2}\text{per}/\text{min}\\ 
     \end{align*}
     $$
-    Where $\lambda$ is the rate of using, and $\mu$ is the serving capability, and:
+    Where $\lambda$ is the **arrival rate**, and $\mu$ is the **service rate**, and:
     $$\rho = \frac{\lambda}{\mu},\qquad t_{\text{avg}} \approx \frac{\rho}{\mu - \lambda} = 2\,\text{min}$$
-    Thus by this calculation, the waiting time in average for 1 person is 2 min, while when the coming rate becomes 30 per/hour:
+    Thus by this calculation, the waiting time in average for 1 person is 2 min, while when the **utilization rate** $\rho$ becomes 30 per/hour:
     $$
     \rho = 1,\qquad t_{\text{avg}} \approx \lim_{\lambda\rightarrow\mu}\frac{\rho}{\mu-\lambda} = \infty
     $$
-    That is the theory of queue, the algorithm is rough, but we can get the point
+    That is the **theory of queue**, the algorithm is rough, but we can get the point
 
 
