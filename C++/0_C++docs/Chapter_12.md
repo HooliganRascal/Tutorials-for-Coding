@@ -761,14 +761,235 @@ Heap2 destroyed
     - Customers arrive at **random intervals**, while the **average number of customers per hour is constant**
 
 ### A Queue Class
+Source code: `C12_Classlink`
+```C++
+/*****queue.h*****/
+#ifndef QUEUE_H_
+#define QUEUE_H_
+
+extern const int MIN_PER_HOUR;
+
+class UNIT
+{
+private:
+	size_t arrival;
+	size_t process;
+public:
+	UNIT(void){arrival = process = 0;}
+	size_t WHEN(void){return arrival;}
+	size_t TIME(void){return process;}
+	void SETI(size_t WHEN);
+};
+
+class QUEUE
+{
+private:
+	struct NODE
+	{
+		UNIT unit;
+		struct NODE* next;
+	};
+	static const int QSIZE = 10;
+
+	NODE* pfore;
+	NODE* pback;
+	int num_units;
+	const int max_qsize;
+
+	// prevent public copying
+	QUEUE(const QUEUE& q):max_qsize(0){} 
+	QUEUE& operator=(const QUEUE& q){return *this;}
+
+public:
+	QUEUE(int qsize = QSIZE);
+	~QUEUE(void);
+
+	bool IS_EMPTY(void) const;
+	bool IS_FULLY(void) const;
+	bool ADD_UNIT(const UNIT& unit);
+	bool DEL_UNIT(UNIT& unit);
+	int NUM_UNITS(void) const;
+};
+
+#endif
+
+/*****queue.cpp*****/
+#include <cstdlib>
+#include "queue.h"
+
+extern const int MIN_PER_HOUR = 60;
+
+void UNIT::SETI(size_t WHEN)
+{
+	process = std::rand()%3+1; // random at 1~3
+	arrival = WHEN;
+}
+
+QUEUE::QUEUE(int qsize):max_qsize(qsize)
+{
+	pfore = nullptr;
+	pback = nullptr;
+	num_units = 0;
+}
+
+QUEUE::~QUEUE(void)
+{
+	NODE* temp;
+	while(pfore!=nullptr)
+	{
+		temp = pfore;
+		pfore = pfore->next;
+		delete temp; // clear previous pfore content
+	}
+}
+
+bool QUEUE::IS_EMPTY(void) const
+{
+	return (num_units==0);
+}
+
+bool QUEUE::IS_FULLY(void) const
+{
+	return (num_units==max_qsize);
+}
+
+bool QUEUE::ADD_UNIT(const UNIT& unit)
+{
+	if(IS_FULLY())
+		return false;
+
+	NODE* add = new NODE;
+	add->unit = unit;
+	add->next = nullptr;
+	++num_units;
+
+	if(pfore == nullptr)
+		pfore = add; // put it in the first if queue emtpy
+	else
+		pback->next = add; // next is the end after added
+
+	pback = add; // let the pback point to new node
+	return true;
+}
+	
+bool QUEUE::DEL_UNIT(UNIT& unit)
+{
+	if(pfore==nullptr)
+		return false;
+
+	unit = pfore->unit; // analyze unit to be done
+	--num_units;
+
+	NODE* temp = pfore;
+	pfore = pfore->next;
+	delete temp;
+
+	if(num_units==0)
+		pback = nullptr;
+
+	return true;
+}
+
+int QUEUE::NUM_UNITS(void) const
+{
+	return num_units;
+}
+
+/*****link.cpp*****/
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include "queue.h"
+
+inline bool newunit(double min_per_unit) 
+{
+	return (std::rand()*min_per_unit/RAND_MAX < 1);
+}
+
+int main(void)
+{
+	int queue_size;
+	int simu_hours;
+	double units_per_hour;
+
+	std::srand(std::time(0)); // setup seed
+	std::cout.precision(2);
+	std::cout.setf(std::ios_base::fixed, std::ios_base::floatfield);
+
+	// begin simulation
+	std::cout << "Enter maximum size of queue: ";
+	std::cin >> queue_size;
+	std::cout << "Enter the number of simulation hours: ";
+	std::cin >> simu_hours;
+
+	QUEUE line(queue_size);
+	long cycle_max = MIN_PER_HOUR * simu_hours;
+
+	std::cout << "Enter the average number of units per hour: ";
+	std::cin >> units_per_hour;
+
+	double min_per_unit = MIN_PER_HOUR / units_per_hour;
+	UNIT temp; // new unit
+	long turned_units = 0; 
+	long joined_units = 0;
+	long served_units = 0;
+	long total_length = 0;
+	long total_time = 0;
+	int queue_time = 0; // time until server is free
+	
+	// each loop for 1 min
+	for(int cycle=0; cycle<cycle_max; ++cycle)
+	{
+		if(newunit(min_per_unit))
+		{
+			if(line.IS_FULLY())
+				++turned_units;
+			else
+			{
+				++joined_units;
+				temp.SETI(cycle);
+				line.ADD_UNIT(temp);
+			}
+		}
+		if(queue_time<=0 && !line.IS_EMPTY())
+		{
+			line.DEL_UNIT(temp);
+			queue_time = temp.TIME(); // take the time queued for it
+			total_time += cycle-temp.WHEN();
+			++served_units;
+		}
+		if(queue_time > 0)
+			--queue_time;
+		total_length += line.NUM_UNITS();
+	}
+
+	if(joined_units > 0)
+	{
+		std::cout << "units accepted: " << joined_units << std::endl;
+		std::cout << "units served: " << served_units << std::endl;
+		std::cout << "units turned: " << turned_units << std::endl;
+		std::cout << "average queue size: " 
+				  << (double)total_length / cycle_max 
+				  << std::endl;
+		std::cout << "average wait time: " 
+				  << (double)total_time / served_units << " min" 
+				  << std::endl;
+	}
+	else
+		std::cout << "No customers!\n";
+
+	return 0;
+}
+```
+
 - Basic attributes:
     - Holds an ordered sequence of items with a limit number
-    - Create
-    - Check whether it is full/empty
+    - Create an empty queue
+    - Check whether the queue is full/empty
     - Add/remove an item
     - Determine the number of items in the queue
 - Interface:
-    - The size(`private`)
+    - The size of a queue in `private` section
     - Private representations
     - Public constructros and destructors, check full/empty, count, add and remove
 - Implementation:
@@ -785,7 +1006,7 @@ Heap2 destroyed
         - `QUEUE::QUEUE(int qs) : qsize(qs){};`, to initialize a `const` in the class, use *member initializer list*, which is the `qsize(qs)`
         - It is not limited to `const` initialization: `QUEUE:QUEUE(int qs) : qsize(qt), front(NULL), rear(NULL){}`
         - Use for `const` class members and declared as **reference** like `NAME::NAME(type& a) : refe(a){}`, both can be initialized only when created (This feature works for ordinary initializations too, like `int a(1)`, which is different from **defining a constant** with `static const type var = val`
-        - Free to use **in-class** initialization like `class NAME{ int mem = 1; const int mem2 = 2;}`, which is the same as `NAME::NAME : mem(1), mem2(2){}`, but it only works for **non-static or static const** member, which is called **default member initializer**, initialize it when declaring the class!
+        - For C++11, free to use **in-class** initialization like `class NAME{ int mem = 1; const int mem2 = 2;}`, which is the same as `NAME::NAME : mem(1), mem2(2){}`, but it only works for **non-static or static const** member, which is called **default member initializer**, initialize it when declaring the class!
     - Test the queue is full or empty is simple
     - Adding an item to the rear:
         - Terminate if the queue is full
@@ -824,10 +1045,76 @@ Heap2 destroyed
     $$
     Where $\lambda$ is the **arrival rate**, and $\mu$ is the **service rate**, and:
     $$\rho = \frac{\lambda}{\mu},\qquad t_{\text{avg}} \approx \frac{\rho}{\mu - \lambda} = 2\,\text{min}$$
-    Thus by this calculation, the waiting time in average for 1 person is 2 min, while when the **utilization rate** $\rho$ becomes 30 per/hour:
+    Thus by this calculation, the **waiting time in average with service time excluded** $t_{\text{avg}}$ for 1 person is 2 min, while when the **utilization rate** $\rho$ becomes 30 per/hour:
     $$
     \rho = 1,\qquad t_{\text{avg}} \approx \lim_{\lambda\rightarrow\mu}\frac{\rho}{\mu-\lambda} = \infty
     $$
-    That is the **theory of queue**, the algorithm is rough, but we can get the point
+    That is the **theory of queue** with simple **M/M/1** model, the algorithm is rough, but we can get the point
 
+```Console
+mteltn@mteltn:~/Desktop/Code_Projects/Tutorials-for-Coding/C++/C12_Classlink$ make run
+./link
+Enter maximum size of queue: 10
+Enter the number of simulation hours: 100
+Enter the average number of units per hour: 15
+units accepted: 1506
+units served: 1506
+units turned: 0
+average queue size: 0.16
+average wait time: 0.64 min
 
+mteltn@mteltn:~/Desktop/Code_Projects/Tutorials-for-Coding/C++/C12_Classlink$ make run
+./link
+Enter maximum size of queue: 10
+Enter the number of simulation hours: 100
+Enter the average number of units per hour: 30
+units accepted: 2887
+units served: 2883
+units turned: 143
+average queue size: 5.00
+average wait time: 10.40 min
+
+mteltn@mteltn:~/Desktop/Code_Projects/Tutorials-for-Coding/C++/C12_Classlink$ make run
+./link
+Enter maximum size of queue: 20
+Enter the number of simulation hours: 100
+Enter the average number of units per hour: 30
+units accepted: 2974
+units served: 2958
+units turned: 31
+average queue size: 9.77
+average wait time: 19.72 min
+
+mteltn@mteltn:~/Desktop/Code_Projects/Tutorials-for-Coding/C++/C12_Classlink$ make run
+./link
+Enter maximum size of queue: 10
+Enter the number of simulation hours: 4
+Enter the average number of units per hour: 30
+units accepted: 126
+units served: 121
+units turned: 5
+average queue size: 5.34
+average wait time: 10.38 min
+
+mteltn@mteltn:~/Desktop/Code_Projects/Tutorials-for-Coding/C++/C12_Classlink$ make run
+./link
+Enter maximum size of queue: 10
+Enter the number of simulation hours: 4
+Enter the average number of units per hour: 30
+units accepted: 127
+units served: 118
+units turned: 1
+average queue size: 3.58
+average wait time: 6.58 min
+
+mteltn@mteltn:~/Desktop/Code_Projects/Tutorials-for-Coding/C++/C12_Classlink$ make run
+./link
+Enter maximum size of queue: 10
+Enter the number of simulation hours: 4
+Enter the average number of units per hour: 30
+units accepted: 121
+units served: 117
+units turned: 8
+average queue size: 6.12
+average wait time: 12.19 min
+```

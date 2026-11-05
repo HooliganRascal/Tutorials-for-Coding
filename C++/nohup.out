@@ -3511,3 +3511,6 @@ Created TensorFlow Lite XNNPACK delegate for CPU.
 Opening in existing browser session.
 [1:1:0100/000000.822140:ERROR:content/zygote/zygote_main_linux.cc:197] Failed sending zygote boot message: Broken pipe (32)
 [741484:741484:0100/000000.825235:ERROR:content/zygote/zygote_linux.cc:662] write: Broken pipe (32)
+Opening in existing browser session.
+[1:1:0100/000000.877327:ERROR:content/zygote/zygote_main_linux.cc:197] Failed sending zygote boot message: Broken pipe (32)
+[434013:434013:0100/000000.882649:ERROR:content/zygote/zygote_linux.cc:662] write: Broken pipe (32)

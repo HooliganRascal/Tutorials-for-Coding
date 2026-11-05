@@ -1,3 +1,11 @@
 Opening in existing browser session.
 [1:1:0100/000000.530026:ERROR:content/zygote/zygote_main_linux.cc:197] Failed sending zygote boot message: Broken pipe (32)
 [477432:477432:0100/000000.530064:ERROR:content/zygote/zygote_linux.cc:662] write: Broken pipe (32)
+[1104/230905.335889:ERROR:file_io_posix.cc(152)] open /home/mteltn/.xwechat/crashinfo/pending/aee7e266-057b-4390-8e70-964aaeb1903f.lock: File exists (17)
+[1104/230905.336747:ERROR:file_io_posix.cc(152)] open /home/mteltn/.xwechat/crashinfo/pending/aee7e266-057b-4390-8e70-964aaeb1903f.lock: File exists (17)
+[1104/230905.336844:ERROR:directory_reader_posix.cc(42)] opendir /home/mteltn/.xwechat/crashinfo/attachments/311fb514-a2e4-41e5-83c0-81f2d5b548e9: No such file or directory (2)
+[1104/230905.589034:ERROR:file_io_posix.cc(152)] open /home/mteltn/.xwechat/crashinfo/pending/aee7e266-057b-4390-8e70-964aaeb1903f.lock: File exists (17)
+[1104/230905.589108:ERROR:file_io_posix.cc(152)] open /home/mteltn/.xwechat/crashinfo/pending/aee7e266-057b-4390-8e70-964aaeb1903f.lock: File exists (17)
+[1104/231031.841238:ERROR:elf_dynamic_array_reader.h(64)] tag not found
+[1104/231032.051448:ERROR:file_io_posix.cc(152)] open /home/mteltn/.xwechat/crashinfo/pending/aee7e266-057b-4390-8e70-964aaeb1903f.lock: File exists (17)
+[1104/231032.051512:ERROR:directory_reader_posix.cc(42)] opendir /home/mteltn/.xwechat/crashinfo/attachments/9a84bbf1-d55f-4f1c-aa48-5ee631e6357b: No such file or directory (2)
