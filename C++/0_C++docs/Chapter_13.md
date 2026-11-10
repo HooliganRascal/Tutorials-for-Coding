@@ -230,6 +230,26 @@ Name: Cosmos, Mteltn; Rating: 4514
 ```
 
 ## Inheritance: An *Is-a* Relationship
+- Three varieties of inheritance:
+    - `public`: the *is-a* relationship    
+    - `protected` 
+    - `private`
+- Is-a(maybe is-a-kind-of is more accurate):
+    - A banana is a fruit
+    - An object of a derived class **should also be** an object of the base class
+    - Anything to do with a base-class object, should be able to do with a derived-class object
+    - The derived class can **add features** though
+- Inheritance can add properties to a base class, but it doesn't remove properties from a base class
+- Other relationships:
+    - *Has-a*: a lunch can have a fruit, but a fruit is not a lunch
+    - *Is-like-a*: lawyers are like sharks, but lawyer is not a shark
+    - *Is-implemented-as-a* relationship
+        - Implement a stack using an array
+        - But we don't derive a `STACK` class from an `ARRAY` class for a stack can be implemented in other ways like *linked list*
+    - *Uses-a* relationship
+        - A computer can use a laser printer
+        - But we don't derive a `PRINTER` class from a `COMPUTER` class 
+- For those other relationships, use other implementations like set as member or design a new class or set as object member
 
 ## Polymorphic Public Inheritance
 
