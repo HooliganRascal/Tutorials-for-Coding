@@ -4126,3 +4126,27 @@ Created TensorFlow Lite XNNPACK delegate for CPU.
 [19046:19075:1111/160107.255470:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -130
 Fontconfig error: Cannot load default config file: File not found
 Fontconfig error: Cannot load default config file: File not found
+Created TensorFlow Lite XNNPACK delegate for CPU.
+[42825:42854:1112/110806.805757:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[42825:42854:1112/111228.107591:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[42825:42854:1112/111713.918194:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[42825:42854:1112/112307.500532:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[42825:42854:1112/113004.109216:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[42825:42854:1112/114005.751421:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[42825:42825:1112/114752.332348:ERROR:chrome/browser/ui/webui/ntp/new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+[42825:42825:1112/114753.047546:ERROR:chrome/browser/ui/webui/ntp/new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+[42825:42825:1112/114753.736963:ERROR:chrome/browser/ui/webui/ntp/new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+[42825:42825:1112/125414.242344:ERROR:ui/gfx/x/atom_cache.cc:236] Add application/vnd.portal.filetransfer to kAtomsToCache
+[42825:42825:1112/125414.242499:ERROR:ui/gfx/x/atom_cache.cc:236] Add application/vnd.portal.files to kAtomsToCache
+[42825:42854:1112/135431.772491:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[42825:42854:1112/135431.774004:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[42825:42854:1112/145501.978336:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[42825:42854:1112/145501.980199:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -105
+[42825:42825:1112/145501.981065:ERROR:components/signin/internal/identity_manager/account_info_fetcher_gaia.cc:65] OnGetTokenFailure: Connection failed (-105).
+[42825:42825:1112/151040.913546:ERROR:chrome/browser/ui/webui/ntp/new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+[42825:42825:1112/151041.299724:ERROR:chrome/browser/ui/webui/ntp/new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+[42825:42825:1112/151041.300800:ERROR:chrome/browser/ui/webui/ntp/new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+[42825:42825:1112/151041.805326:ERROR:chrome/browser/ui/webui/ntp/new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+[42825:42825:1112/151041.806726:ERROR:chrome/browser/ui/webui/ntp/new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+[42825:42825:1112/151042.196025:ERROR:chrome/browser/ui/webui/ntp/new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+[42825:42825:1112/151042.197380:ERROR:chrome/browser/ui/webui/ntp/new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.

@@ -651,10 +651,97 @@ Done!
 - Using `virtual` ensures the correct sequence of destructors is called!
 
 ## Static and Dynamic Binding
-- *Binding* the function name
+- *Binding* the function name 
+- C++ is more complicated for **function overloading**
+- *Static(Early) binding*: binding during **compilation**
+- *Dynamic(late) binding*: generating code allowing the correct **virtual** method to be selected as the program runs
+- See the **virtual** methods in greater depth
 
 ### Pointer and Reference Type Compatibility
+- Assciate with **methods invoked** by pointers and references(`virtual` function and `public` model inheritance)
+- *Upcasting*: converting a **derived-class** reference or pointer to a **base-class** reference or pointer
+> Upcasting is transitive
+> Takes place for functions calls with base-class references or pointers as **parameters**
 
+- *Downcasting*: converting a **base-class** reference or pointer to a **derived-class** reference or pointer, **not allowed without an explicit typecast**
+> *Is-a* relationship is **not symmetric**
+> A derived class could add new data members, the methods which uses the new members wouldn't apply to the base class
+
+- Implicit upcasting makes it possible for a base-class pointer or reference points to or refers to either base-class object or a derived-class object
+- We need the dynamic binding! Use `virtual` member functions!
 ### Virtual Member Functions and Dynamic Binding
+- The compiler uses static binding for non-`virtual` methods
+- The compiler uses dynamic binding for `virtual` methods
+- Existence of static binding:
+    - Static binding is default for efficiency, and it is the default choice for C++. **You shouldn't have to pay for features you don't use**
+    - Go to `virtual` functions only if the program design needs them
+    - For conceptual model, making the function non-`virtual` to announce **the function not be redefined**
+    - Of course when we design a class, it is not always obvious into which category a method falls, but just fucking do it!
+- How `virtual` function works:
+    - The compiler adds a **hidden member** to each object holding a pointer of an array of function addresses(`virtual` function table or *vtbl*)
+    - The vtbl holds the addresses of the `virtual` functions declared for objects of that class
+        - An object of a base class contains a pointer to a table of addresses of all the `virtual` functions for that class
+        - Then an object of a derived class contains a pointer to a **separate** table of addresses
+    - If the derived class redefines one `virtual` function, the vtbl holds the address of the new function
+    - If it doesn't redefine it, it holds the address of the **original version**(same address of `virtual` function as base class)
+    - If it defines a new `virtual function`, its address is added to the vbtl, thus the table size varies
+- When calling a `virtual` function, the program looks at the vbtl address stored in an object and goes to the corresponding table of function addresses
+- Each object has its size increased by the amount needed to hold an address
+- For each class, the compiler creates a table of addresses of virtual functions
+- For each function call, there is an extra step of going to a table to look up an address
+- Non-`virtual` functions don't provide dynamic binding
 
 ### Things to Know About Virtual Methods
+- Constructors:
+    - It **can not be `virtual`**
+    - It does **not inherit the base-class constructors**
+- Destructors:
+    - It should be `virtual` **unless a class isn't to be used as base class**
+    - If the static binding applies, the `delete` for base-class pointer invokes  the base-class destructor, and **frees the memory pointed to by the base-class components of the derived-class object**
+    - Even if a base-class doesn't require the services of an explicit destructor, we should provide a `virtual` destructor even if it has nothing to do
+- Friends:
+    - It **can't be `virtual` function**
+    - It is not a class member! But we can have the `friend` functions **use `virtual` member functions** internally
+- No redefinition:
+    - If a derived class fails to redefine a function, it uses the base-class version of the function
+    - If a derived class is part of **a long chain of derivation**, it uses the **most recently defined version** of the function, **unless the base version is hidden**
+- Redefinition Hides Methods:
+    - Define base class: `class n1{public: virtual void fun(int a) const;`
+    - Define derived class: `class n2:public n1{public: virtual void fun() const;`
+    - It can get warnings, the redefinition **hides base class version that takes an `int` argument**
+    - Redefining an inherited method is **not a variation of overloading** 
+    - It does not just override the base class declaration
+    - It **hides all base-class methods of the same name**
+- Some rules:
+    - Redefine an inherited method, we need to make sure we **match the original prototype exactly**, but the **return type being a reference or pointer to a base class can be replaced by a reference or pointer to the derived class**(covariance of return type)
+    - If the base-class methods declaration is overloaded, we need to redefine **all the base-class versions in the derived class**, if no change is needed, redefine it to **simply call the base-class version** like `void n2::fun() const{n1::fun();}`
+
+## Access Control: `protected`
+- One more access category: `protected`
+- Outside world can only access class members in a `protected` section only by using `public` class members(like **`private` members as far as the outside world is concerned**)
+- Members of a derived class can access `protected` members of a base class directly(like **`public` members as far as derived classes are concerned**)
+- It may simplify the code, but it can cause design defect
+- We should **prefer `private` to `protected` access control for class datamembers**, and **use base-class methods** to provide derived classes access to base-class data
+- While `protected` access control can be quite useful for **member functions**, giving derived classes **access to internal functions** unavailable publicly
+
+## Abstract Base Classes
+### Applying the ABC Concept
+
+### ABC Philosophy
+
+## Inheritance and Dynamic Memory Allocation
+### Case1: Derived Class Doesn't Use `new`
+
+### Case2: Derived Class Does Use `new`
+
+### An Inheritance Example with Dynamic Memory Allocation and Friends
+
+## Class Design Review
+### Member Functions That the Compiler Generates
+
+### Other Class Method Considerations
+
+### `public` Inheritance Considerations
+
+### Class Function Summary
+
