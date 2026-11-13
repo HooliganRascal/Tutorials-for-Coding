@@ -725,12 +725,357 @@ Done!
 - While `protected` access control can be quite useful for **member functions**, giving derived classes **access to internal functions** unavailable publicly
 
 ## Abstract Base Classes
+- Abstract from 2 classes what they have in common, and **derive them from the ABC**
+- Then use an array of base-class pointers to manage a **mixture of 2 classes objects**, using a polymorphic approach!
+- An **unimplemented function** using **pure `virtual` function** like `virtual type fun(par) = 0;`, where there will be a `=0` at the **end of declaration**
+- We can **not create an object of a class which contains a pure `virtual` function**
+    - The class exists solely to **serve as base classes**
+    - A pure `virtual` function can have a definition
+    - The `=0` just makes the class an **abstract base class** and the class **doesn't necessarily have to define the pure `virtual` function**
+    - Remember, there is **no ABC object**!
+    - Classes derived from abstract base class sometimes are termed **concrete classes** that we can create objects of those types
+- An ABC describes an **interface using a least one pure `virtual` function**, classes derived from an ABC use **regular `virtual` functions`** to implement the interface in terms of the properties of the particular derived class
+
 ### Applying the ABC Concept
+Source code: `C13_Abstractbase`
+```C++
+/*****abstract.h*****/
+#ifndef ABSTRACT_H_
+#define ABSTRACT_H_
+#include <iostream>
+#include <cstring>
+
+class ABSTRACT
+{
+private:
+	std::string name;
+	long num_account;
+	double balance;
+
+protected:
+	struct FORM
+	{
+		std::ios_base::fmtflags flag;
+		std::streamsize prec;
+	};
+	inline const std::string& NAME(void) const{return name;}
+	inline long NUM_ACCOUNT(void) const{return num_account;}
+	FORM SET_FORMAT(void) const;
+	void RESTORE(FORM& f) const;
+
+public:
+	ABSTRACT
+	(const std::string& s="Nullbody", 
+	 long an=-1, double bal = 0.0);
+	void DEPOSIT(double money);
+	inline double BALANCE(void) const{return balance;}
+	virtual void WITHDRAW(double money)=0; // pure virtual 
+	virtual void VIEW_ACCOUNT(void) const=0; // pure virtual no def
+	virtual ~ABSTRACT(void){}; // it is necessary!
+};
+
+class BRASS : public ABSTRACT
+{
+public:
+	inline BRASS
+	(const std::string& s="Nullbody", 
+	 long an=-1, double bal=0.0) : 
+	ABSTRACT(s,an,bal){} // member initializer list
+	inline virtual ~BRASS(void){};
+
+	virtual void WITHDRAW(double money); // override
+	virtual void VIEW_ACCOUNT(void) const;	
+}; // no need the private
+
+class BRASSPLUS : public ABSTRACT
+{
+private: // new features added as private members
+	double max_loan;
+	double rate;
+	double owe_bank;
+
+public:
+	BRASSPLUS
+	(const std::string& s="Nullbody",
+	 long an=-1, double bal=0.0, double ml=500, double r=0.1);
+	BRASSPLUS
+	(const ABSTRACT& ba, double ml=500, double r=0.1);
+	inline virtual ~BRASSPLUS(void){};
+
+	virtual void WITHDRAW(double money); // pure virtual
+	virtual void VIEW_ACCOUNT(void) const; 
+	inline void RESER_MAX(double m){max_loan = m;}
+	inline void RESER_RATE(double r){rate = r;}
+	inline void RESER_OWE(void){owe_bank = 0;}
+};
+
+#endif
+
+/*****abstract.cpp*****/
+#include <iostream>
+#include "abstract.h"
+
+// abstract base class methods
+ABSTRACT::ABSTRACT
+(const std::string& s, long an, double bal)
+{
+	name = s;
+	num_account = an;
+	balance = bal;
+}
+ABSTRACT::FORM ABSTRACT::SET_FORMAT(void) const
+{
+	FORM f;
+	f.flag = std::cout.setf
+			 (std::ios_base::fixed, std::ios_base::floatfield);
+	f.prec = std::cout.precision(2);
+
+	return f;
+}
+
+void ABSTRACT::RESTORE(FORM& f) const
+{
+	std::cout.setf(f.flag, std::ios_base::floatfield);
+	std::cout.precision(f.prec);
+}
+
+void ABSTRACT::DEPOSIT(double money)
+{
+	if(money < 0)
+	{
+		std::cout << "Negative deposit not allowed! " 
+				  << "Deposit is cancelled.\n";
+	}
+	else
+		balance += money;
+}
+void ABSTRACT::WITHDRAW(double money) // pure virtual function
+{
+	balance -= money;
+}
+
+// derived class1 methods 
+void BRASS::WITHDRAW(double money) // protocol or contract
+{
+	if(money<0)
+	{
+		std::cout << "Withdrawal amount must be positive! "
+				  << "Withdrawal is cancelled.\n";
+	}
+	else if(money <= BALANCE())
+		ABSTRACT::WITHDRAW(money);
+	else
+	{
+		std::cout << "Withdrawal amount of $" << money
+				  << " exceeds your balance! "
+				  << "Withdrawal is cancelled.\n";
+	}
+}
+
+void BRASS::VIEW_ACCOUNT(void) const
+{
+	FORM f = SET_FORMAT();
+
+	std::cout << "BRASS Client: " << NAME() << "\n";
+	std::cout << "Account Number: " << NUM_ACCOUNT() << "\n";
+	std::cout << "Balance: $" << BALANCE() << "\n";
+
+	RESTORE(f);
+}
+
+// derived class2 methods 
+BRASSPLUS::BRASSPLUS
+(const std::string& s, long an, double bal, double ml, double r) : 
+ABSTRACT(s, an, bal)
+{
+	max_loan = ml;
+	owe_bank = 0.0;
+	rate = r;
+}
+
+BRASSPLUS::BRASSPLUS
+(const ABSTRACT& ba, double ml, double r) :
+ABSTRACT(ba) // implicit copy constructor
+{
+	max_loan = ml;
+	owe_bank = 0.0;
+	rate = r;
+}
+
+void BRASSPLUS::VIEW_ACCOUNT(void) const
+{
+	FORM f = SET_FORMAT();
+
+	std::cout << "BRASSPLUS Client: " << NAME() << "\n";
+	std::cout << "Account Number: " << NUM_ACCOUNT() << "\n";
+	std::cout << "Balance: $" << BALANCE() << "\n";
+	std::cout << "Maximum loan: $" << max_loan << "\n";
+	std::cout << "Owed to bank: $" << owe_bank << "\n";
+	std::cout.precision(3);
+	std::cout << "Loan rate: $" << 100*rate << "%\n";
+
+	RESTORE(f);
+}
+
+void BRASSPLUS::WITHDRAW(double money)
+{
+	FORM f = SET_FORMAT();
+
+	double bal = BALANCE(); // access only through public
+	if(money < bal)
+		ABSTRACT::WITHDRAW(money);
+	else if(money <= bal+max_loan-owe_bank)
+	{
+		double advance = money-bal;
+		owe_bank += advance*(1.0+rate);
+		std::cout << "Bank advance: $" << advance << "\n";
+		std::cout << "Bank advance: $" << advance*rate << "\n";
+		DEPOSIT(advance);
+		ABSTRACT::WITHDRAW(money);
+	}
+	else
+		std::cout << "Credit limit exceeded!"
+				  << "Transaction cancelled.\n";
+
+	RESTORE(f);
+}
+
+/*****useabstract.cpp*****/
+#include <iostream>
+#include <cstring>
+#include "abstract.h"
+
+const int CLIENTS = 4;
+
+int main(void)
+{
+	ABSTRACT* p_clients[CLIENTS]; // not objects, but pointers!
+	std::string temp;
+	long num_temp;
+	double bal_temp;
+	char kind;
+
+	for(int i=0; i<CLIENTS; ++i)
+	{
+		std::cout << "Enter client's name: ";
+		getline(std::cin, temp);
+		std::cout << "Enter client's account number: ";
+		std::cin >> num_temp;
+		std::cout << "Enter opening balance: $";
+		std::cin >> bal_temp;
+		std::cout << "Enter 1 for BRASS account or "
+				  << "2 for BRASSPLUS account: ";
+		while(std::cin>>kind && (kind!='1' && kind!='2'))
+			std::cout << "Enter 1 or 2: ";
+		if(kind=='1')
+			p_clients[i] = new BRASS(temp, num_temp, bal_temp);
+		else
+		{
+			double tmax, trate;
+			std::cout << "Enter the overdraft limit: $";
+			std::cin >> tmax;
+			std::cout << "Enter the interest rate as a "
+					  << "decimal fraction: ";
+			std::cin >> trate;
+			p_clients[i] = new BRASSPLUS(temp, num_temp, bal_temp, 
+										 tmax, trate);
+		}
+
+		while(std::cin.get()!='\n')
+			continue; // filter input queue
+	}
+	std::cout << "\n";
+
+	for(int i=0; i<CLIENTS; ++i)
+	{
+		p_clients[i]->VIEW_ACCOUNT();
+		std::cout << "\n";
+	}
+
+	for(int i=0; i<CLIENTS; ++i)
+	{
+		delete p_clients[i]; // free memory
+	}
+
+	std::cout << "Done!\n";
+	return 0;
+}
+
+```
+- Test the ABC in previous polymorphic inheritance examples
+- ABC can use `protected` member functions to handle some methods like **formatting previously handled by nonmember functions**
+- Protect functions standalone from **conflicting with client-defined functions of the same name**
+    - Declare the functions `static` making them **private to current file**
+    - Place the functions and connected definition of `struct` into a `namespace`
+    - Place them in the `protected` section of the ABC definition
+
+```Console
+Enter client's name: Harry Potter
+Enter client's account number: 112233
+Enter opening balance: $1500
+Enter 1 for BRASS account or 2 for BRASSPLUS account: 1
+Enter client's name: Dinah Otto
+Enter client's account number: 121213
+Enter opening balance: $1800
+Enter 1 for BRASS account or 2 for BRASSPLUS account: 2
+Enter the overdraft limit: $350
+Enter the interest rate as a decimal fraction: 0.12
+Enter client's name: Brenda Fuck
+Enter client's account number: 212118
+Enter opening balance: $5200
+Enter 1 for BRASS account or 2 for BRASSPLUS account: 2
+Enter the overdraft limit: $800
+Enter the interest rate as a decimal fraction: 0.10
+Enter client's name: Tim Jerry
+Enter client's account number: 233255
+Enter opening balance: $688
+Enter 1 for BRASS account or 2 for BRASSPLUS account: 1
+
+BRASS Client: Harry Potter
+Account Number: 112233
+Balance: $1500.00
+
+BRASSPLUS Client: Dinah Otto
+Account Number: 121213
+Balance: $1800.00
+Maximum loan: $350.00
+Owed to bank: $0.00
+Loan rate: $12.000%
+
+BRASSPLUS Client: Brenda Fuck
+Account Number: 212118
+Balance: $5200.00
+Maximum loan: $800.00
+Owed to bank: $0.00
+Loan rate: $10.000%
+
+BRASS Client: Tim Jerry
+Account Number: 233255
+Balance: $688.00
+
+Done!
+```
 
 ### ABC Philosophy
+- Much more systematic, disciplined to approach inheritance
+- Develop a model of what classes are needed to represent a programming problem and the relations
+- Some school of thought holds that if you design an inheritance hierarchy of classes, the **only concrete classes should be those that never serve as a base class**
+- Cleaner designs with fewer complications  
+- Consider them an enforcement of interface:
+    - ABC demands that its pure `virtual` functions **be overriden in any concrete derived classes**, forcing derived class to obey the interface of ABC has set
+    - Common in **component-based programming paradigms**, the use of ABCs allows the component designer to create an **interface contract** where all components derived from ABCs are guaranteed to uphold **at least the common functionality** specified by ABC
 
 ## Inheritance and Dynamic Memory Allocation
+- Inheritance and dynamic memory allocation
+- What if a base class uses dynamic memory allocation and redefines assignment operator and a copy constructor?
+- If the derived class does **not itself use dynamic memory allocation**, no special steps are needed
+- If the derived class does use dynamic memory allocation, there are new tricks
 ### Case1: Derived Class Doesn't Use `new`
+- Base class using dynamic memory allocation: `class c1{private: char* label; public: c1(const char* l="null");};`
+- This contains the special methods required when constructors use `new`
+    - A destructor using `delete` to **free memory allocated**
+    - A copy constructor for **deep copying**
+    - An overloaded assignment operator for **deep copying** as well
 
 ### Case2: Derived Class Does Use `new`
 
