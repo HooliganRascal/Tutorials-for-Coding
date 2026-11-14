@@ -439,7 +439,7 @@ int main(void)
     - Input failed
     - `get(char[], int)` reads an **empty line**
     - For older version, the first character is `\0` if an empty line is entered with `get(char[], int)`
-    - For `get(char*, int)`, we type `abc<enter>xyz<enter>`, the `abe\0` is input, and the `\nxyz\n` stays in the buffer
+    - For `get(char*, int)`, we type `abc<enter>xyz<enter>`, the `abc\0` is input, and the `\nxyz\n` stays in the buffer
 > - `static` members in `private` section could be defined outside the class declaration as an exception, normally it is not allowed to directly access the `private` member function
 
 ```Console

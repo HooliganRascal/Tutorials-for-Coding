@@ -1076,17 +1076,296 @@ Done!
     - A destructor using `delete` to **free memory allocated**
     - A copy constructor for **deep copying**
     - An overloaded assignment operator for **deep copying** as well
+- Define a derived class with no unusual design features requiring special treatment like `class DERIVE : public BASE{private: char ptr[40];...}`
+- No need to define anything like base class for the derived class will **use those of the base class** when do anything to do with DMA
 
 ### Case2: Derived Class Does Use `new`
+- Define a derived class using `new`: `class c2 : public c1{private: char* ptr; public: ...};`
+- We have to define an explicit destructor, copy constructor and    assignment operator for the derived class
+- A derived-class destructor **automatically** calls the base-class destructor
+    - It has to clean up after what the derived-class constructors do, the base-class part is cleaned up automatically;
+    - Do this like: `DERIVE::~DERIVE(void){delete [] ptr;}`, for `ptr` is not yet allocated in declaration!
+- A derived-class copy constructor **must invoke the base-class copy constructor** 
+    - Handle the base-class share of the data: `DERIVE::DERIVE(const DERIVE& dv) : BASE(dv)` for derived-class can only access its own members, **no access to base-class `private` members**!
+    - Note that **the reference of base-class object as a parameter of base-class copy constructor** can refer to **derived-class object with its base-class data parts**
+- A derived-class explicit assignment operator
+    - Also has to **take care of assignment for base-class object**
+    - Accomplish this by **explicit calling the base-class assignment operator** like: `DERIVE& DERIVE::operator=(const DERIVE& dv){...; BASE::operator=(dv);delete [] ptr;...}`
+    - Same as `DERIVE& DERIVE::operator=(const DERIVE& dv){...; *this=dv; delete [] ptr;...}`, but using function notation(scope-resolution operator) gets the **correct assignment operator** called
 
 ### An Inheritance Example with Dynamic Memory Allocation and Friends
+Source code: `C13_Inheritancedynamic`
+```C++
+/*****dynamic.h*****/
+#ifndef DYNAMIC_H_
+#define DYNAMIC_H_
+#include <iostream>
+
+class BASE
+{
+private:
+	char* label;
+	int rate;
+
+public:
+	// strlen(nullptr) undefined! don't initialize l as nullptr!
+	BASE(const char* l="", int r=0);
+	BASE(const BASE& bs);
+	virtual ~BASE(void);
+
+	BASE& operator=(const BASE& bs);
+	friend 
+	std::ostream& operator<<(std::ostream& os, const BASE& bs);
+};
+
+// derived class without dynamic memory allocation
+class NODM : public BASE
+{
+private:
+	static const int LEN=40; 
+	char color[LEN];
+
+public:
+	NODM(const char* c="blank", const char* l="", int r=0);
+	NODM(const char* c, const BASE& bs);
+	inline virtual ~NODM(void){};
+
+	friend 
+	std::ostream& operator<<(std::ostream& os, const NODM& nd);
+};
+
+// derived class with dynamic memory allocation
+class YEDM : public BASE
+{
+private:
+	char* style;
+
+public:
+	YEDM(const char* s="blank", const char* l="", int r=0);
+	YEDM(const char* s, const BASE& bs);
+	YEDM(const YEDM& yd);
+	virtual ~YEDM(void);
+
+	YEDM& operator=(const YEDM& yd);
+	friend 
+	std::ostream& operator<<(std::ostream& os, const YEDM& yd);
+};
+
+#endif
+
+/*****dynamic.cpp*****/
+#include <iostream>
+#include <cstring>
+#include "dynamic.h"
+
+// base class methods
+BASE::BASE(const char* l, int r)
+{
+	label = new char[std::strlen(l)+1]; // strlen doesn't count '\0'
+	std::strcpy(label, l);
+	rate = r;
+}
+
+BASE::BASE(const BASE& bs)
+{
+	label = new char[std::strlen(bs.label)+1]; // inside class
+	std::strcpy(label, bs.label); // access private members directly
+	rate = bs.rate;
+}
+
+BASE::~BASE(void)
+{
+	delete [] label;
+}
+
+BASE& BASE::operator=(const BASE& bs)
+{
+	if(this==&bs)
+		return *this;
+
+	delete [] label;
+	label = new char[std::strlen(bs.label)+1];
+	std::strcpy(label, bs.label);
+	rate = bs.rate;
+	return *this;
+}
+
+std::ostream& operator<<(std::ostream& os, const BASE& bs)
+{
+	os << "Label: " << bs.label << std::endl;
+	os << "Rate: " << bs.rate << std::endl;
+	return os;
+}
+
+// derived class methods without dynamic memory allocation
+NODM::NODM(const char* c, const char* l, int r) : BASE(l,r)
+{
+	std::strncpy(color, c, LEN-1);
+	color[LEN-1]='\0';
+}
+
+NODM::NODM(const char* c, const BASE& bs) : BASE(bs)
+{
+	std::strncpy(color, c, LEN-1);
+	color[LEN-1]='\0';
+}
+
+std::ostream& operator<<(std::ostream& os, const NODM& nd)
+{
+	os << (const BASE&) nd;
+	os << "Color: " << nd.color << std::endl;
+	return os;
+}
+
+// derived class methods with dynamic memory allocation 
+YEDM::YEDM(const char* s, const char* l, int r) : BASE(l,r)
+{
+	style = new char[std::strlen(s)+1];
+	std::strcpy(style, s);
+}
+
+YEDM::YEDM(const char* s, const BASE& bs) : BASE(bs)
+{
+	style = new char[std::strlen(s)+1];
+	std::strcpy(style, s);
+}
+
+YEDM::YEDM(const YEDM& yd) : BASE(yd)
+{
+	style = new char[std::strlen(yd.style)+1];
+	std::strcpy(style, yd.style);
+}
+
+YEDM::~YEDM(void)
+{
+	delete [] style;
+}
+
+YEDM& YEDM::operator=(const YEDM& yd)
+{
+	if(this==&yd)
+		return *this;
+
+	BASE::operator=(yd); // do the base class portion
+	delete [] style;
+	style = new char[std::strlen(yd.style)+1];
+	std::strcpy(style, yd.style);
+	return *this;
+}
+
+std::ostream& operator<<(std::ostream& os, const YEDM& yd)
+{
+	os << (const BASE&) yd;
+	os << "Style: " << yd.style<< std::endl;
+	return os;
+}
+
+/*****usedynamic.cpp*****/
+#include <iostream>
+#include "dynamic.h"
+
+int main(void)
+{
+	BASE shirt("Portabelly", 8);
+	NODM balloon("red", "Blimpo", 4);
+	YEDM trousers("Mercator", "Buffalo Keys", 5);
+
+	std::cout << "Displaying BASE object:\n";
+	std::cout << shirt << std::endl;
+	std::cout << "Displaying NODM object:\n";
+	std::cout << balloon << std::endl;
+	std::cout << "Displaying YEDM object:\n";
+	std::cout << trousers << std::endl;
+
+	NODM balloon2(balloon); // implicit copy constructor
+	std::cout << "Result of NODM copy:\n";
+	std::cout << balloon2 << std::endl;
+
+	YEDM trousers2(trousers);
+	std::cout << "Result of YEDM copy:\n";
+	std::cout << trousers2 << std::endl;
+
+	YEDM trousers3; // default constructor
+	// std::cout << "Result of YEDM default constructor:\n";
+	// std::cout << trousers3 << std::endl;
+	trousers3 = trousers;
+	std::cout << "Result of YEDM assignment:\n";
+	std::cout << trousers3 << std::endl;
+
+	return 0;
+}
+
+```
+- Discuss inheritance with dynamic memory allocation and friends
+- A `friend` function: derived classes can also access friends to a base class!
+    - We need to define the **function a friend to base class** 
+    - We also need to define the **function a friend to all derived classes** 
+    - Use **type cast** so that the prototype matching will select the correct function
+- Do this like: `std::ostream& operator<<(std::ostream& os, const DERIVE& dv){os << (const BASE&)dv; os << "pointer: " << dv.ptr << "\n"; return os;}`
+- Remember, for class constructor, there shouldn't be **non-default parameters following default parameters**, and `strlen(nullptr)` is undefined!
+
+```Console
+Displaying BASE object:
+Label: Portabelly
+Rate: 8
+
+Displaying NODM object:
+Label: Blimpo
+Rate: 4
+Color: red
+
+Displaying YEDM object:
+Label: Buffalo Keys
+Rate: 5
+Style: Mercator
+
+Result of NODM copy:
+Label: Blimpo
+Rate: 4
+Color: red
+
+Result of YEDM copy:
+Label: Buffalo Keys
+Rate: 5
+Style: Mercator
+
+Result of YEDM assignment:
+Label: Buffalo Keys
+Rate: 5
+Style: Mercator
+```
 
 ## Class Design Review
+- We can't reduce class design to some **paint-by-numbers** routine
+- But we can go over some guidelines as reviewing
+
 ### Member Functions That the Compiler Generates
+- The compiler automatically generates some **special `public` member functions** for us(**marked**)
+- Default constructors
+- Copy constructors
+- Assignment operators
+
 
 ### Other Class Method Considerations
+- Constructor considerations
+- Destructor considerations
+- Conversion considerations
+- Passing an object by value versus by reference
+- Returning an object by value versus by reference
+- Using `const`
 
 ### `public` Inheritance Considerations
+- *Is-a* relationship considerations
+- Not inherited stuff
+- Assignment operator considerations
+- `private` versus `protected` members
+- `virtual` method considerations
+- Destructor considerations
+- `friend` considerations
+- Observations on using base-class methods
 
 ### Class Function Summary
+- Class functions come in many variations
+- Some can be inherited, some can't
+- Some can be either member functions or friends, others can only be member functions
 
