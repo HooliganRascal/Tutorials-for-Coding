@@ -1302,7 +1302,7 @@ int main(void)
     - We also need to define the **function a friend to all derived classes** 
     - Use **type cast** so that the prototype matching will select the correct function
 - Do this like: `std::ostream& operator<<(std::ostream& os, const DERIVE& dv){os << (const BASE&)dv; os << "pointer: " << dv.ptr << "\n"; return os;}`
-- Remember, for class constructor, there shouldn't be **non-default parameters following default parameters**, and `strlen(nullptr)` is undefined!
+- Remember, for class constructor, there shouldn't be **non-default parameters following default parameters**, and **`strlen(nullptr)` is undefined**!
 
 ```Console
 Displaying BASE object:
