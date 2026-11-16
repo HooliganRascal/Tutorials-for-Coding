@@ -30,3 +30,4 @@
 11:22:41.201 WARN  app_lib::feat::profile:169 T{clash-verge-runtime-4} [Config] [订阅更新] Clash代理更新失败: failed to fetch remote profile: Request failed: error sending request for url (https://ktmcloud001.top/api/v1/client/subscribe?token=***): operation timed out，尝试使用系统代理更新
 11:23:01.326 WARN  app_lib::feat::profile:169 T{clash-verge-runtime-5} [Config] [订阅更新] 系统代理更新失败: failed to fetch remote profile: Request failed: error sending request for url (https://ktmcloud001.top/api/v1/client/subscribe?token=***): operation timed out，所有重试均已失败
 11:23:01.326 ERROR app_lib::core::timer:481 T{clash-verge-runtime-5} [[Timer]] Failed to update profile uid RsuR8a7x16om: failed to fetch remote profile
+Created TensorFlow Lite XNNPACK delegate for CPU.

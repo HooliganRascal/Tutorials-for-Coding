@@ -1342,27 +1342,81 @@ Style: Mercator
 ### Member Functions That the Compiler Generates
 - The compiler automatically generates some **special `public` member functions** for us(**marked**)
 - Default constructors
+    - No arguments, or all arguments with default arguments
+    - Supply an explicit default constructor initializing all class data members to reasonable values
 - Copy constructors
+    - When a new object is initialized to an object of the same class
+    - Function passed or returned an object by value
+    - Generation of temporary object
+    - **Deep copying needed**, `static` variable needing modified, define one
 - Assignment operators
-
+    - Default with memberwise assignment
+    - When creating copy constructor, we need to create one corresponding assignment operator
+    - Return a **reference** to the object
 
 ### Other Class Method Considerations
-- Constructor considerations
-- Destructor considerations
+- Constructor considerations: create objects, not inherited
+- Destructor considerations: use `delete` when constructor using `new`, for base class, provide a `virtual` destructor
 - Conversion considerations
+    - Define a conversion to class: `NAME(type)`
+    - Implicit conversion: `NAME obj; obj = 1;`
+    - Use `explicit` in prototype to disable implicit conversion: `explicit NAME(type);`
+    - Define a conversion to other type: `NAME::operator type(void);` converting `NAME` to `type`, only use them if they make good sense, use `explicit` as well
 - Passing an object by value versus by reference
+    - Using an object argument, pass the object by reference rather than value
+    - If not modifying anything, declare the argument as a `const` reference
+    - For the sake of `public` inheritance, passing by reference can sucessfully use base-derived methods
 - Returning an object by value versus by reference
+    - If not necessary, return a reference rather than a value
+    - It can save time and memory
+    - A function **should not return a reference to a temporary object** created in a function! Don't even use a reference
+    - If a function returns an object passed to it via a reference or pointer, return the object by reference
 - Using `const`
+    - Use it to guarantee that a method doesn't modify an argument
+    - Or a method doesn't modify the object invoking it
+    - Use `const` to ensure that a reference or pointer return value can't be used to modify data in an object(make it a **rvalue**!)
 
 ### `public` Inheritance Considerations
 - *Is-a* relationship considerations
+    - Derived class is not a particular kind of the base class, we shouldn't use `public` derivation
+    - Best approach: create an abstract data class with **pure `virtual` functions**
+    - A base-class pointer can point to derived-class object, so is reference
+    - Reverse is not true without an explicit type cast(such one may or may not make sense)
 - Not inherited stuff
+    - Constructors, use the **member-initializer list syntax** to call on base-class constructor to explicitly construct the base class portion of a derived object, or it calls the default one of the base-class
+    - Destructors, when an object is destroyed, the derived-class destructor is called, then the base-class destructor, **if there is one default base destructor, the compiler generates a default derived destructor**, but the destructor **should be `virtual`**
+    - Assignment operators, inherited method has the same function signature in a **derived class as it does in the base class**, while the assignment operators own a **formal parameter that is the class type**
 - Assignment operator considerations
+    - Assigning one object to another of the same class
+    - Default implicit version of assignment operator uses **memberwise** assignment
+    - If the object belongs to a derived class, the compiler uses **base-class assignmemt operator** to handle the **base-class portion of the derived-class object**
+    - Provide an explicit assignment operator if constructors use `new` to initialize pointers, the core is the base-class part
+    - We can assign a derived object to a base object, but only the base-class members are involved
+    - For the reverse, we need a **conversion constructor** like `DERIVE(const BASE&)` or with other **default arguments**
+    - Or define an assignment operator for assigning a base class to a derived class: `DERIVE& operator=(const BASE&);`
+    - Or we just use an **explicit type cast**, use a **conversion function** without return value!
 - `private` versus `protected` members
+    - `protected` members act like `public` members as far as a **derived class** is concerned
+    - `protected` members act like `private` members for the world at large
+    - It is better to use `private` data members rather than `protected` data members but **`protected` methods** are useful
 - `virtual` method considerations
+    - Make a derived class to redefine a method, define it as `virtual` in the base class, enabling **late or dynamic** binding
+    - If not, don't make it `virtual` as meaning we don't want it redefined
 - Destructor considerations
+    - A base class destructor should be `virtual`
+    - The program uses **derived-class destructor followed by the base-class destructor**
 - `friend` considerations
+    - A `friend` function is not a class member, thus **not inherited**
+    - Want a `friend` to a derived class to use a `friend` to the base class, type cast the derived-class reference or pointer to the base-class equivalent and use that to invoke the base-class friend, like `os << (const BASE&)da; os << "New: " << da.newmember << "\n";`
+    - Or use `os << dynamic_cast<const BASE&> (da)` instead, see [Chapter\_15](Chapter_15.md)
 - Observations on using base-class methods
+    - `public`  derived objects can use base-class methods in many ways
+    - A derived object automatically uses inherited base-class methods if the derived class hasn't redefined it
+    - Automatically invokes the base-class constructor
+    - Automatically invokes the base-class **default constructor** if don't specify another constructor in the **member initialization list**
+    - Explicitly invokes the base-class constructor **specified in a member-initialization list**
+    - Derived-class methods can use the **scope-resolution** operator to **invoke `public` and `protected` base-class methods**
+    - `friends` to derived class can **type cast** a derived-class reference or pointer to a **base-class reference or pointer** and then use that to invoke a `friend` to the base class
 
 ### Class Function Summary
 - Class functions come in many variations
