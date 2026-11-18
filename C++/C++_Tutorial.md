@@ -32,4 +32,5 @@ Computer languages deal with 2 concepts in general: **data** and **algorithm**
 - [Working with Classes](./0_C++docs/Chapter_11.md)
 - [Classes and Dynamic Memory Allocation](./0_C++docs/Chapter_12.md)
 - [Class Inheritance](./0_C++docs/Chapter_13.md)
+- [Reusing Code in C++](./0_C++docs/Chapter_14.md)
 
