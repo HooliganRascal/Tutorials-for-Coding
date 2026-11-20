@@ -256,4 +256,225 @@ Average: 83
 Done!
 ```
 ## `private` Inheritance
+- With `private` inheritance, `public` and `protected` members of the base class become **`private` members of the derived class**
+- The methods of the base class do not become part of the public interface of the derived object, but can be used **inside the methods of the derived class**
+- The derived class does not inherit the base-class interface, but inherit the **implementation**
+- `private` inheritance adds an object to a class as **an unnamed inherited object**, called *subobject* for both newly added object with containment or `private` inheritance
+- Acquire the implementation, not the interface
 
+### A New Version of the `STUDENT` Class Example
+Source code: `C14_Privateinherit`
+```C++
+/*****private.h*****/
+#ifndef PRIVATE_H_
+#define PRIVATE_H_
+
+#include <iostream>
+#include <cstring>
+#include <valarray>
+
+class STUDENT : 
+private std::string, private std::valarray<double>
+{
+private:
+	typedef	std::valarray<double> ARRAYDB;
+	std::ostream& array_out(std::ostream& os) const;
+
+public:
+	explicit inline STUDENT(const std::string& s) 
+		: std::string(s), ARRAYDB(){};
+	explicit inline STUDENT(int n) 
+		: std::string("NULL"), ARRAYDB(n){};
+	inline STUDENT(void) 
+		: std::string("NULL"), ARRAYDB(){};
+	inline STUDENT(const std::string& s, int n) 
+		: std::string(s), ARRAYDB(n){};
+	inline STUDENT(const std::string& s, const ARRAYDB& a) 
+		: std::string(s), ARRAYDB(a){};
+	inline STUDENT(const char* str, const double* pd, int n) 
+		: std::string(str), ARRAYDB(pd,n){};
+	inline ~STUDENT(void){};
+
+	const std::string& NAME(void) const;
+	double AVG(void) const;
+	double& operator[](int i); // for STUDENT as lvalue
+	double operator[](int i) const; // for const STUDENT
+
+	friend std::istream& operator>>
+		(std::istream& is, STUDENT& stu); // 1 word
+	friend std::istream& getline
+		(std::istream& is, STUDENT& stu); // 1 line
+	friend std::ostream& operator<<
+		(std::ostream& os, const STUDENT& stu);
+};
+
+#endif
+
+/*****private.cpp*****/
+#include "private.h"
+
+// private method
+std::ostream& STUDENT::array_out(std::ostream& os) const
+{
+	int i;
+	int lim = ARRAYDB::size();
+	if(lim > 0)
+	{
+		for(i=0; i<lim; ++i)
+		{
+			os << ARRAYDB::operator[](i) << " ";
+			if(i%5==4) // display 5 grades for one row
+				os << std::endl;
+		}
+		// if right at 5 grades, endl is up there, else newline
+		if(i%5!=0) 
+			os << std::endl;
+	}
+	else
+		os << " empty array " ;
+	return os;
+}
+
+// public method
+const std::string& STUDENT::NAME(void) const
+{
+	return (const std::string&)*this;
+}
+
+double STUDENT::AVG(void) const
+{
+	if(ARRAYDB::size()>0)
+		return ARRAYDB::sum()/ARRAYDB::size();
+	else
+		return 0; // size error
+}
+
+double& STUDENT::operator[](int i)
+{
+	// matching return type of valarray<double>::operator[]()
+	return ARRAYDB::operator[](i); 
+}
+
+double STUDENT::operator[](int i) const // for const STUDENT
+{
+	return ARRAYDB::operator[](i); 
+}
+
+// friend functions
+std::istream& operator>>(std::istream& is, STUDENT& stu)
+{
+	is >> (std::string&)stu;
+	return is;
+}
+
+std::istream& getline(std::istream& is, STUDENT& stu)
+{
+	getline(is,	(std::string&)stu);
+	return is;
+}
+
+std::ostream& operator<<(std::ostream& os, const STUDENT& stu)
+{
+	os << "Scores for " << (const std::string&)stu << ":\n";
+	stu.array_out(os);
+	return os;
+}
+
+/*****useprivate.cpp*****/
+#include <iostream>
+#include "private.h"
+
+void SET(STUDENT& sa, int n);
+
+const int pupils = 3;
+const int quizzes = 5;
+
+int main(void)
+{
+	STUDENT ada[pupils] = 
+	{
+		STUDENT(quizzes), 
+		STUDENT(quizzes), 
+		STUDENT(quizzes)
+	};
+
+	for(int i=0; i<pupils; ++i)
+		SET(ada[i], quizzes);
+
+	std::cout << "\nStudent List:\n";
+	for(int i=0; i<pupils; ++i)
+		std::cout << ada[i].NAME() << std::endl;
+
+	std::cout << "\nResults:";
+	for(int i=0; i<pupils; ++i)
+	{
+		std::cout << "\n" << ada[i];
+		std::cout << "Average: " << ada[i].AVG() << "\n";
+	}
+
+	std::cout << "Done!\n";
+	return 0;
+}
+
+void SET(STUDENT& sa, int n)
+{
+	std::cout << "Please enter the student's name: ";
+	getline(std::cin, sa);
+	std::cout << "Please enter " << n << " quiz scores:\n";
+	for(int i=0; i<n; ++i)
+		std::cin >> sa[i];
+	while(std::cin.get()!='\n')
+		continue; // clear out input queue
+}
+
+```
+- Use `private` when defining the class(`private` is default, and multi-inheritance is allowed!)
+- Here, it doesn't need extra `private` members
+- The new version of **member initializer list syntax** with **class name instead of member name**: `NAME(type par): std::string(par)`
+- Accessing base-class methods: use simply **class name and the scope-resolution operator** instead of object names to invoke base-class methods: `return valarray<double>::sum()/valarray<double>::size()`
+- Accessing base-class objects: to avoid invoking constructors to create new objects, use **type-cast** to create a **reference** and recall the `this` pointer: `const string& NAME::name() const{ return (const string&) *this;}`
+- Accessing base-class friends: use an `explicit type-cast` to the base class to invoke that function, like `os << (const STRING&) stu;`, thus it uses the base-class version
+- Key: with `private` inheritance, a reference or pointer to a base class **can not be assigned a reference or pointer to a derived class without an explicit type cast**
+- And even if we use `public` inheritance, simply use `os << stu` can lead to **recursion**, for it calls the `ostream& operator<<(ostream& os, const STUDENT& stu){os << stul}` is a recursion!
+- Explicit type casting is also necessary for multi-inheritance for specifying the exact function to be called, all is the **function signature**
+
+```Console
+Please enter the student's name: Gil Bayts
+Please enter 5 quiz scores:
+92 94 96 93 95
+Please enter the student's name: Pat Roone
+Please enter 5 quiz scores:
+83 89 72 78 95
+Please enter the student's name: Fleur O'Dday
+Please enter 5 quiz scores:
+92 89 96 74 64
+
+Student List:
+Gil Bayts
+Pat Roone
+Fleur O'Dday
+
+Results:
+Scores for Gil Bayts:
+92 94 96 93 95
+Average: 94
+
+Scores for Pat Roone:
+83 89 72 78 95
+Average: 83.4
+
+Scores for Fleur O'Dday:
+92 89 96 74 64
+Average: 83
+Done!
+```
+
+### Containment or `private` Inheritance
+
+### `protected` Inheritance
+
+### Redefining Access with `using`
+
+## Multiple Inheritance
+
+## Class Templates(Important!)

@@ -4901,3 +4901,57 @@ Created TensorFlow Lite XNNPACK delegate for CPU.
 [34686:34715:1114/124249.212758:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
 [34686:34715:1114/124744.120054:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
 [34686:34715:1114/125315.577492:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+Created TensorFlow Lite XNNPACK delegate for CPU.
+[173548:173577:1120/145342.110587:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -130
+[173548:173577:1120/145342.110866:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[173548:173577:1120/145342.110936:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[173548:173577:1120/145407.891400:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[173548:173577:1120/145408.081198:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[173548:173577:1120/145410.681892:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -130
+[173548:173577:1120/145450.955026:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -130
+[173548:173577:1120/145458.466969:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[173548:173577:1120/145502.616990:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[173548:173577:1120/145629.559358:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[173548:173577:1120/145630.473271:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[173548:173577:1120/145634.477142:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -130
+[173548:173577:1120/145901.034230:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -130
+[173548:173577:1120/145920.368606:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -130
+[173548:173577:1120/145929.772303:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[173548:173577:1120/150007.830266:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[173548:173577:1120/150359.776246:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -130
+[173548:173577:1120/150402.590407:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -130
+[173548:173577:1120/150447.915202:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -130
+[173548:173577:1120/150459.148026:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[173548:173577:1120/150733.731348:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[173548:173548:1120/150733.731391:ERROR:components/sharing_message/sharing_service.cc:252] Device registration failed with transient error
+[173548:173577:1120/151231.647243:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[173548:173577:1120/151253.266252:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[173548:173577:1120/151342.183143:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[173548:173577:1120/151447.916334:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -130
+[173548:173577:1120/151504.387505:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[173548:173577:1120/151825.352245:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[173548:173577:1120/152103.614984:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -130
+[173548:173577:1120/152440.643459:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[173548:173548:1120/152440.643627:ERROR:components/sharing_message/sharing_service.cc:252] Device registration failed with transient error
+[173548:173577:1120/152447.918200:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -130
+[173548:173577:1120/153412.601258:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[173548:173577:1120/153440.747019:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[173548:173577:1120/153447.919794:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -130
+[173548:173577:1120/153531.217171:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[173548:173577:1120/153709.196707:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[173548:173577:1120/154037.935136:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[173548:173577:1120/154447.920947:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -130
+[173548:173577:1120/154613.996438:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -130
+[173548:173577:1120/154616.869238:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -130
+[173548:173577:1120/154623.780179:ERROR:google_apis/gcm/engine/registration_request.cc:275] Registration URL fetching failed.
+[173548:173548:1120/154623.780238:ERROR:components/sharing_message/sharing_service.cc:252] Device registration failed with transient error
+[173548:173577:1120/154632.992497:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -130
+[173548:173577:1120/155447.923099:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -130
+[173548:173577:1120/155640.012365:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -130
+[173548:173577:1120/155642.474775:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -130
+[173548:173577:1120/155730.879517:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -130
+[173548:173577:1120/155733.788564:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -130
+[173548:173577:1120/160233.209584:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -130
+[173548:173577:1120/160236.098291:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -130
+[173548:173577:1120/160243.551007:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -130
+[173548:173577:1120/160246.509365:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:427] Failed to connect to MCS endpoint with error -130
